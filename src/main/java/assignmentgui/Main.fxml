@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1509.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignmentgui.Controller">
+   <children>
+      <ImageView fx:id="photo1" fitHeight="96.0" fitWidth="119.0" layoutX="276.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@grammy_protocol.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="title_row1" fill="#ff0404" layoutX="414.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist Name: Bruno Mars |  Protocol Concert  December 21">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="content_1" layoutX="414.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget" wrappingWidth="601.9793090820312" />
+      <TextField layoutX="275.0" layoutY="70.0" prefHeight="40.0" prefWidth="623.0" text="Search" />
+      <Button layoutX="977.0" layoutY="14.0" mnemonicParsing="false" onAction="#createTicket" prefHeight="25.0" prefWidth="119.0" style="-fx-background-color: #4285F4;" text="Create Ticket" textFill="WHITE" />
+      <Text fx:id="createdby1" layoutX="414.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created By: Dsese" />
+      <Button fx:id="page1" layoutX="629.0" layoutY="755.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" style="-fx-background-color: #4285F4;" text="1" textFill="WHITE" />
+      <Button fx:id="page2" layoutX="681.0" layoutY="755.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="2" />
+      <Button fx:id="page3" layoutX="731.0" layoutY="755.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="3" />
+      <Button fx:id="page4" layoutX="782.0" layoutY="755.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="4" />
+      <Button fx:id="page5" layoutX="831.0" layoutY="755.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="5" />
+      <Button fx:id="page6" layoutX="879.0" layoutY="755.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="6" />
+      <Text layoutX="24.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre" wrappingWidth="157.73373413085938">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Text>
+      <Button layoutX="907.0" layoutY="70.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="119.0" style="-fx-background-color: #FBBC05;" text="SEARCH" textFill="#fffcfc" />
+      <Button fx:id="view_1" layoutX="929.0" layoutY="269.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="View" />
+      <Text fx:id="date_1" layoutX="529.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date: December 21,2019" />
+      <Text fx:id="price_1" layoutX="528.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price: 300USD" />
+      <Text fx:id="location_1" layoutX="676.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location: San Francisco" textAlignment="CENTER" wrappingWidth="145.9466552734375" />
+      <Text fx:id="genre1" layoutX="414.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre: RNB" />
+      <ImageView fx:id="photo2" fitHeight="96.0" fitWidth="119.0" layoutX="277.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@grammy_protocol.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="title_row2" fill="#ff0404" layoutX="415.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Band Name:  Guns &amp; Roses | Protocol Concert  December 21">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="content_2" layoutX="415.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget" wrappingWidth="601.9793090820312" />
+      <Text fx:id="createdby2" layoutX="415.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created By: Dsese" />
+      <Button fx:id="view_2" layoutX="930.0" layoutY="417.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="View" />
+      <Text fx:id="date_2" layoutX="530.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date: December 21,2019" />
+      <Text fx:id="price_2" layoutX="529.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price: 300USD" />
+      <Text fx:id="location_2" layoutX="677.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location: San Francisco" textAlignment="CENTER" wrappingWidth="145.9466552734375" />
+      <Text fx:id="genre2" layoutX="415.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre: RNB" />
+      <ImageView fx:id="photo3" fitHeight="96.0" fitWidth="119.0" layoutX="277.0" layoutY="452.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@grammy_protocol.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="title_row3" fill="#ff0404" layoutX="415.0" layoutY="466.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist Name: Van Halen | Protocol Concert  December 21">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="content_3" layoutX="415.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget" wrappingWidth="601.9793090820312" />
+      <Text fx:id="createdby3" layoutX="415.0" layoutY="551.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created By: Dsese" />
+      <Button fx:id="view_3" layoutX="930.0" layoutY="566.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="View" />
+      <Text fx:id="date_3" layoutX="530.0" layoutY="574.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date: December 21,2019" />
+      <Text fx:id="price_3" layoutX="529.0" layoutY="552.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price: 300USD" />
+      <Text fx:id="location_3" layoutX="677.0" layoutY="552.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location: San Francisco" textAlignment="CENTER" wrappingWidth="145.9466552734375" />
+      <Text fx:id="genre3" layoutX="415.0" layoutY="574.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre: RNB" />
+      <ComboBox fx:id="category" layoutX="24.0" layoutY="160.0" prefHeight="25.0" prefWidth="209.0" promptText="choose">
+     
+      </ComboBox>
+      <ImageView fx:id="photo4" fitHeight="96.0" fitWidth="119.0" layoutX="275.0" layoutY="609.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@grammy_protocol.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="title_row4" fill="#ff0404" layoutX="413.0" layoutY="623.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist Name: Van Halen | Protocol Concert  December 21">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="content_4" layoutX="413.0" layoutY="637.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget" wrappingWidth="601.9793090820312" />
+      <Text fx:id="createdby4" layoutX="413.0" layoutY="708.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created By: Dsese" />
+      <Button fx:id="view_4" layoutX="928.0" layoutY="723.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="View" />
+      <Text fx:id="date_4" layoutX="528.0" layoutY="731.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date: December 21,2019" />
+      <Text fx:id="price_4" layoutX="527.0" layoutY="709.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price: 300USD" />
+      <Text fx:id="location_4" layoutX="675.0" layoutY="709.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location: San Francisco" textAlignment="CENTER" wrappingWidth="145.9466552734375" />
+      <Text fx:id="genre4" layoutX="413.0" layoutY="731.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre: RNB" />
+      <TextField fx:id="loadmain" layoutX="50.0" layoutY="755.0" prefHeight="25.0" prefWidth="158.0" text="__main__" visible="false" />
+   </children>
+	
+</AnchorPane>
