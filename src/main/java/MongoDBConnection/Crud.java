@@ -143,6 +143,34 @@ public class Crud extends MongoConnection{
 	
 	}
 	
+	public static ArrayList<trackRow> tracklist() 
+	{
+		ArrayList<trackRow> rows = new ArrayList<>();
+		trackRow trackrow;
+		
+		  MongoCollection<Document> lists = db.getCollection("tracks");
+		   try (MongoCursor<Document> cur = lists.find().skip(0).limit(20).iterator()) {
+			  
+			   while (cur.hasNext()) {
+					
+	                var doc = cur.next();
+	                var product = new ArrayList<>(doc.values());
+	                String trackID = (String) product.get(4);
+	                String time = (String) product.get(3);
+	                String artist = (String) product.get(2);
+	                String title = (String) product.get(1);
+	               // System.out.printf("%s: %s%n", product.get(1), product.get(2));
+	                trackrow = new trackRow(title,artist,time,trackID);
+	  		        rows.add(trackrow);
+	            
+	            }
+			   	
+		   }
+		   
+		
+		return rows;
+        
+	}
 	public void getID(String __id__) {
 		
 		this.__id =  __id__;

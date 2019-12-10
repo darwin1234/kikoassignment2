@@ -18,10 +18,11 @@ public class LoadGui {
 		AnchorPane MainPage;
 		
 		MainPage = (AnchorPane)FXMLLoader.load(getClass().getResource(fxmlFile));
-		Scene MainPageScene = new Scene(MainPage,1100,800);
+		Scene MainPageScene = new Scene(MainPage,1365,700);
 		MainPageScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(MainPageScene);
 		primaryStage.setResizable(false);
+		
 		if(__show == true)
 		{
 			primaryStage.show();

@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
 import MongoDBConnection.Row;
+import MongoDBConnection.trackRow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,8 +20,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -39,12 +44,13 @@ public class Controller implements Initializable {
 	public Text title_row4,content_4,price_4,location_4,date_4, createdby4,genre4,popup,singleDate;
 	public ImageView photo1,photo2,photo3,photo4;
 	public Button view_1,view_2,view_3,view_4,page1,page2,page3,page4,page5,page6;
-	public TextField loadmain,usernamefield,passwordfield,firstnamefield,lastnamefield;
-	public TextField title, location, price;
+	public TextField loadmain,usernamefield,firstnamefield,lastnamefield;
+	public TextField title, location, price,timesong,musictitle,artistname;
 	public DatePicker date;
 	public TextArea description;
 	public ComboBox category;
-	
+	public PasswordField passwordfield;
+	public TableView datalist;
 	
 	
 	public Controller() {
@@ -147,6 +153,38 @@ public class Controller implements Initializable {
 				singleDate.setText(printRow.getDate());
 				
 	        }
+			
+			TableColumn __title = new TableColumn("Title");
+			
+			__title.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+			TableColumn __artist = new TableColumn("Artist");
+			__artist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+			
+			TableColumn __time = new TableColumn("Time");
+			__time.setCellValueFactory(new PropertyValueFactory<>("time"));
+//			
+			datalist.getColumns().addAll(__title, __artist,__time);
+			
+			ArrayList<trackRow> trackrow = db.tracklist();
+			
+			for (trackRow printRow : trackrow) {
+				String Artist = printRow.getArtist();
+				String Title = printRow.getTitle();
+				String time = printRow.getTime();
+				String TrackID = printRow.getTrackID();
+				Track track = new Track(Title, Artist,time);
+				datalist.getItems().add(track);
+			}
+			
+
+//			
+//			
+//			Track track1 = new Track("John", "Doe","3:50");
+//			datalist.getItems().add(track1);
+//			Track track2 = new Track("John", "Doe","3:50");
+//			datalist.getItems().add(track2);
+			
 		}
 		
 		if(__VIEW__.equals("__login__")) {
@@ -154,6 +192,19 @@ public class Controller implements Initializable {
 		}
 		
 		if(__VIEW__.equals("__createticket__")) {
+			
+			TableColumn __title = new TableColumn("Title");
+			
+			__title.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+			TableColumn __artist = new TableColumn("Artist");
+			__artist.setCellValueFactory(new PropertyValueFactory<>("artist"));
+			
+			TableColumn __time = new TableColumn("Time");
+			__time.setCellValueFactory(new PropertyValueFactory<>("time"));
+		
+			datalist.getColumns().addAll(__title, __artist,__time);
+			
 			category.getItems().addAll("Rock","Fusion","RNB","JAZZ");
 		}
 	
@@ -220,7 +271,7 @@ public class Controller implements Initializable {
 		ldGui.loadTemplateFXML("CreateTicket.fxml",true,primaryStage);
 	}
 	
-	public void addTrack() {
+	public void addCover() {
 		Stage primaryStage = new Stage();
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
@@ -257,10 +308,46 @@ public class Controller implements Initializable {
 		LocalDate __date	= date.getValue();
 		String __category = (String) category.getValue();
 		String __price =   price.getText(); 
+		String __timesong = timesong.getText();
+		String __musictitle =  musictitle.getText();
+		String __artistname = artistname.getText();
 		
-		d.createticket(__title, __description, __address, __date, __category, __price);
+		if(__title.isEmpty() && __description.isEmpty() 
+				&& __address.isEmpty() /*&& __category.isBlank()*/ 
+				&& __price.isEmpty() && __timesong.isEmpty() &&  __musictitle.isEmpty() && __artistname.isEmpty()) {
+			System.out.println("Failed Please Fill up all fields!");
+		}else {
+			d.createticket(__title, __description, __address, __date, __category, __price);
+			System.out.println("Success!!");
+		}
 		
-		System.out.println("Success!!");
+	
+		
+		
 	}
+	
+	public void addTrack() {
+		System.out.println("Add Track");
+		
+		String __timesong = timesong.getText();
+		String __musictitle =  musictitle.getText();
+		String __artistname = artistname.getText();
+		if(__timesong.isEmpty() && __musictitle.isEmpty() && __artistname.isEmpty()) {
+			System.out.println("Failed Please Fill up all fields!");
+		}else {
+			Track track = new Track(__artistname, __musictitle,__timesong);
+			datalist.getItems().add(track);
+			System.out.println("Success!!");
+			timesong.clear();	
+			musictitle.clear();
+			artistname.clear();
+		}
+	}
+	
+	public void removeTrack() {
+		String electedItem  = (String )datalist.getSelectionModel().getSelectedItem();
+		System.out.println("Remove Track: " + electedItem);
+	}
+	
 	
 }
