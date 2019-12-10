@@ -2,33 +2,46 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="835.0" style="-fx-background-color: #2F3446;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignmentgui.Controller">
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="788.0" prefWidth="1559.0" style="-fx-background-color: #2F3446;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignmentgui.Controller">
 	<!-- TODO Add Nodes -->
 	<children>
-      <HBox alignment="CENTER" layoutX="189.0" layoutY="361.0" prefHeight="0.0" prefWidth="378.0" />
-      <ImageView fitHeight="493.0" fitWidth="847.0" layoutX="-13.0" opacity="0.28" pickOnBounds="true" preserveRatio="true">
+       <ImageView fitHeight="1015.0" fitWidth="1566.0" layoutX="-9.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@concert-background-02-thebeach.jpg" />
+            <Image url="@photos/bg.jpg" />
          </image>
       </ImageView>
-      <TextField fx:id="usernamefield" layoutX="185.0" layoutY="81.0" prefHeight="44.0" prefWidth="465.0" promptText="Username" />
-      <TextField fx:id="passwordfield" layoutX="185.0" layoutY="146.0" prefHeight="44.0" prefWidth="465.0" promptText="Password" />
-      <Button id="Login" layoutX="327.0" layoutY="396.0" mnemonicParsing="false" onAction="#ProceedRegister" prefHeight="44.0" prefWidth="181.0" style="-fx-background-color: #58B747;" text="Sign Up" textFill="WHITE" />
-      <TextField fx:id="firstnamefield" layoutX="185.0" layoutY="217.0" prefHeight="44.0" prefWidth="465.0" promptText="First Name" />
-      <TextField fx:id="lastnamefield" layoutX="185.0" layoutY="287.0" prefHeight="44.0" prefWidth="465.0" promptText="Last Name" />
-      <Label layoutX="317.0" text="Sign Up" textFill="#58b747">
+      <TextField fx:id="usernamefield" layoutX="440.0" layoutY="108.0" prefHeight="44.0" prefWidth="465.0" promptText="Username" />
+      <PasswordField fx:id="passwordfield" layoutX="440.0" layoutY="159.0" prefHeight="44.0" prefWidth="465.0" promptText="Password" />
+      <Button id="Login" layoutX="587.0" layoutY="386.0" mnemonicParsing="false" onAction="#ProceedRegister" prefHeight="44.0" prefWidth="181.0" style="-fx-background-color: #58B747;" text="Sign Up" textFill="WHITE" />
+      <TextField fx:id="firstnamefield" layoutX="440.0" layoutY="210.0" prefHeight="44.0" prefWidth="465.0" promptText="First Name" />
+      <TextField fx:id="lastnamefield" layoutX="440.0" layoutY="264.0" prefHeight="44.0" prefWidth="465.0" promptText="Last Name" />
+      <Label layoutX="574.0" layoutY="10.0" prefHeight="62.0" prefWidth="206.0" text="Sign Up" textFill="#58b747">
          <font>
             <Font size="54.0" />
          </font>
       </Label>
-      <TextField fx:id="loadmain" layoutX="69.0" layoutY="77.0" text="__SignUp__" />
+      <TextField fx:id="loadmain" layoutX="69.0" layoutY="77.0" text="__SignUp__" visible="false" />
+      <TextField fx:id="emailaddress" layoutX="440.0" layoutY="317.0" prefHeight="44.0" prefWidth="465.0" promptText="Email Address" />
+      <Text fx:id="popup" fill="RED" layoutX="456.0" layoutY="481.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MESSAGE!!!!!!!!!!!" textAlignment="CENTER" wrappingWidth="453.13671875">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Text>
+      <Button id="Login" layoutX="576.0" layoutY="547.0" mnemonicParsing="false" onAction="#backtologin" prefHeight="44.0" prefWidth="219.0" style="-fx-background-color: #0078C5;" text="SIGN IN" textFill="WHITE" />
+      <Text fill="WHITE" layoutX="505.0" layoutY="528.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Have Already an Account?">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Text>
    </children>
 	
 </AnchorPane>

@@ -10,6 +10,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1581.0" style="-fx-background-color: #2F3446;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignmentgui.Controller">
 	<!-- TODO Add Nodes -->
@@ -28,7 +30,7 @@
         </columns>
       </TableView>
       <Button layoutX="488.0" layoutY="79.0" mnemonicParsing="false" onAction="#removeTrack" prefHeight="44.0" prefWidth="100.0" style="-fx-background-color: #34A853;" text="Remove Track" textFill="WHITE" />
-      <Button layoutX="379.0" layoutY="79.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="100.0" style="-fx-background-color: #FBBC05;" text="Update Track" textFill="WHITE" />
+      <Button layoutX="379.0" layoutY="79.0" mnemonicParsing="false" onAction="#updateTrack" prefHeight="44.0" prefWidth="100.0" style="-fx-background-color: #FBBC05;" text="Update Track" textFill="WHITE" />
       <Button layoutX="270.0" layoutY="79.0" mnemonicParsing="false" onAction="#addTrack" prefHeight="44.0" prefWidth="100.0" style="-fx-background-color: #4285F4;" text="Add Track" textFill="WHITE" />
       <Button layoutX="444.0" layoutY="536.0" mnemonicParsing="false" onAction="#addCover" prefHeight="37.0" prefWidth="141.0" text="Add Cover Image" />
       <DatePicker fx:id="date" layoutX="627.0" layoutY="128.0" prefHeight="37.0" prefWidth="211.0" promptText="Choose Date" />
@@ -39,6 +41,17 @@
       <TextField fx:id="timesong" layoutX="270.0" layoutY="186.0" prefHeight="44.0" prefWidth="149.0" promptText="Time" />
       <TextField fx:id="musictitle" layoutX="435.0" layoutY="183.0" prefHeight="44.0" prefWidth="151.0" promptText="Music Title" />
       <TextField fx:id="artistname" layoutX="270.0" layoutY="134.0" prefHeight="44.0" prefWidth="317.0" promptText="Artist Name/Band Etc" />
+      <Button layoutX="31.0" layoutY="14.0" mnemonicParsing="false" onAction="#backtohome" prefHeight="44.0" prefWidth="169.0" style="-fx-background-color: #00ff22;" text="Back To Home" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <TextField fx:id="albumcoverphoto" layoutX="270.0" layoutY="536.0" visible="false" />
+      <Text fx:id="popup" fill="RED" layoutX="632.0" layoutY="630.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Added Successfully!" textAlignment="CENTER" wrappingWidth="447.13671875">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Text>
    </children>
 	
 </AnchorPane>

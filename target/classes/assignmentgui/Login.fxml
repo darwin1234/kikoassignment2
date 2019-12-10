@@ -22,9 +22,9 @@
       <TextField fx:id="usernamefield" layoutX="458.0" layoutY="259.0" prefHeight="44.0" prefWidth="465.0" promptText="Username" />
       <PasswordField fx:id="passwordfield" accessibleRole="PASSWORD_FIELD" layoutX="458.0" layoutY="343.0" prefHeight="44.0" prefWidth="465.0" promptText="Password" />
       <Button id="Login" layoutX="778.0" layoutY="472.0" mnemonicParsing="false" onAction="#ProceedLogin" prefHeight="44.0" prefWidth="151.0" style="-fx-background-color: #58B747;" text="Login" textFill="WHITE" />
-      <Button layoutX="548.0" layoutY="576.0" mnemonicParsing="false" onAction="#Signup" prefHeight="55.0" prefWidth="253.0" style="-fx-background-color: #FBBC05;" text="Register" textFill="WHITE">
+      <Button layoutX="458.0" layoutY="473.0" mnemonicParsing="false" onAction="#Signup" prefHeight="43.0" prefWidth="166.0" style="-fx-background-color: #FBBC05;" text="Register" textFill="WHITE">
          <font>
-            <Font size="24.0" />
+            <Font size="14.0" />
          </font>
       </Button>
       <TextField fx:id="loadmain" layoutX="69.0" layoutY="77.0" text="__login__" visible="false" />

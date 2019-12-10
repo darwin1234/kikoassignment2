@@ -22,11 +22,15 @@ public class Crud extends MongoConnection{
 	private static boolean ShowAll = true;
 	private static String ObjectId = "";
 	private static int setPage;
-	
+	private static int[]  pageArray;
 	
 	public void SetPage(int page) {
-		
-		this.setPage = page;
+		if(page == 1) {
+			this.setPage += 4;
+		}else {
+			this.setPage -= 4;
+		}
+	
 	}
 	
 	public static int getPage() {
@@ -34,26 +38,34 @@ public class Crud extends MongoConnection{
 		return 3;
 	}
 	
-	public void AddRecord(String firstname, String lastname, String email, String username, String password, String emailaddress) {
-		MongoCollection<Document> userDocuments = db.getCollection("users");
-		
-	
-		userDocuments.drop();
-		List<Document> Registers = new ArrayList<>();
-		JSONObject json = new JSONObject();
-		//BasicDBObject obj = new BasicDBObject();
-		json.put("firstname", firstname);
-		json.put("lastname", lastname);
-		json.put("email", emailaddress);
-		json.put("username", username);
-		json.put("password", password);
+	public boolean AddRecord(String firstname, String lastname, String email, String username, String password) {
+		 MongoCollection<Document> userInfo = db.getCollection("users");
+			try (MongoCursor<Document> cur =  userInfo.find(Filters.eq("username",username)).iterator()){
+				
+				if(cur.hasNext()) {
+					return false;
+				}else {
+					List<Document> Registers = new ArrayList<>();
+					JSONObject json = new JSONObject();
+					//BasicDBObject obj = new BasicDBObject();
+					json.put("firstname", firstname);
+					json.put("lastname", lastname);
+					json.put("email", email);
+					json.put("username", username);
+					json.put("password", password);
 
-		//System.out.println(json.toString());
-		Registers.add(Document.parse(json.toString()));
-		userDocuments.insertMany(Registers);
+					//System.out.println(json.toString());
+					Registers.add(Document.parse(json.toString()));
+					userInfo.insertMany(Registers);
+					return true;
+				}
+			}
+		
+		
+		
 	}
 	
-	public void createticket(String title, String Description, String location, LocalDate dte, String Genre, String price) {
+	public void createticket(String title, String Description, String location, LocalDate dte, String Genre, String price, String photoname) {
 		
 		MongoCollection<Document> ticket = db.getCollection("artist");
 		List<Document> ticketlists = new ArrayList<>();
@@ -68,17 +80,22 @@ public class Crud extends MongoConnection{
 		//price_1.setText(printRow.getPrice());
 		//singleDate.setText(printRow.getDate());
 		
-		
+		json.put("title", title);
+		json.put("description", Description);
 		json.put("location", location);
+		json.put("photos", "photos/" + photoname);
 		json.put("date", dte);
 		json.put("genre", Genre);
 		json.put("price", price);
-		json.put("description", Description);
-		json.put("title", title);
+//		
+		
 
 		//System.out.println(json.toString());
 		ticketlists.add(Document.parse(json.toString()));
 		ticket.insertMany(ticketlists);
+		
+		
+		
 		
 	}
 	
@@ -88,7 +105,7 @@ public class Crud extends MongoConnection{
 		ArrayList<Row> rows = new ArrayList<>();
         Row row;
         
-        
+      System.out.println("SET PAGE: " + setPage);
 		
         MongoCollection<Document> lists = db.getCollection("artist");
        
@@ -99,15 +116,18 @@ public class Crud extends MongoConnection{
 	
 	                var doc = cur.next();
 	                var product = new ArrayList<>(doc.values());
+	                String img = (String) product.get(7);
 	                String title = (String) product.get(6);
 	                String location = (String) product.get(5);
 	                String description = (String) product.get(4);
-	                String price = (String) product.get(3);
-	                String date = (String) product.get(2);
-	                String img = (String) product.get(1);
+	                String genre = (String) product.get(3);
+	                String price = (String) product.get(2);
+	                String date = (String) product.get(1);
 	                String id = (String) product.get(0).toString();
-	               // System.out.printf("%s: %s%n", product.get(1), product.get(2));
-	                row = new Row(title,description,price,location,date,id,img);
+	               
+	                
+	                // System.out.printf("%s: %s%n", product.get(1), product.get(2));
+	                row = new Row(title,description,price,location,date,id,img,genre);
 	  		        rows.add(row);
 	            
 	            }
@@ -123,15 +143,16 @@ public class Crud extends MongoConnection{
 						
 		                var doc = cur.next();
 		                var product = new ArrayList<>(doc.values());
+		                String img = (String) product.get(7);
 		                String title = (String) product.get(6);
 		                String location = (String) product.get(5);
 		                String description = (String) product.get(4);
-		                String price = (String) product.get(3);
-		                String date = (String) product.get(2);
-		                String img = (String) product.get(1);
+		                String genre = (String) product.get(3);
+		                String price = (String) product.get(2);
+		                String date = (String) product.get(1);
 		                String id = (String) product.get(0).toString();
 		               // System.out.printf("%s: %s%n", product.get(1), product.get(2));
-		                row = new Row(title,description,price,location,date,id,img);
+		                row = new Row(title,description,price,location,date,id,img,genre);
 		  		        rows.add(row);
 		            
 		           }

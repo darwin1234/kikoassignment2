@@ -11,9 +11,10 @@ public class Row {
     private final String date;
     private final String id;
     private final String imagepath;
+    private final String genre;
     //private final String date;
     
-    public Row(String title, String description, String price, String location,String date, String id, String imagepath)
+    public Row(String title, String description, String price, String location,String date, String id, String imagepath,String __genre)
     {
         this.title = title;
         this.description = description;
@@ -22,6 +23,7 @@ public class Row {
         this.date =  date;
         this.id = id;
         this.imagepath = imagepath;
+        this.genre = __genre;
     }
 
     public String getTitle()
@@ -53,6 +55,10 @@ public class Row {
     
     public String getImage() {
     	return imagepath;
+    }
+    
+    public String getGenre() {
+    	return genre;
     }
 
 }

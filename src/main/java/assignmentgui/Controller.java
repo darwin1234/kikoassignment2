@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
@@ -28,6 +30,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -35,6 +38,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kikoassigment.Events;
 import kikoassigment.pagination;
+import javafx.util.Callback;
 
 public class Controller implements Initializable {
 	
@@ -43,15 +47,17 @@ public class Controller implements Initializable {
 	public Text title_row3,content_3,price_3,location_3,date_3, createdby3,genre3;
 	public Text title_row4,content_4,price_4,location_4,date_4, createdby4,genre4,popup,singleDate;
 	public ImageView photo1,photo2,photo3,photo4;
-	public Button view_1,view_2,view_3,view_4,page1,page2,page3,page4,page5,page6;
-	public TextField loadmain,usernamefield,firstnamefield,lastnamefield;
-	public TextField title, location, price,timesong,musictitle,artistname;
+	public Button view_1,view_2,view_3,view_4,page1,page2,page3,page4,page5,page6, Next, Previous;
+	public TextField loadmain,usernamefield,firstnamefield,lastnamefield,emailaddress;
+	public TextField title, location, price,timesong,musictitle,artistname,albumcoverphoto;
 	public DatePicker date;
 	public TextArea description;
 	public ComboBox category;
 	public PasswordField passwordfield;
 	public TableView datalist;
-	
+	private int counter = 0;
+	private  String[][] a = new String[10][3];
+
 	
 	public Controller() {
 		// TODO Auto-generated constructor stub
@@ -88,12 +94,13 @@ public class Controller implements Initializable {
 					
 				   if(i == 1)
 				   {	
-					    Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-					    photo1.setImage(img1);
-						title_row1.setText(printRow.getTitle());
-						content_1.setText(printRow.getDescription().substring(0, 350));
-						price_1.setText("Price: " + printRow.getPrice() + " USD");
-						location_1.setText("Location: " + printRow.getLocation());
+					   //System.out.println(printRow.getImage());
+					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+					   photo1.setImage(img1);
+					    title_row1.setText(printRow.getTitle());
+					    content_1.setText(printRow.getDescription().substring(0, 350));
+					    price_1.setText("Price: " + printRow.getPrice() + " USD");
+					    location_1.setText("Location: " + printRow.getLocation());
 						view_1.setVisible(true);
 						view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
 						
@@ -110,8 +117,8 @@ public class Controller implements Initializable {
 						view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
 				   }else if(i == 3)
 				   {
-					    Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-					    photo3.setImage(img1);
+					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+					   photo3.setImage(img1);
 						title_row3.setText(printRow.getTitle());
 						content_3.setText(printRow.getDescription().substring(0, 350));
 						price_3.setText("Price: " + printRow.getPrice() + " USD");
@@ -192,7 +199,7 @@ public class Controller implements Initializable {
 		}
 		
 		if(__VIEW__.equals("__createticket__")) {
-			
+			popup.setText("");
 			TableColumn __title = new TableColumn("Title");
 			
 			__title.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -203,21 +210,32 @@ public class Controller implements Initializable {
 			TableColumn __time = new TableColumn("Time");
 			__time.setCellValueFactory(new PropertyValueFactory<>("time"));
 		
+	
+		
+			
 			datalist.getColumns().addAll(__title, __artist,__time);
 			
+
 			category.getItems().addAll("Rock","Fusion","RNB","JAZZ");
+		}
+		if(__VIEW__.equals("__SignUp__")) {
+			
+			popup.setText("");
 		}
 	
 	}
 	
 	private void pageBtn() {
 		// TODO Auto-generated method stub
-		page1.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(1));
-		page2.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(2));
-		page3.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(3));
-		page4.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(4));
-		page5.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(5));
-		page6.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(6));
+//		page1.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(1));
+//		page2.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(2));
+//		page3.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(3));
+//		page4.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(4));
+//		page5.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(5));
+//		page6.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(6));
+		
+		Next.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(1));
+		Previous.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(2));
 	}
 
 	private void clearAll() {
@@ -235,7 +253,7 @@ public class Controller implements Initializable {
 
 	@FXML
 	public void ProceedLogin(ActionEvent event) throws IOException  {
-	
+		InputEvent e;
 		String u = usernamefield.getText();
 		String p = passwordfield.getText();
 
@@ -246,8 +264,8 @@ public class Controller implements Initializable {
 			 Stage login = new Stage();
 			 Stage main = new Stage();
 			 LoadGui ldGui = new LoadGui();
-			 ldGui.loadTemplateFXML("Login.fxml",false,login);
 		     ldGui.loadTemplateFXML("Main.fxml",true,main);
+		     ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 		   
 		}else {
 			System.out.print("Invalid Password!");
@@ -258,17 +276,35 @@ public class Controller implements Initializable {
 	
 	@FXML
 	public void ProceedRegister(ActionEvent event) throws IOException {
+		String __usernamefield 	= usernamefield.getText();
+		String __passwordfield 	= passwordfield.getText();
+		String __firstnamefield = firstnamefield.getText();
+		String __lastnamefield	= lastnamefield.getText();
+		String __emailaddress	= emailaddress.getText();
 		Crud d = new Crud();
-		//d.AddRecord("admin", "admin", "Darwin", "Sese", "darwinsese@gmail.com");
-		d.AddRecord("Darwin", "Sese", "darwinsese@gmail.com", "dsese1234", "test123", "darwinsese@gmail.com");
+		
+	
+		if(__usernamefield.isEmpty() && __passwordfield.isEmpty() && __firstnamefield.isEmpty() && __lastnamefield.isEmpty() && __emailaddress.isEmpty()) {
+			popup.setText("Failed Please Fill up all fields!");
+		}else {
+			if(d.AddRecord(__firstnamefield, __lastnamefield, __emailaddress,__usernamefield, __passwordfield)) {
+				popup.setText("Successfully Registered!");
+			}else {
+				popup.setText("User already Exist!");
+			}
+		}
+		
+	
+		
 	}
 	
 	
 	
-	public void createTicket() throws IOException {
+	public void createTicket(ActionEvent event) throws IOException {
 		LoadGui ldGui = new LoadGui();
 		Stage primaryStage = new Stage();
 		ldGui.loadTemplateFXML("CreateTicket.fxml",true,primaryStage);
+		((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 	}
 	
 	public void addCover() {
@@ -281,22 +317,31 @@ public class Controller implements Initializable {
 			String url = getClass().getResource("photos").toString();
 			String __url__ = url.replace("/", "\\\\");
 			System.out.println(__url__.replace("file:\\\\", ""));
-			
-			  
-	        // Generate random integers in range 0 to 999 
+			 // Generate random integers in range 0 to 999 
 	        int rand_int1 = rand.nextInt(100000000); 
 	        int rand_int2 = rand.nextInt(100000000); 
-			File destination = new File(__url__.replace("file:\\\\", ""),"image-file-"+rand_int1+"-"+ rand_int2 + ".png");
+	        
+			String PhotoName = "image-file-"+rand_int1+"-"+ rand_int2 + ".png";
+			albumcoverphoto.setText(PhotoName);
+	       
+			File destination = new File(__url__.replace("file:\\\\", ""),PhotoName);
 			boolean success = file.renameTo(destination);
 			System.out.println(success);
 		}
 	}
 	
-	public void Signup() throws IOException {
-		
+	public void backtologin(ActionEvent event) throws IOException {
+		LoadGui ldGui = new LoadGui();
+		Stage primaryStage = new Stage();
+		ldGui.loadTemplateFXML("Login.fxml",true,primaryStage);
+	    ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+	}
+	
+	public void Signup(ActionEvent event) throws IOException {
 		LoadGui ldGui = new LoadGui();
 		Stage primaryStage = new Stage();
 		ldGui.loadTemplateFXML("Signup.fxml",true,primaryStage);
+	    ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 	}
 	
 	
@@ -311,14 +356,17 @@ public class Controller implements Initializable {
 		String __timesong = timesong.getText();
 		String __musictitle =  musictitle.getText();
 		String __artistname = artistname.getText();
+		String __photoName  = albumcoverphoto.getText();
 		
 		if(__title.isEmpty() && __description.isEmpty() 
 				&& __address.isEmpty() /*&& __category.isBlank()*/ 
 				&& __price.isEmpty() && __timesong.isEmpty() &&  __musictitle.isEmpty() && __artistname.isEmpty()) {
-			System.out.println("Failed Please Fill up all fields!");
+				popup.setText("Failed Please Fill up all fields!");
+		}else if(__photoName.isEmpty()) {
+				popup.setText("You forgot to add cover photo!");
 		}else {
-			d.createticket(__title, __description, __address, __date, __category, __price);
-			System.out.println("Success!!");
+			d.createticket(__title, __description, __address, __date, __category, __price, __photoName);
+			popup.setText("Added Successfully!");
 		}
 		
 	
@@ -328,26 +376,53 @@ public class Controller implements Initializable {
 	
 	public void addTrack() {
 		System.out.println("Add Track");
-		
 		String __timesong = timesong.getText();
 		String __musictitle =  musictitle.getText();
 		String __artistname = artistname.getText();
+		
+
+		
 		if(__timesong.isEmpty() && __musictitle.isEmpty() && __artistname.isEmpty()) {
+			//popup.setText("Failed Please Fill up all fields!");
 			System.out.println("Failed Please Fill up all fields!");
 		}else {
 			Track track = new Track(__artistname, __musictitle,__timesong);
 			datalist.getItems().add(track);
-			System.out.println("Success!!");
-			timesong.clear();	
-			musictitle.clear();
-			artistname.clear();
-		}
+			
+			 System.out.println("Song Added!!");
+			 timesong.clear();	
+			 musictitle.clear();
+			 artistname.clear();
+			
+		} 
+		
+	  
+		 a[counter][0] = __artistname;
+		 a[counter][1] = __musictitle;
+		 a[counter][2] = __timesong;
+		  counter++;
+	}
+	
+	public void updateTrack() {
+		for (int i = 0; i < a.length; ++i) {
+	        for(int j = 0; j < a[i].length; ++j) {
+	           System.out.println(a[i][j]);
+	        }
+	     }
 	}
 	
 	public void removeTrack() {
-		String electedItem  = (String )datalist.getSelectionModel().getSelectedItem();
-		System.out.println("Remove Track: " + electedItem);
+
+		datalist.getItems().removeAll(datalist.getSelectionModel().getSelectedItem());
 	}
 	
 	
+	public void backtohome(ActionEvent event) throws IOException {
+		 Stage main = new Stage();
+		 LoadGui ldGui = new LoadGui();
+	     ldGui.loadTemplateFXML("Main.fxml",true,main);
+	     ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+	}
+	
+
 }

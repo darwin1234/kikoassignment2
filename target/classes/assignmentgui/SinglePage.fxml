@@ -17,22 +17,22 @@
          </image>
       </ImageView>
      
-      <ImageView fx:id="photo1" fitHeight="196.0" fitWidth="387.0" layoutX="27.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="photo1" fitHeight="196.0" fitWidth="320.0" layoutX="27.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@grammy_protocol.jpg" />
          </image>
       </ImageView>
-      <Text fx:id="title_row1" fill="#dad9d9" layoutX="448.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Protocol Concert  December 21" wrappingWidth="583.3125">
+      <Text fx:id="title_row1" fill="#dad9d9" layoutX="360.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Protocol Concert  December 21" wrappingWidth="677.3125">
          <font>
             <Font name="System Bold" size="32.0" />
          </font>
       </Text>
-      <Text fx:id="content_1" fill="WHITE" layoutX="449.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante" wrappingWidth="853.1366577148438" />
+      <Text fx:id="content_1" fill="WHITE" layoutX="360.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante" wrappingWidth="939.1366577148438" />
       <Text fx:id="title_row2" fill="WHITE" layoutX="111.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BRUNO MARS" wrappingWidth="218.13996124267578">
          <font>
             <Font size="15.0" />
          </font></Text>
-      <TableView fx:id="datalist" layoutX="455.0" layoutY="169.0" prefHeight="370.0" prefWidth="837.0">
+      <TableView fx:id="datalist" layoutX="359.0" layoutY="169.0" prefHeight="370.0" prefWidth="933.0">
         
       </TableView>
       <Button layoutX="1171.0" layoutY="549.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Reserve" visible="false" />
@@ -72,6 +72,11 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Text>
+      <Button layoutX="26.0" layoutY="549.0" mnemonicParsing="false" onAction="#backtohome" prefHeight="43.0" prefWidth="137.0" style="-fx-background-color: green;" text="Back to Home" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
       
   
    </children>

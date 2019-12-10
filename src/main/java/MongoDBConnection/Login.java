@@ -11,6 +11,7 @@ public class Login extends MongoConnection{
 	
 	public Login() {
 		// TODO Auto-generated constructor stub
+	
 	}
 	
 	
@@ -30,7 +31,7 @@ public class Login extends MongoConnection{
 			}else {
 				res = true;
 			}
-			
+	
 		}
 
 		return res;
