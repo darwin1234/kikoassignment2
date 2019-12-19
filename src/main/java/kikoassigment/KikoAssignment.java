@@ -6,6 +6,7 @@ import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
 import MongoDBConnection.MongoConnection;
 import assignmentgui.LoadGui;
+import assignmentgui.Session;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -26,9 +27,18 @@ public class KikoAssignment extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-
+		Session s = new Session();
 		LoadGui ldGui = new LoadGui();
-		ldGui.loadTemplateFXML("Login.fxml",true,primaryStage);
+		
+		//when session userinfo.txt is not empty
+		if(s.getSessionLength() != 0) {
+			ldGui.loadTemplateFXML("Main.fxml",true,primaryStage);
+		}else {
+//			//load login when session userinfo.txt is empty
+			ldGui.loadTemplateFXML("Login.fxml",true,primaryStage);
+		}
+		
+		System.out.println(s.getSessionLength());
 		
 		
 	}

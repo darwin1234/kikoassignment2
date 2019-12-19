@@ -95,46 +95,46 @@ public class Controller implements Initializable {
 				   if(i == 1)
 				   {	
 					   //System.out.println(printRow.getImage());
-					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-					   photo1.setImage(img1);
-					    title_row1.setText(printRow.getTitle());
-					    content_1.setText(printRow.getDescription().substring(0, 350));
-					    price_1.setText("Price: " + printRow.getPrice() + " USD");
-					    location_1.setText("Location: " + printRow.getLocation());
-						view_1.setVisible(true);
-						view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
+//					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+//					   photo1.setImage(img1);
+//					    title_row1.setText(printRow.getTitle());
+//					    content_1.setText(printRow.getDescription().substring(0, 350));
+//					    price_1.setText("Price: " + printRow.getPrice() + " USD");
+//					    location_1.setText("Location: " + printRow.getLocation());
+//						view_1.setVisible(true);
+//						view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
 						
 						
 				   }else if(i == 2) 
 				   {
-					    Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-					    photo2.setImage(img1);
-						title_row2.setText(printRow.getTitle());
-						content_2.setText(printRow.getDescription().substring(0, 350));
-						price_2.setText("Price: " + printRow.getPrice() + " USD");
-						location_2.setText("Location: " + printRow.getLocation());
-						view_2.setVisible(true);
-						view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
+//					    Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+//					    photo2.setImage(img1);
+//						title_row2.setText(printRow.getTitle());
+//						content_2.setText(printRow.getDescription().substring(0, 350));
+//						price_2.setText("Price: " + printRow.getPrice() + " USD");
+//						location_2.setText("Location: " + printRow.getLocation());
+//						view_2.setVisible(true);
+//						view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
 				   }else if(i == 3)
 				   {
-					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-					   photo3.setImage(img1);
-						title_row3.setText(printRow.getTitle());
-						content_3.setText(printRow.getDescription().substring(0, 350));
-						price_3.setText("Price: " + printRow.getPrice() + " USD");
-						location_3.setText("Location: " + printRow.getLocation());
-						view_3.setVisible(true);
-						view_3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
+//					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+//					   photo3.setImage(img1);
+//						title_row3.setText(printRow.getTitle());
+//						content_3.setText(printRow.getDescription().substring(0, 350));
+//						price_3.setText("Price: " + printRow.getPrice() + " USD");
+//						location_3.setText("Location: " + printRow.getLocation());
+//						view_3.setVisible(true);
+//						view_3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
 				   }else if(i == 4) 
 				   {
-					    Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-					    photo4.setImage(img1);
-						title_row4.setText(printRow.getTitle());
-						content_4.setText(printRow.getDescription().substring(0, 350));
-						price_4.setText("Price: " + printRow.getPrice() + " USD");
-						location_4.setText("Location: " + printRow.getLocation());
-						view_4.setVisible(true);
-						view_4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
+//					    Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+//					    photo4.setImage(img1);
+//						title_row4.setText(printRow.getTitle());
+//						content_4.setText(printRow.getDescription().substring(0, 350));
+//						price_4.setText("Price: " + printRow.getPrice() + " USD");
+//						location_4.setText("Location: " + printRow.getLocation());
+//						view_4.setVisible(true);
+//						view_4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
 				   }else 
 				   {
 					   i = 0;
@@ -264,7 +264,9 @@ public class Controller implements Initializable {
 			 Stage login = new Stage();
 			 Stage main = new Stage();
 			 LoadGui ldGui = new LoadGui();
+			 //load main window when successfully login
 		     ldGui.loadTemplateFXML("Main.fxml",true,main);
+		     //close current window which is login window
 		     ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 		   
 		}else {
