@@ -37,28 +37,36 @@ import kikoassigment.pagination;
 
 
 public class Controller implements Initializable {
-	
+	// Main.fxml and SinglePage.fxml* fx:id's
 	public Text title_row1,content_1,price_1,location_1,date_1, createdby1,genre1;
 	public Text title_row2,content_2,price_2,location_2,date_2, createdby2,genre2;
 	public Text title_row3,content_3,price_3,location_3,date_3, createdby3,genre3;
 	public Text title_row4,content_4,price_4,location_4,date_4, createdby4,genre4,popup,singleDate;
 	public Text greetings;
-
-	
 	public ImageView photo1,photo2,photo3,photo4;
 	public Button view_1,view_2,view_3,view_4,page1,page2,page3,page4,page5,page6, Next, Previous;
-	public TextField loadmain,usernamefield,firstnamefield,lastnamefield,emailaddress;
+	
+	//Found everywhere in any fxml file.
+	public TextField loadmain;
+	
+	//found in SignUp and SignIn fxml 
+	public TextField usernamefield,firstnamefield,lastnamefield,emailaddress;
+	public PasswordField passwordfield;
+	
+	
+	//CreateTicket fx:id,s
 	public TextField title, location, price,timesong,musictitle,artistname,albumcoverphoto;
 	public DatePicker date;
 	public TextArea description;
 	public ComboBox category;
-	public PasswordField passwordfield;
+	
 	public TableView datalist;
 	private int counter = 0;
 	private String[][] tracks = new String[10][3];
 	private String WelcomeStr;
 	private String foreignkey;
 	private String author;
+	//private String imagePath = "src/";
 	
 	public Controller() throws IOException {
 		//load session class
@@ -102,7 +110,7 @@ public class Controller implements Initializable {
 					
 				   if(i == 1)
 				   {	
-					   //System.out.println(printRow.getImage());
+					   System.out.println(printRow.getImage());
 					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
 					   photo1.setImage(img1);
 					   title_row1.setText(printRow.getTitle());
@@ -127,27 +135,30 @@ public class Controller implements Initializable {
 					   view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
 				   }else if(i == 3)
 				   {
-//					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-//					   photo3.setImage(img1);
-//						title_row3.setText(printRow.getTitle());
-//						content_3.setText(printRow.getDescription().substring(0, 350));
-//						price_3.setText("Price: " + printRow.getPrice() + " USD");
-//						location_3.setText("Location: " + printRow.getLocation());
-//						view_3.setVisible(true);
-//						view_3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
+					   Image img3 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+					   photo3.setImage(img3);
+					   title_row3.setText(printRow.getTitle());
+					   content_3.setText(printRow.getDescription().substring(0, 350));
+					   price_3.setText("Price: " + printRow.getPrice() + " USD");
+					   createdby3.setText("Published By: " +  printRow.getAuthor());
+					   location_3.setText("Location: " + printRow.getLocation());
+					   view_3.setVisible(true);
+					   view_3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
+					   
 				   }else if(i == 4) 
 				   {
-//					    Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-//					    photo4.setImage(img1);
-//						title_row4.setText(printRow.getTitle());
-//						content_4.setText(printRow.getDescription().substring(0, 350));
-//						price_4.setText("Price: " + printRow.getPrice() + " USD");
-//						location_4.setText("Location: " + printRow.getLocation());
-//						view_4.setVisible(true);
-//						view_4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
+					   Image img4 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+					   photo4.setImage(img4);
+					   title_row4.setText(printRow.getTitle());
+					   content_4.setText(printRow.getDescription().substring(0, 350));
+					   price_4.setText("Price: " + printRow.getPrice() + " USD");
+					   createdby4.setText("Published By: " +  printRow.getAuthor());
+					   location_4.setText("Location: " + printRow.getLocation());
+					   view_4.setVisible(true);
+					   view_4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
 				   }else 
 				   {
-					   i = 0;
+					   i = 0; //When reach to 4 it will reset to 0
 				   }
 		        }
 			}	
