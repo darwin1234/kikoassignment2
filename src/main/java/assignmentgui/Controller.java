@@ -46,6 +46,9 @@ public class Controller implements Initializable {
 	public Text title_row2,content_2,price_2,location_2,date_2, createdby2,genre2;
 	public Text title_row3,content_3,price_3,location_3,date_3, createdby3,genre3;
 	public Text title_row4,content_4,price_4,location_4,date_4, createdby4,genre4,popup,singleDate;
+	public Text greetings;
+
+	
 	public ImageView photo1,photo2,photo3,photo4;
 	public Button view_1,view_2,view_3,view_4,page1,page2,page3,page4,page5,page6, Next, Previous;
 	public TextField loadmain,usernamefield,firstnamefield,lastnamefield,emailaddress;
@@ -57,32 +60,39 @@ public class Controller implements Initializable {
 	public TableView datalist;
 	private int counter = 0;
 	private  String[][] a = new String[10][3];
+	private String WelcomeStr;
 
 	
-	public Controller() {
-		// TODO Auto-generated constructor stub
-		
-		
+	public Controller() throws IOException {
+		//load session class
+		Session s = new Session();
+		if(s.getSessionLength() != 0) {
+			WelcomeStr =  s.getUsername();
+		}
+		//System.out.println(s.getUsername());
 	}
 	
-	public void mainpage() {
-		//System.out.print("asdadasdsad");
-	}
+
 	
 	public void initialize(URL url, ResourceBundle rb) 
 	{
 		
+		
+		
 		Crud db = new Crud();
 		String __VIEW__ =  loadmain.getText();
 		
-		if(__VIEW__.equals("__main__")) 
+		if(__VIEW__.equals("__main__")) 		
 		{
-			
-			category.getItems().addAll("Rock","Fusion","RNB","JAZZ");
-			
-			db.Show(true);
-			ArrayList<Row> ticket = db.display();
-			
+			if(!WelcomeStr.isEmpty()) {
+				//greetings when successfully login!
+				greetings.setText("Hi, " +  WelcomeStr);
+				category.getItems().addAll("Rock","Fusion","RNB","JAZZ");
+				
+				//display all artist!
+				db.Show(true);
+				ArrayList<Row> ticket = db.display();
+				
 				int i = 0;
 				//Clear all text
 				clearAll();
@@ -140,7 +150,19 @@ public class Controller implements Initializable {
 					   i = 0;
 				   }
 		        }
+			}	
+			
 				
+				
+				
+				
+				
+			
+					
+					
+				
+			
+			
 		}
 		
 		if(__VIEW__.equals("__singlepage__")) {

@@ -1,11 +1,15 @@
 package MongoDBConnection;
 
+import java.io.IOException;
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+
+import assignmentgui.Session;
 
 public class Login extends MongoConnection{
 	
@@ -15,7 +19,10 @@ public class Login extends MongoConnection{
 	}
 	
 	
-	public boolean verify(String username, String password) {
+	public boolean verify(String username, String password) throws IOException {
+		//load session class
+		Session s = new Session();
+		
 		boolean res = false;
 		MongoCollection<Document> UserLogin  = db.getCollection("users");
 		
@@ -30,6 +37,7 @@ public class Login extends MongoConnection{
 				res = false;
 			}else {
 				res = true;
+				s.WriteSession(username);
 			}
 	
 		}

@@ -27,7 +27,7 @@
          </font>
       </Text>
       <Text fx:id="content_1" fill="WHITE" layoutX="415.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget" wrappingWidth="921.9793090820312" />
-      <TextField layoutX="423.0" layoutY="14.0" prefHeight="33.0" prefWidth="660.0" promptText="Search" />
+      <TextField layoutX="643.0" layoutY="14.0" prefHeight="33.0" prefWidth="440.0" promptText="Search" />
       <Button layoutX="1228.0" layoutY="14.0" mnemonicParsing="false" onAction="#createTicket" prefHeight="33.0" prefWidth="113.0" style="-fx-background-color: #4285F4;" text="Create Ticket" textFill="WHITE" />
       <Text fx:id="createdby1" fill="WHITE" layoutX="415.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created By: Dsese" />
       <Button fx:id="page1" layoutX="1050.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" style="-fx-background-color: #4285F4;" text="1" textFill="WHITE" visible="false" />
@@ -76,7 +76,7 @@
       <Text fx:id="price_3" fill="WHITE" layoutX="529.0" layoutY="483.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price: 300USD" />
       <Text fx:id="location_3" fill="WHITE" layoutX="663.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location: San Francisco" textAlignment="CENTER" wrappingWidth="334.73095703125" />
       <Text fx:id="genre3" fill="WHITE" layoutX="415.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre: RNB" />
-      <ComboBox fx:id="category" accessibleRole="LIST_VIEW" layoutX="14.0" layoutY="18.0" prefHeight="25.0" prefWidth="200.0" promptText="Category">
+      <ComboBox fx:id="category" accessibleRole="LIST_VIEW" layoutX="415.0" layoutY="15.0" prefHeight="33.0" prefWidth="202.0" promptText="Category">
      
       </ComboBox>
       <ImageView fx:id="photo4" fitHeight="96.0" fitWidth="119.0" layoutX="275.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
@@ -99,6 +99,12 @@
       <TextField fx:id="loadmain" layoutX="50.0" layoutY="755.0" prefHeight="25.0" prefWidth="158.0" text="__main__" visible="false" />
       <Button fx:id="Next" layoutX="1241.0" layoutY="661.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: #4285F4;" text="Next &gt;&gt;" textFill="WHITE" />
       <Button fx:id="Previous" layoutX="1143.0" layoutY="661.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: #EF7168;" text="&lt;&lt; Previous" textFill="WHITE" />
+      <Text fx:id="greetings" fill="WHITE" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Greetings!" wrappingWidth="360.13671875">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Text>
+      <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: #4285F4;" text="Logout" textFill="WHITE" />
    </children>
 	
 </AnchorPane>

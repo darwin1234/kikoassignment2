@@ -34,11 +34,11 @@ public class KikoAssignment extends Application {
 		if(s.getSessionLength() != 0) {
 			ldGui.loadTemplateFXML("Main.fxml",true,primaryStage);
 		}else {
-//			//load login when session userinfo.txt is empty
+			//load login when session userinfo.txt is empty
 			ldGui.loadTemplateFXML("Login.fxml",true,primaryStage);
 		}
 		
-		System.out.println(s.getSessionLength());
+	
 		
 		
 	}
