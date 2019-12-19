@@ -15,9 +15,11 @@ import javafx.stage.Stage;
 public class Events implements EventHandler<Event>{
 	 
 	private final String id; 
+	private final String foreignkey;
 	
-	public Events(String string){
+	public Events(String string,String fkey){
 		this.id = string;
+		this.foreignkey = fkey;
 	}
 
 	
@@ -28,6 +30,7 @@ public class Events implements EventHandler<Event>{
 	    try {
 	    	Crud d = new Crud();
 			d.putObjectID(id);
+			d.putForeignKey(foreignkey);
 	    	Stage single = new Stage();
 			ldGui.loadTemplateFXML("SinglePage.fxml",true,single);
 			System.out.println(id);
@@ -42,6 +45,8 @@ public class Events implements EventHandler<Event>{
 	public String getID() {
 		 return id;
 	}
+	
+	
   
 
 }

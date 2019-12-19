@@ -12,9 +12,10 @@ public class Row {
     private final String id;
     private final String imagepath;
     private final String genre;
-    //private final String date;
+    private final String author;
+    private final String foreignkey;
     
-    public Row(String title, String description, String price, String location,String date, String id, String imagepath,String __genre)
+    public Row(String title, String description, String price, String location,String date, String id, String imagepath,String __genre,String __author,String Fkey)
     {
         this.title = title;
         this.description = description;
@@ -24,6 +25,8 @@ public class Row {
         this.id = id;
         this.imagepath = imagepath;
         this.genre = __genre;
+        this.author = __author;
+        this.foreignkey = Fkey;
     }
 
     public String getTitle()
@@ -59,6 +62,14 @@ public class Row {
     
     public String getGenre() {
     	return genre;
+    }
+    
+    public String getAuthor() {
+    	return author;
+    }
+    
+    public String getforeignkey() {
+    	return foreignkey;
     }
 
 }

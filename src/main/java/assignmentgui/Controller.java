@@ -5,10 +5,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Stack;
+
 
 import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
@@ -16,9 +15,7 @@ import MongoDBConnection.Row;
 import MongoDBConnection.trackRow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -32,13 +29,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kikoassigment.Events;
 import kikoassigment.pagination;
-import javafx.util.Callback;
+
 
 public class Controller implements Initializable {
 	
@@ -59,15 +55,17 @@ public class Controller implements Initializable {
 	public PasswordField passwordfield;
 	public TableView datalist;
 	private int counter = 0;
-	private  String[][] a = new String[10][3];
+	private String[][] tracks = new String[10][3];
 	private String WelcomeStr;
-
+	private String foreignkey;
+	private String author;
 	
 	public Controller() throws IOException {
 		//load session class
 		Session s = new Session();
 		if(s.getSessionLength() != 0) {
 			WelcomeStr =  s.getUsername();
+			author = WelcomeStr;
 		}
 		//System.out.println(s.getUsername());
 	}
@@ -105,14 +103,15 @@ public class Controller implements Initializable {
 				   if(i == 1)
 				   {	
 					   //System.out.println(printRow.getImage());
-//					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-//					   photo1.setImage(img1);
-//					    title_row1.setText(printRow.getTitle());
-//					    content_1.setText(printRow.getDescription().substring(0, 350));
-//					    price_1.setText("Price: " + printRow.getPrice() + " USD");
-//					    location_1.setText("Location: " + printRow.getLocation());
-//						view_1.setVisible(true);
-//						view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
+					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+					   photo1.setImage(img1);
+					   title_row1.setText(printRow.getTitle());
+					   content_1.setText(printRow.getDescription().substring(0, 350));
+					   price_1.setText("Price: " + printRow.getPrice() + " USD");
+					   createdby1.setText("Published By: " +  printRow.getAuthor());
+					   location_1.setText("Location: " + printRow.getLocation());
+					   view_1.setVisible(true);
+					   view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
 						
 						
 				   }else if(i == 2) 
@@ -153,13 +152,6 @@ public class Controller implements Initializable {
 			}	
 			
 				
-				
-				
-				
-				
-			
-					
-					
 				
 			
 			
@@ -207,12 +199,6 @@ public class Controller implements Initializable {
 			}
 			
 
-//			
-//			
-//			Track track1 = new Track("John", "Doe","3:50");
-//			datalist.getItems().add(track1);
-//			Track track2 = new Track("John", "Doe","3:50");
-//			datalist.getItems().add(track2);
 			
 		}
 		
@@ -248,14 +234,7 @@ public class Controller implements Initializable {
 	}
 	
 	private void pageBtn() {
-		// TODO Auto-generated method stub
-//		page1.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(1));
-//		page2.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(2));
-//		page3.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(3));
-//		page4.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(4));
-//		page5.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(5));
-//		page6.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(6));
-		
+
 		Next.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(1));
 		Previous.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(2));
 	}
@@ -370,7 +349,15 @@ public class Controller implements Initializable {
 	
 	
 	public void publish(ActionEvent event) throws IOException {
+		//this will provide foreign key
+		Random rand = new Random();
+		int rand_int1 = rand.nextInt(100000000); 
+	    int rand_int2 = rand.nextInt(100000000); 
+	    foreignkey = author + "-" + rand_int1 + rand_int2;
+	    
+	    //will load the crud class
 		Crud d = new Crud();
+		//these are the fields from createTicket.fxml file
 		String __title = title.getText();
 		String __description = description.getText();
 		String __address = location.getText();
@@ -382,15 +369,31 @@ public class Controller implements Initializable {
 		String __artistname = artistname.getText();
 		String __photoName  = albumcoverphoto.getText();
 		
+		//check if empty
 		if(__title.isEmpty() && __description.isEmpty() 
 				&& __address.isEmpty() /*&& __category.isBlank()*/ 
 				&& __price.isEmpty() && __timesong.isEmpty() &&  __musictitle.isEmpty() && __artistname.isEmpty()) {
 				popup.setText("Failed Please Fill up all fields!");
 		}else if(__photoName.isEmpty()) {
-				popup.setText("You forgot to add cover photo!");
+			//if you for got to add photo	
+			popup.setText("You forgot to add cover photo!");
 		}else {
-			d.createticket(__title, __description, __address, __date, __category, __price, __photoName);
-			popup.setText("Added Successfully!");
+			
+			d.createticket(__title, __description, __address, __date, __category, __price, __photoName,foreignkey,author);
+			
+			//insert tracks dependeng the length
+			//values to be inserted
+			//tracks[0][0] = __musictitle;
+			//tracks[0][1] = __artistname;
+			//tracks[0][2] = __timesong;
+			
+			for(int i = 0; i< tracks.length; i++) {
+				if(!(tracks[i][0] == null) && !(tracks[i][1] == null) && !(tracks[i][2] == null))
+				d.insertTracks(tracks[i][0],tracks[i][1],tracks[i][2], foreignkey);
+			}
+			
+			popup.setText("Added Successfully!");		
+			
 		}
 		
 	
@@ -421,16 +424,16 @@ public class Controller implements Initializable {
 		} 
 		
 	  
-		 a[counter][0] = __artistname;
-		 a[counter][1] = __musictitle;
-		 a[counter][2] = __timesong;
-		  counter++;
+		tracks[counter][0] = __musictitle;
+		tracks[counter][1] = __artistname;
+		tracks[counter][2] = __timesong;
+		counter++;
 	}
 	
 	public void updateTrack() {
-		for (int i = 0; i < a.length; ++i) {
-	        for(int j = 0; j < a[i].length; ++j) {
-	           System.out.println(a[i][j]);
+		for (int i = 0; i < tracks.length; ++i) {
+	        for(int j = 0; j < tracks[i].length; ++j) {
+	           System.out.println(tracks[i][j]);
 	        }
 	     }
 	}
@@ -444,7 +447,9 @@ public class Controller implements Initializable {
 	public void backtohome(ActionEvent event) throws IOException {
 		 Stage main = new Stage();
 		 LoadGui ldGui = new LoadGui();
+		 //load main window
 	     ldGui.loadTemplateFXML("Main.fxml",true,main);
+	     //close current window
 	     ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 	}
 	
