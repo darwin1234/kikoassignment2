@@ -116,14 +116,15 @@ public class Controller implements Initializable {
 						
 				   }else if(i == 2) 
 				   {
-//					    Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
-//					    photo2.setImage(img1);
-//						title_row2.setText(printRow.getTitle());
-//						content_2.setText(printRow.getDescription().substring(0, 350));
-//						price_2.setText("Price: " + printRow.getPrice() + " USD");
-//						location_2.setText("Location: " + printRow.getLocation());
-//						view_2.setVisible(true);
-//						view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID()));
+					   Image img2 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
+					   photo2.setImage(img2);
+					   title_row2.setText(printRow.getTitle());
+					   content_2.setText(printRow.getDescription().substring(0, 350));
+					   price_2.setText("Price: " + printRow.getPrice() + " USD");
+					   createdby2.setText("Published By: " +  printRow.getAuthor());
+					   location_2.setText("Location: " + printRow.getLocation());
+					   view_2.setVisible(true);
+					   view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
 				   }else if(i == 3)
 				   {
 //					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
@@ -362,7 +363,7 @@ public class Controller implements Initializable {
 		String __description = description.getText();
 		String __address = location.getText();
 		LocalDate __date	= date.getValue();
-		String __category = (String) category.getValue();
+		String __category = (String) category.getValue().toString();
 		String __price =   price.getText(); 
 		String __timesong = timesong.getText();
 		String __musictitle =  musictitle.getText();
@@ -371,7 +372,7 @@ public class Controller implements Initializable {
 		
 		//check if empty
 		if(__title.isEmpty() && __description.isEmpty() 
-				&& __address.isEmpty() /*&& __category.isBlank()*/ 
+				&& __address.isEmpty() && __category.isEmpty()
 				&& __price.isEmpty() && __timesong.isEmpty() &&  __musictitle.isEmpty() && __artistname.isEmpty()) {
 				popup.setText("Failed Please Fill up all fields!");
 		}else if(__photoName.isEmpty()) {

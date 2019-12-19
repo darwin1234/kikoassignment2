@@ -165,7 +165,7 @@ public class Crud extends MongoConnection{
 		trackRow trackrow;
 		
 		  MongoCollection<Document> lists = db.getCollection("tracks");
-		   try (MongoCursor<Document> cur = lists.find().skip(0).limit(20).iterator()) {
+		   try (MongoCursor<Document> cur = lists.find(Filters.eq("foreignkey" , ForeignKey)).iterator()) {
 			  
 			   while (cur.hasNext()) {
 					
