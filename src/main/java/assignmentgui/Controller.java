@@ -45,6 +45,7 @@ public class Controller implements Initializable {
 	public Text greetings;
 	public ImageView photo1,photo2,photo3,photo4;
 	public Button view_1,view_2,view_3,view_4,page1,page2,page3,page4,page5,page6, Next, Previous;
+	public ComboBox searchbytype;
 	
 	//Found everywhere in any fxml file.
 	public TextField loadmain;
@@ -60,11 +61,16 @@ public class Controller implements Initializable {
 	public TextArea description;
 	public ComboBox category;
 	
+	//Found in CreateTicket and SinglePage
 	public TableView datalist;
+	
 	private int counter = 0;
 	private String[][] tracks = new String[10][3];
+	//Greetings Variable String
 	private String WelcomeStr;
+	//foreign key used both Artist and Tracks Table
 	private String foreignkey;
+	//Who created ticket
 	private String author;
 	//private String imagePath = "src/";
 	
@@ -74,8 +80,13 @@ public class Controller implements Initializable {
 		if(s.getSessionLength() != 0) {
 			WelcomeStr =  s.getUsername();
 			author = WelcomeStr;
+		}else {
+			//if userinfo.txt session is empty
+			System.exit(0);
 		}
+		//uncomment to check who is currently login
 		//System.out.println(s.getUsername());
+		
 	}
 	
 
@@ -86,31 +97,41 @@ public class Controller implements Initializable {
 		
 		
 		Crud db = new Crud();
-		String __VIEW__ =  loadmain.getText();
+		String __VIEW__ =  loadmain.getText(); //this is found fxml files. visibility is equal to false
+		
+		//__main__ 			= Main.fxml window
+		//__singlepage__ 	= SinglePage.fxml
+		//__login__			= Login.fxml
+		//__SignUp__		= SignUp.fxml
+		
 		
 		if(__VIEW__.equals("__main__")) 		
 		{
 			if(!WelcomeStr.isEmpty()) {
 				//greetings when successfully login!
 				greetings.setText("Hi, " +  WelcomeStr);
-				category.getItems().addAll("Rock","Fusion","RNB","JAZZ");
+				searchbytype.getItems().addAll("Title","Author","Genre");
 				
 				//display all artist!
 				db.Show(true);
 				ArrayList<Row> ticket = db.display();
 				
 				int i = 0;
-				//Clear all text
+				//Clear all fx:id's
 				clearAll();
+				//these function is next and previous
 				pageBtn();
+				
+				//will pull data from artist table
 				for (Row printRow : ticket)
 		        {
 					
-					i++;
+					i++; //increment i by 4 only
 					
 				   if(i == 1)
 				   {	
-					   System.out.println(printRow.getImage());
+					   //uncomment to see the output
+					   //System.out.println(printRow.getImage());
 					   Image img1 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
 					   photo1.setImage(img1);
 					   title_row1.setText(printRow.getTitle());
@@ -120,8 +141,6 @@ public class Controller implements Initializable {
 					   location_1.setText("Location: " + printRow.getLocation());
 					   view_1.setVisible(true);
 					   view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
-						
-						
 				   }else if(i == 2) 
 				   {
 					   Image img2 = new Image(getClass().getResource(printRow.getImage()).toExternalForm(),true);
@@ -220,6 +239,9 @@ public class Controller implements Initializable {
 		
 		if(__VIEW__.equals("__createticket__")) {
 			popup.setText("");
+			
+			//datalist
+			//this code display the album tracks
 			TableColumn __title = new TableColumn("Title");
 			
 			__title.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -229,17 +251,14 @@ public class Controller implements Initializable {
 			
 			TableColumn __time = new TableColumn("Time");
 			__time.setCellValueFactory(new PropertyValueFactory<>("time"));
-		
-	
-		
-			
+			//added all the colums
 			datalist.getColumns().addAll(__title, __artist,__time);
 			
-
+			//categories added 
 			category.getItems().addAll("Rock","Fusion","RNB","JAZZ");
 		}
 		if(__VIEW__.equals("__SignUp__")) {
-			
+			//clear popup
 			popup.setText("");
 		}
 	

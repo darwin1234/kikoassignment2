@@ -76,7 +76,7 @@
       <Text fx:id="price_3" fill="WHITE" layoutX="595.0" layoutY="484.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price: 300USD" />
       <Text fx:id="location_3" fill="WHITE" layoutX="772.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location: San Francisco" textAlignment="CENTER" wrappingWidth="334.73095703125" />
       <Text fx:id="genre3" fill="WHITE" layoutX="415.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre: RNB" />
-      <ComboBox fx:id="category" accessibleRole="LIST_VIEW" layoutX="415.0" layoutY="15.0" prefHeight="33.0" prefWidth="202.0" promptText="Category">
+      <ComboBox fx:id="searchbytype" accessibleRole="LIST_VIEW" layoutX="415.0" layoutY="15.0" prefHeight="33.0" prefWidth="202.0" promptText="Search By">
      
       </ComboBox>
       <ImageView fx:id="photo4" fitHeight="96.0" fitWidth="119.0" layoutX="275.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
