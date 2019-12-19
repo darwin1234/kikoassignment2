@@ -454,5 +454,18 @@ public class Controller implements Initializable {
 	     ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 	}
 	
-
+	public void logout(ActionEvent event) throws IOException  {
+		 Stage main = new Stage();
+		LoadGui ldGui = new LoadGui();
+		
+		Session s = new Session();
+		// will flush the userinfosession located at src/session/userinfo
+		s.clearUserInfoTxt();
+	
+		 //close current window
+	     ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+	     
+	     ldGui.loadTemplateFXML("Login.fxml",true,main);
+		    
+	}
 }

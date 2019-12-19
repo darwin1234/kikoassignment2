@@ -86,7 +86,7 @@
       </ImageView>
       <Text fx:id="title_row4" fill="#d0cbcb" layoutX="415.0" layoutY="554.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist Name: Van Halen | Protocol Concert  December 21">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Text>
       <Text fx:id="content_4" fill="WHITE" layoutX="415.0" layoutY="570.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget" wrappingWidth="921.9793090820312" />
@@ -104,7 +104,7 @@
             <Font size="29.0" />
          </font>
       </Text>
-      <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: #4285F4;" text="Logout" textFill="WHITE" />
+      <Button fx:id="logout" layoutX="14.0" layoutY="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: #4285F4;" text="Logout" textFill="WHITE" />
    </children>
 	
 </AnchorPane>

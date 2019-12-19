@@ -13,6 +13,7 @@ public class Session {
 	private String username;
 	private int SessionLength;
 	private String path = "src/session/userinfo.txt";
+	PrintWriter writer;
 	public Session() throws IOException {
 		
 		
@@ -31,11 +32,18 @@ public class Session {
 	}
 	
 	public void WriteSession(String username) throws FileNotFoundException, UnsupportedEncodingException {
-		PrintWriter writer = new PrintWriter(path, "UTF-8");
+		writer = new PrintWriter(path, "UTF-8");
 		writer.print("1"+ "," + username + ",asdasd,asdasdasd");
 		writer.close();	
 	}
 	
+	public void clearUserInfoTxt() throws FileNotFoundException, UnsupportedEncodingException {
+		writer = new PrintWriter(path, "UTF-8");
+		writer.flush();
+		writer.close();	
+	
+	
+	}
 	public String getUsername() {
 		
 		return username;
