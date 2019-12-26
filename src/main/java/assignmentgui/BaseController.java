@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
 import MongoDBConnection.Row;
@@ -27,6 +28,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -35,11 +38,13 @@ import kikoassigment.pagination;
 import javafx.scene.paint.*;
 import javafx.scene.shape.ArcType;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.canvas.*;
 //import streamplayer.*;
 //import visualizer.Visualizer;
 
 public class BaseController  implements Initializable  {
+	public AnchorPane anchorPane;
 	// Main.fxml and SinglePage.fxml* fx:id's
 	public Text title_row1,content_1,price_1,location_1,date_1, createdby1,genre1;
 	public Text title_row2,content_2,price_2,location_2,date_2, createdby2,genre2;
@@ -230,9 +235,23 @@ public class BaseController  implements Initializable  {
 	}
 	
 	public void clearAll() {
-	
 		
-		title_row1.setText("");
+		for (Node node : anchorPane.getChildren()) {
+		    System.out.println("Id: " + node.getId());
+		    if (node instanceof Text) {
+		        // clear
+		    	((Text)node).setText("");
+	    
+		    }
+		
+		    if(node instanceof Button) {
+		    	//hide
+		    	((Button)node).setVisible(false);
+		    }
+		    
+		}
+		//old code
+		/*title_row1.setText("");
 		title_row2.setText("");
 		title_row3.setText("");
 		title_row4.setText("");
@@ -263,9 +282,11 @@ public class BaseController  implements Initializable  {
 		genre1.setText("");
 		genre2.setText("");
 		genre3.setText("");
-		genre4.setText("");
+		genre4.setText("");*/
 		//clearAll();
 	}
+
+
 	
 	public void pageBtn() {
 		Next.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(1));
@@ -367,9 +388,7 @@ public class BaseController  implements Initializable  {
 			popup.setText("Added Successfully!");		
 			
 		}
-		
-	
-		
+			
 		
 	}
 	
