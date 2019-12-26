@@ -14,10 +14,8 @@
 	<!-- TODO Add Nodes -->
 	<children>
       <HBox alignment="CENTER" layoutX="189.0" layoutY="361.0" prefHeight="0.0" prefWidth="378.0" />
-      <ImageView fitHeight="1015.0" fitWidth="1566.0" layoutX="-9.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@photos/bg.jpg" />
-         </image>
+      <ImageView fx:id="backgroundImage" fitHeight="1015.0" fitWidth="1566.0" layoutX="-9.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
+        
       </ImageView>
       <TextField fx:id="usernamefield" layoutX="458.0" layoutY="259.0" prefHeight="44.0" prefWidth="465.0" promptText="Username" />
       <PasswordField fx:id="passwordfield" accessibleRole="PASSWORD_FIELD" layoutX="458.0" layoutY="343.0" prefHeight="44.0" prefWidth="465.0" promptText="Password" />
@@ -27,7 +25,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="loadmain" layoutX="69.0" layoutY="77.0" text="__login__" visible="false" />
+      <TextField fx:id="Page" layoutX="69.0" layoutY="77.0" text="__login__" visible="false" />
       <Text fx:id="popup" fill="#2fcfda" layoutX="504.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid Password" textAlignment="CENTER" wrappingWidth="418.4700622558594">
          <font>
             <Font size="32.0" />

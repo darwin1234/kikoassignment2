@@ -24,8 +24,7 @@ public class LoadGui {
 		primaryStage.setResizable(false);
 		
 		if(__show == true)
-		{
-			primaryStage.show();
+		{	primaryStage.show();
 		}else {
 			primaryStage.hide();
 			primaryStage.close();

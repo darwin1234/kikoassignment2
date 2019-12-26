@@ -97,11 +97,9 @@ public class Crud extends MongoConnection{
 		
 		ArrayList<Row> rows = new ArrayList<>();
         Row row;
-        
-      System.out.println("SET PAGE: " + setPage);
-		
+     
         MongoCollection<Document> lists = db.getCollection("artist");
-       
+        
 		if(ShowAll == true) { 
 	        try (MongoCursor<Document> cur = lists.find().skip(setPage).limit(4).iterator()) {
 	
@@ -128,8 +126,9 @@ public class Crud extends MongoConnection{
 		}else {
 			
 		
-				System.out.println("false");
-				System.out.println(ObjectId);
+				//System.out.println("false");
+				//System.out.println(ObjectId);
+			
 				try (MongoCursor<Document> cur =  lists.find(Filters.eq("_id", new ObjectId(ObjectId))).iterator()){
 				
 				 while (cur.hasNext()) {
@@ -172,9 +171,9 @@ public class Crud extends MongoConnection{
 	                var doc = cur.next();
 	                var product = new ArrayList<>(doc.values());
 	                String trackID = (String) product.get(4);
-	                String time = (String) product.get(3);
-	                String artist = (String) product.get(2);
-	                String title = (String) product.get(1);
+	                String time = (String) product.get(1);
+	                String title = (String) product.get(2);
+	                String artist = (String) product.get(3);
 	               // System.out.printf("%s: %s%n", product.get(1), product.get(2));
 	                trackrow = new trackRow(title,artist,time,trackID);
 	  		        rows.add(trackrow);

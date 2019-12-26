@@ -17,10 +17,8 @@
 	<!-- TODO Add Nodes -->
 	<children>
       <HBox alignment="CENTER" layoutX="189.0" layoutY="361.0" prefHeight="0.0" prefWidth="378.0" />
-        <ImageView fitHeight="1015.0" fitWidth="1566.0" layoutX="-9.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@photos/bg.jpg" />
-         </image>
+        <ImageView fx:id="backgroundImage" fitHeight="1015.0" fitWidth="1566.0" layoutX="-9.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
+        
       </ImageView>
       <TextField fx:id="title" layoutX="627.0" layoutY="79.0" prefHeight="44.0" prefWidth="457.0" promptText="Etc Title, Artist, Band Name" />
       <Button layoutX="931.0" layoutY="533.0" mnemonicParsing="false" onAction="#publish" prefHeight="44.0" prefWidth="151.0" style="-fx-background-color: #58B747;" text="Publish" textFill="WHITE" />
@@ -36,7 +34,7 @@
       <DatePicker fx:id="date" layoutX="627.0" layoutY="128.0" prefHeight="37.0" prefWidth="211.0" promptText="Choose Date" />
       <ComboBox fx:id="category" layoutX="871.0" layoutY="128.0" prefHeight="37.0" prefWidth="211.0" promptText="Choose Genre" />
       <TextField fx:id="location" layoutX="871.0" layoutY="186.0" prefHeight="37.0" prefWidth="211.0" promptText="Location" styleClass="location" />
-      <TextField fx:id="loadmain" layoutX="32.0" layoutY="419.0" text="__createticket__" visible="false" />
+      <TextField fx:id="Page" layoutX="32.0" layoutY="419.0" text="__createticket__" visible="false" />
       <TextField fx:id="price" layoutX="625.0" layoutY="186.0" prefHeight="37.0" prefWidth="211.0" promptText="Price" />
       <TextField fx:id="timesong" layoutX="270.0" layoutY="186.0" prefHeight="44.0" prefWidth="149.0" promptText="Time" />
       <TextField fx:id="musictitle" layoutX="435.0" layoutY="183.0" prefHeight="44.0" prefWidth="151.0" promptText="Music Title" />

@@ -11,10 +11,8 @@
 
 <AnchorPane prefHeight="900.0" prefWidth="1509.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignmentgui.Controller">
    <children>
-     <ImageView fitHeight="1015.0" fitWidth="1566.0" layoutX="-9.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@photos/bg.jpg" />
-         </image>
+     <ImageView fx:id="backgroundImage" fitHeight="1015.0" fitWidth="1566.0" layoutX="-9.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
+        
       </ImageView>
       <ImageView fx:id="photo1" fitHeight="96.0" fitWidth="119.0" layoutX="276.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -96,7 +94,7 @@
       <Text fx:id="price_4" fill="WHITE" layoutX="595.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price: 300USD" />
       <Text fx:id="location_4" fill="WHITE" layoutX="766.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location: San Francisco" textAlignment="CENTER" wrappingWidth="347.1406250000001" />
       <Text fx:id="genre4" fill="WHITE" layoutX="415.0" layoutY="651.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Genre: RNB" />
-      <TextField fx:id="loadmain" layoutX="50.0" layoutY="755.0" prefHeight="25.0" prefWidth="158.0" text="__main__" visible="false" />
+      <TextField fx:id="Page" layoutX="50.0" layoutY="755.0" prefHeight="25.0" prefWidth="158.0" text="__main__" visible="false" />
       <Button fx:id="Next" layoutX="1241.0" layoutY="661.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: #4285F4;" text="Next &gt;&gt;" textFill="WHITE" />
       <Button fx:id="Previous" layoutX="1143.0" layoutY="661.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" style="-fx-background-color: #EF7168;" text="&lt;&lt; Previous" textFill="WHITE" />
       <Text fx:id="greetings" fill="WHITE" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Greetings!" wrappingWidth="360.13671875">
@@ -104,7 +102,7 @@
             <Font size="29.0" />
          </font>
       </Text>
-      <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" onAction="#logout" style="-fx-background-color: #4285F4;" text="Logout" textFill="WHITE" />
+      <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: #4285F4;" text="Logout" textFill="WHITE" />
    </children>
 	
 </AnchorPane>

@@ -14,10 +14,8 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="788.0" prefWidth="1559.0" style="-fx-background-color: #2F3446;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignmentgui.Controller">
 	<!-- TODO Add Nodes -->
 	<children>
-       <ImageView fitHeight="1015.0" fitWidth="1566.0" layoutX="-9.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@photos/bg.jpg" />
-         </image>
+       <ImageView fx:id="backgroundImage" fitHeight="1015.0" fitWidth="1566.0" layoutX="-9.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
+        
       </ImageView>
       <TextField fx:id="usernamefield" layoutX="440.0" layoutY="108.0" prefHeight="44.0" prefWidth="465.0" promptText="Username" />
       <PasswordField fx:id="passwordfield" layoutX="440.0" layoutY="159.0" prefHeight="44.0" prefWidth="465.0" promptText="Password" />
@@ -29,7 +27,7 @@
             <Font size="54.0" />
          </font>
       </Label>
-      <TextField fx:id="loadmain" layoutX="69.0" layoutY="77.0" text="__SignUp__" visible="false" />
+      <TextField fx:id="Page" layoutX="69.0" layoutY="77.0" text="__SignUp__" visible="false" />
       <TextField fx:id="emailaddress" layoutX="440.0" layoutY="317.0" prefHeight="44.0" prefWidth="465.0" promptText="Email Address" />
       <Text fx:id="popup" fill="RED" layoutX="456.0" layoutY="481.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MESSAGE!!!!!!!!!!!" textAlignment="CENTER" wrappingWidth="453.13671875">
          <font>
