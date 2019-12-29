@@ -9,6 +9,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.JSONObject;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.client.AggregateIterable;
@@ -177,16 +178,21 @@ public class Crud extends MongoConnection{
 		
 				//System.out.println("false");
 				//System.out.println(ObjectId);
-					AggregateIterable<Document> data = lists.aggregate(Arrays.asList(
-						// Aggregates.unwind("$foreignkey",options),
-						 Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
-						// Aggregates.unwind("$tracks", options)
-						  
-						 ));
-				 
-					data.forEach(printBlock);
 			
+			BasicDBObject obj_ID = new BasicDBObject();
+			obj_ID.put("_id", new ObjectId(ObjectId));
+		
+			
+			AggregateIterable<Document> data = lists.aggregate(Arrays.asList(
+					Aggregates.match(obj_ID), 
+					Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
+			
+			 ));
+			 
+				data.forEach(printBlock);
+					
 				try (MongoCursor<Document> cur =  lists.find(Filters.eq("_id", new ObjectId(ObjectId))).iterator()){
+					
 				
 				 while (cur.hasNext()) {
 						
