@@ -130,6 +130,17 @@ public class Crud extends MongoConnection{
 	
 	}
 	
+	static Block<Document> printBlock = new Block<Document>() {
+		
+	    public void apply(final Document document) {
+	    	
+	    	System.out.println(document.toJson());
+	    	
+//	    	JSONObject obj = new JSONObject(document);
+//	    	String price = obj.getJSONObject("tracks").getString("duration");
+//	    	System.out.println(price);
+	    }
+	};
 	
 	public static ArrayList<Row> display() {
 		
@@ -166,6 +177,14 @@ public class Crud extends MongoConnection{
 		
 				//System.out.println("false");
 				//System.out.println(ObjectId);
+					AggregateIterable<Document> data = lists.aggregate(Arrays.asList(
+						// Aggregates.unwind("$foreignkey",options),
+						 Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
+						// Aggregates.unwind("$tracks", options)
+						  
+						 ));
+				 
+					data.forEach(printBlock);
 			
 				try (MongoCursor<Document> cur =  lists.find(Filters.eq("_id", new ObjectId(ObjectId))).iterator()){
 				
