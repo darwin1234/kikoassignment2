@@ -80,16 +80,18 @@ public class Controller extends BaseController {
 				break;
 			case "__main__":
 				if(!WelcomeStr.isEmpty()) {
-					//greetings when successfully login!
-					//greetings.setText("Hi, " +  WelcomeStr);
 					//Clear all fx:id's
 					clearAll();
+					//greetings when successfully login!
+					greetings.setText("Hi, " +  WelcomeStr);
 					//these function is next and previous
 					pageBtn();
 					//load content
 					MainContent();
 					//Search Type
 					SearchByType();
+					//need to display
+					needtodisplay();
 				}	
 				
 				break;

@@ -2,19 +2,57 @@ package MongoDBConnection;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.JSONObject;
 
+import com.mongodb.Block;
+import com.mongodb.MongoClient;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UnwindOptions;
 
 import javafx.scene.image.Image;
 import kikoassigment.pagination;
+/*public static void main(String[] args) {
+	MongoClient mongo_client = new MongoClient("localhost",27017);
+	db = mongo_client.getDatabase("assignment");
+	UnwindOptions options = new UnwindOptions();
+	
+	Block<Document> printBlock = new Block<Document>() {
+		
+	    public void apply(final Document document) {
+	    	
+	    	//System.out.println(document.toJson());
+	    	
+	    	JSONObject obj = new JSONObject(document);
+	    	String price = obj.getJSONObject("tracks").getString("duration");
+	    	System.out.println(price);
+	    }
+	};
+	
+	
 
+	
+	 MongoCollection<Document> collection = db.getCollection("artist");
+	 
+	 AggregateIterable<Document> list = collection.aggregate(Arrays.asList(
+			// Aggregates.unwind("$foreignkey",options),
+			 Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
+			// Aggregates.unwind("$tracks", options)
+			  
+			 ));
+	 
+	 list.forEach(printBlock);
+
+
+}*/
 
 
 public class Crud extends MongoConnection{

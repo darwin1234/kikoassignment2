@@ -29,15 +29,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kikoassigment.Events;
 import kikoassigment.pagination;
 import javafx.scene.paint.*;
-import javafx.scene.shape.ArcType;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.*;
 //import streamplayer.*;
@@ -52,6 +49,7 @@ public class BaseController  implements Initializable  {
 	public Text title_row4,content_4,price_4,location_4,date_4, createdby4,genre4,popup,singleDate;
 	public Text greetings;
 	public ImageView photo1,photo2,photo3,photo4;
+	public Button logoutbtn,searchbtn,createTicketBtn;
 	
 	public Button view_1,view_2,view_3,view_4,page1,page2,page3,page4,page5,page6, Next, Previous;
 	public ComboBox searchbytype;
@@ -117,7 +115,6 @@ public class BaseController  implements Initializable  {
 		__time.setCellValueFactory(new PropertyValueFactory<>("time"));
 		//added all the colums
 		datalist.getColumns().addAll(__title, __artist,__time);
-		
 		
 	}
 	
@@ -286,6 +283,15 @@ public class BaseController  implements Initializable  {
 		//clearAll();
 	}
 
+	
+	public void needtodisplay() {
+		logoutbtn.setVisible(true);
+		Previous.setVisible(true);
+		Next.setVisible(true);
+		searchbtn.setVisible(true);
+		createTicketBtn.setVisible(true);
+		
+	}
 
 	
 	public void pageBtn() {
@@ -308,10 +314,7 @@ public class BaseController  implements Initializable  {
 		fileChooser.setTitle("Open Resource File");
 		File file = fileChooser.showOpenDialog(primaryStage);
 		Random rand = new Random(); 
-		
-		System.out.println("Cover Add Function");
-		
-		
+		//System.out.println("Cover Add Function");
 		if (file != null) {
 			 int rand_int1 = rand.nextInt(100000000); 
 			 int rand_int2 = rand.nextInt(100000000); 
@@ -323,7 +326,7 @@ public class BaseController  implements Initializable  {
 			 boolean success = file.renameTo(destination);
 			 System.out.println(success);
 		}
-		//System.out.println(new File("src\\photos\\").getAbsolutePath());
+	
 	}
 	
 	public void backtologin(ActionEvent event) throws IOException {
@@ -538,7 +541,7 @@ public class BaseController  implements Initializable  {
 	
 	public void musicraw() {
 		
-		
+		//https://www.daniweb.com/programming/software-development/threads/412346/insert-data-into-file-without-reading-entire-file-into-ram
 	}
 }
 
