@@ -126,7 +126,7 @@ public class BaseController  implements Initializable  {
 		db.Show(true);
 		ArrayList<Row> ticket = db.display();
 		
-		
+	
 		for (Row printRow : ticket)
         {
 			
@@ -221,6 +221,7 @@ public class BaseController  implements Initializable  {
 			datalist.getItems().add(track);
 			System.out.println(Title);
 		}
+		
 	}
 	
 	public void Categories() {
@@ -234,7 +235,7 @@ public class BaseController  implements Initializable  {
 	public void clearAll() {
 		
 		for (Node node : anchorPane.getChildren()) {
-		    System.out.println("Id: " + node.getId());
+		    //System.out.println("Id: " + node.getId());
 		    if (node instanceof Text) {
 		        // clear
 		    	((Text)node).setText("");
@@ -320,7 +321,7 @@ public class BaseController  implements Initializable  {
 			 int rand_int2 = rand.nextInt(100000000); 
 			 String PhotoName = "image-file-"+rand_int1+"-"+ rand_int2 + ".png";
 			 albumcoverphoto.setText(PhotoName);
-			 System.out.println(PhotoName);
+			 //System.out.println(PhotoName);
 			 String ImagePath = new File("src\\photos\\" + PhotoName).getAbsolutePath();
 			 File destination = new File(ImagePath); // new File("kikoassignment\\src\\photos\\",PhotoName);
 			 boolean success = file.renameTo(destination);
@@ -452,7 +453,7 @@ public class BaseController  implements Initializable  {
 	public void logout(ActionEvent event) throws IOException  {
 		 Stage main = new Stage();
 		LoadGui ldGui = new LoadGui();
-		
+		 
 		Session s = new Session();
 		// will flush the userinfosession located at src/session/userinfo
 		s.clearUserInfoTxt();

@@ -1,17 +1,15 @@
 package assignmentgui;
 
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.io.RandomAccessFile;
 
 public class Session {
 	
 	private String username;
 	private int SessionLength;
-	private String path = "src/session/userinfo.txt";
+	private String path = "src/session/session.txt";
 	private File file = new File(path);
 	private RandomAccessFile raFile = new RandomAccessFile(file, "rw");
 	
@@ -29,13 +27,71 @@ public class Session {
 			userData = contents.split(",");
 			SessionLength =  contents.length();
 			username = userData[1];
-//			for(int i = 0; i<userData.length; i++) {
-//				System.out.println(userData[i]);
-//			}
+			//for(int i = 0; i<userData.length; i++) {
+				//System.out.println(userData[i]);
+			//}
 		}
+		
+		
+		//uses
+		/*
+		 * 
+		 *     String data = "asdasdasdasdsd";
+       writeToRandomAccessFile(path,50, data);
+       System.out.println("String written into RandomAccessFile from Java Program : " + data);
+
+        String fromFile = readFromRandomAccessFile(path, 50);
+        System.out.println("String read from RandomAccessFile in Java : " + fromFile);
+		 */
 		    
 	}
 	
+	
+	
+	 /*
+     * Utility method to read from RandomAccessFile in Java
+     */
+    public static String readFromRandomAccessFile(String file, int position) {
+        String record = null;
+        try {
+            RandomAccessFile fileStore = new RandomAccessFile(file, "rw");
+
+            // moves file pointer to position specified
+            fileStore.seek(position);
+
+            // reading String from RandomAccessFile
+            record = fileStore.readLine();
+
+            fileStore.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return record;
+    }
+
+   /*
+    * Utility method for writing into RandomAccessFile in Java
+    */  
+    public static void writeToRandomAccessFile(String file, int position, String record) {
+        try {
+            RandomAccessFile fileStore = new RandomAccessFile(file, "rw");
+
+            // moves file pointer to position specified
+            fileStore.seek(position);
+
+            // writing String to RandomAccessFile
+            fileStore.writeUTF(record);
+
+            fileStore.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
 	public void WriteSession(String username) throws IOException {
 		raFile.writeBytes("1" + "," + username+ "," + "asdasdasd"+ "," + "asdasdasd");
 	}
@@ -55,4 +111,7 @@ public class Session {
 		return SessionLength;
 	}
 	
+	public void readoffset() {
+		
+	}
 }

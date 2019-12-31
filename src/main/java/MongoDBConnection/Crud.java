@@ -3,6 +3,8 @@ package MongoDBConnection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -11,49 +13,12 @@ import org.json.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
-import com.mongodb.MongoClient;
+
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.UnwindOptions;
-
-import javafx.scene.image.Image;
-import kikoassigment.pagination;
-/*public static void main(String[] args) {
-	MongoClient mongo_client = new MongoClient("localhost",27017);
-	db = mongo_client.getDatabase("assignment");
-	UnwindOptions options = new UnwindOptions();
-	
-	Block<Document> printBlock = new Block<Document>() {
-		
-	    public void apply(final Document document) {
-	    	
-	    	//System.out.println(document.toJson());
-	    	
-	    	JSONObject obj = new JSONObject(document);
-	    	String price = obj.getJSONObject("tracks").getString("duration");
-	    	System.out.println(price);
-	    }
-	};
-	
-	
-
-	
-	 MongoCollection<Document> collection = db.getCollection("artist");
-	 
-	 AggregateIterable<Document> list = collection.aggregate(Arrays.asList(
-			// Aggregates.unwind("$foreignkey",options),
-			 Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
-			// Aggregates.unwind("$tracks", options)
-			  
-			 ));
-	 
-	 list.forEach(printBlock);
-
-
-}*/
 
 
 public class Crud extends MongoConnection{
@@ -63,6 +28,7 @@ public class Crud extends MongoConnection{
 	private static String ForeignKey;
 	private static int setPage;
 	private static int[]  pageArray;
+	private static ArrayList<Row> rows = new ArrayList<>();
 	
 	
 	public void SetPage(int page) {
@@ -83,6 +49,7 @@ public class Crud extends MongoConnection{
 		 MongoCollection<Document> userInfo = db.getCollection("users");
 			try (MongoCursor<Document> cur =  userInfo.find(Filters.eq("username",username)).iterator()){
 				
+				//check if username exist
 				if(cur.hasNext()) {
 					return false;
 				}else {
@@ -131,92 +98,73 @@ public class Crud extends MongoConnection{
 	
 	}
 	
-	static Block<Document> printBlock = new Block<Document>() {
+	static Block<Document> loopData = new Block<Document>() {
 		
 	    public void apply(final Document document) {
+	    	Row row;
+	    	//System.out.println(document.toJson());
 	    	
-	    	System.out.println(document.toJson());
+	    	var objID = new ArrayList<>(document.values());
 	    	
-//	    	JSONObject obj = new JSONObject(document);
-//	    	String price = obj.getJSONObject("tracks").getString("duration");
-//	    	System.out.println(price);
+	    	JSONObject obj = new JSONObject(document);
+	    	
+	    	
+	    	String title		 = obj.getString("title");
+	    	String description 	 = obj.getString("description");
+	    	String price		 = obj.getString("price");
+	    	String date			 = obj.getString("date");
+	    	String author		 = obj.getString("author");
+	    	String genre		 = obj.getString("genre");
+	    	String location		 = obj.getString("location");
+	    	String photos		 = obj.getString("photos");
+	    	String fkey			 = obj.getString("fkey");
+	    	String objectID		 = objID.get(0).toString();
+	    	
+	    	row = new Row(title,description,price,location,date,objectID,photos,genre,author,fkey);
+	    	
+	    	rows.add(row);
+	    	
+	    
+	    	
+	
 	    }
+
+		private Date Date(Object object) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	};
 	
 	public static ArrayList<Row> display() {
 		
-		ArrayList<Row> rows = new ArrayList<>();
-        Row row;
-     
+		
         MongoCollection<Document> lists = db.getCollection("artist");
+        rows.clear(); //clear the ArrayList first
+        //Join to Collection artist and track
+        if(ObjectId.isEmpty()) {
+        	
+        	 AggregateIterable<Document> data = lists.aggregate(Arrays.asList( 
+     				Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
+     		
+     		));
+             data.forEach(loopData);
+        }else {
+        	
+        	BasicDBObject obj_ID = new BasicDBObject();
+        	obj_ID.put("_id", new ObjectId(ObjectId));
+    
+        	 AggregateIterable<Document> data = lists.aggregate(Arrays.asList(
+      				Aggregates.match(obj_ID), 
+      				Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
+      		
+      		));
+        	 ObjectId = ""; //make sure to clear this variable
+        	 data.forEach(loopData);
+        }
+       
+   
         
-		if(ShowAll == true) { 
-	        try (MongoCursor<Document> cur = lists.find().skip(setPage).limit(4).iterator()) {
-	
-	            while (cur.hasNext()) {
-	
-	                var doc = cur.next();
-	                var product = new ArrayList<>(doc.values());
-	                String foreignkey = (String) product.get(9);
-	                String img = (String) product.get(8);
-	                String title = (String) product.get(7);
-	                String location = (String) product.get(6);
-	                String description = (String) product.get(5);
-	                String genre = (String) product.get(4);
-	                String author 	= (String) product.get(3);
-	                String price = (String) product.get(2);
-	                String date = (String) product.get(1);
-	                String id = (String) product.get(0).toString();
-	              
-	                row = new Row(title,description,price,location,date,id,img,genre,author,foreignkey);
-	  		        rows.add(row);
-	            
-	            }
-	        }
-		}else {
-			
 		
-				//System.out.println("false");
-				//System.out.println(ObjectId);
-			
-			BasicDBObject obj_ID = new BasicDBObject();
-			obj_ID.put("_id", new ObjectId(ObjectId));
-		
-			
-			AggregateIterable<Document> data = lists.aggregate(Arrays.asList(
-					Aggregates.match(obj_ID), 
-					Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
-			
-			 ));
-			 
-				data.forEach(printBlock);
-					
-				try (MongoCursor<Document> cur =  lists.find(Filters.eq("_id", new ObjectId(ObjectId))).iterator()){
-					
-				
-				 while (cur.hasNext()) {
-						
-		                var doc = cur.next();
-		                var product = new ArrayList<>(doc.values());
-		                String foreignkey = (String) product.get(9);
-		                String img = (String) product.get(8);
-		                String title = (String) product.get(7);
-		                String location = (String) product.get(6);
-		                String description = (String) product.get(5);
-		                String genre = (String) product.get(4);
-		                String author 	= (String) product.get(3);
-		                String price = (String) product.get(2);
-		                String date = (String) product.get(1);
-		                String id = (String) product.get(0).toString();
-		              
-		                row = new Row(title,description,price,location,date,id,img,genre,author,foreignkey);
-		  		        rows.add(row);
-		            
-		           }
-				 
-			 } 
-			
-		}
 		return rows;
 	
 	}
