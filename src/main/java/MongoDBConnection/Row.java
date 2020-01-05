@@ -14,8 +14,9 @@ public class Row {
     private final String genre;
     private final String author;
     private final String foreignkey;
+    private final org.json.JSONArray c;
     
-    public Row(String title, String description, String price, String location,String date, String id, String imagepath,String __genre,String __author,String Fkey)
+    public Row(String title, String description, String price, String location,String date, String id, String imagepath,String __genre,String __author,String Fkey, org.json.JSONArray _c)
     {
         this.title = title;
         this.description = description;
@@ -27,6 +28,7 @@ public class Row {
         this.genre = __genre;
         this.author = __author;
         this.foreignkey = Fkey;
+        this.c = _c;
     }
 
     public String getTitle()
@@ -70,6 +72,11 @@ public class Row {
     
     public String getforeignkey() {
     	return foreignkey;
+    }
+    
+    public org.json.JSONArray getTracks(){
+    	
+    	return c;
     }
 
 }

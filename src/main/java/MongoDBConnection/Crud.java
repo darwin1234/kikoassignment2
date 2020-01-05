@@ -1,35 +1,38 @@
 package MongoDBConnection;
 
+
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.JSONObject;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
-
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+
+import assignmentgui.Session;
+
+
 
 
 public class Crud extends MongoConnection{
-	private String __id;
-	private static boolean ShowAll = true;
+	
 	private static String ObjectId = "";
 	private static String ForeignKey;
 	private static int setPage;
-	private static int[]  pageArray;
 	private static ArrayList<Row> rows = new ArrayList<>();
-	
+	private static int counter = 0;
+	private static MongoCollection<Document> lists;
+	private static MongoCursor<Document> doc;
+
+
 	
 	public void SetPage(int page) {
 		if(page == 1) {
@@ -40,10 +43,18 @@ public class Crud extends MongoConnection{
 	
 	}
 	
-	public static int getPage() {
-		System.out.println(setPage);
-		return 3;
+	
+	
+	public void insertRecord(JSONObject json) {
+		
+//		MongoCollection<Document> ticket = db.getCollection("artist");
+//		List<Document> lists = new ArrayList<>();
+//		
+//		
+//		lists.add(Document.parse(json.toString()));
+//		ticket.insertMany(lists);
 	}
+	
 	
 	public boolean AddRecord(String firstname, String lastname, String email, String username, String password) {
 		 MongoCollection<Document> userInfo = db.getCollection("users");
@@ -53,6 +64,7 @@ public class Crud extends MongoConnection{
 				if(cur.hasNext()) {
 					return false;
 				}else {
+					
 					List<Document> Registers = new ArrayList<>();
 					JSONObject json = new JSONObject();
 					//BasicDBObject obj = new BasicDBObject();
@@ -61,7 +73,7 @@ public class Crud extends MongoConnection{
 					json.put("email", email);
 					json.put("username", username);
 					json.put("password", password);
-
+			
 					//System.out.println(json.toString());
 					Registers.add(Document.parse(json.toString()));
 					userInfo.insertMany(Registers);
@@ -78,6 +90,7 @@ public class Crud extends MongoConnection{
 		MongoCollection<Document> ticket = db.getCollection("artist");
 		List<Document> ticketlists = new ArrayList<>();
 		JSONObject json = new JSONObject();
+		
 		
 		// these are the mongodb fields to be inserted
 		json.put("title", title);
@@ -98,105 +111,132 @@ public class Crud extends MongoConnection{
 	
 	}
 	
-	static Block<Document> loopData = new Block<Document>() {
-		
-	    public void apply(final Document document) {
-	    	Row row;
-	    	//System.out.println(document.toJson());
-	    	
-	    	var objID = new ArrayList<>(document.values());
-	    	
-	    	JSONObject obj = new JSONObject(document);
-	    	
-	    	
-	    	String title		 = obj.getString("title");
-	    	String description 	 = obj.getString("description");
-	    	String price		 = obj.getString("price");
-	    	String date			 = obj.getString("date");
-	    	String author		 = obj.getString("author");
-	    	String genre		 = obj.getString("genre");
-	    	String location		 = obj.getString("location");
-	    	String photos		 = obj.getString("photos");
-	    	String fkey			 = obj.getString("fkey");
-	    	String objectID		 = objID.get(0).toString();
-	    	
-	    	row = new Row(title,description,price,location,date,objectID,photos,genre,author,fkey);
-	    	
-	    	rows.add(row);
-	    	
-	    
-	    	
-	
-	    }
-
-		private Date Date(Object object) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	};
 	
 	public static ArrayList<Row> display() {
 		
 		
-        MongoCollection<Document> lists = db.getCollection("artist");
+        lists = db.getCollection("artist");
         rows.clear(); //clear the ArrayList first
-        //Join to Collection artist and track
-        if(ObjectId.isEmpty()) {
-        	
-        	 AggregateIterable<Document> data = lists.aggregate(Arrays.asList( 
-     				Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
-     		
-     		));
-             data.forEach(loopData);
-        }else {
-        	
-        	BasicDBObject obj_ID = new BasicDBObject();
-        	obj_ID.put("_id", new ObjectId(ObjectId));
-    
-        	 AggregateIterable<Document> data = lists.aggregate(Arrays.asList(
-      				Aggregates.match(obj_ID), 
-      				Aggregates.lookup("tracks", "fkey", "foreignkey", "tracks")
-      		
-      		));
-        	 ObjectId = ""; //make sure to clear this variable
-        	 data.forEach(loopData);
-        }
        
-   
-        
+
+        Document lookupFields = new Document("from", "tracks");
+        lookupFields.put("localField", "fkey");
+        lookupFields.put("foreignField", "foreignkey");
+        lookupFields.put("as", "tracks");
+       
+    	try {
+			Session s = new Session();
+			String ooo = s.readFromRandomAccessFile(100);
+			if(ooo != null) {
+				ObjectId = ooo.replaceAll("[^a-zA-Z0-9]", "");
+			}else {
+				
+			}
+			
+			System.out.println("OBJECT ID: " + ObjectId);
+    	} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return rows;
-	
-	}
-	
-	public static ArrayList<trackRow> tracklist() 
-	{
-		ArrayList<trackRow> rows = new ArrayList<>();
-		trackRow trackrow;
+    	BasicDBObject OBJ = new BasicDBObject();
+		OBJ.put("_id", ObjectId.isEmpty() || ObjectId == null ?  "" :  new ObjectId(ObjectId));	
 		
-		  MongoCollection<Document> lists = db.getCollection("tracks");
-		   try (MongoCursor<Document> cur = lists.find(Filters.eq("foreignkey" , ForeignKey)).iterator()) {
-			  
-			   while (cur.hasNext()) {
-					
-	                var doc = cur.next();
-	                var product = new ArrayList<>(doc.values());
-	                String trackID = (String) product.get(4);
-	                String time = (String) product.get(1);
-	                String title = (String) product.get(2);
-	                String artist = (String) product.get(3);
-	               // System.out.printf("%s: %s%n", product.get(1), product.get(2));
-	                trackrow = new trackRow(title,artist,time,trackID);
-	  		        rows.add(trackrow);
-	            
-	            }
-			   	
-		   }
+	    AggregateIterable<Document> data;
+	   
+	    if(!OBJ.get("_id").equals("")){
+	    	data = lists.aggregate(Arrays.asList( 
+	        			new Document("$lookup", lookupFields),
+	        			new Document("$match", OBJ)
+	     	));
+	    	
+	    }else {
+	    	data = lists.aggregate(Arrays.asList( 
+	        			new Document("$lookup", lookupFields)
+	        			
+	     	));
+	    	
+	    	
+	    }
+	    
+	  
+	    //recursion(data);
+	   
+	    
+	    for (Document document : data)
+	    {
+	    		
+	    	
+	    		Row row;
+	    		var objID = new ArrayList<>(document.values());
 		   
-		
-		return rows;
-        
+		    	JSONObject obj = new JSONObject(document);
+		    	
+		    	
+		    	String title		 = obj.getString("title");
+		    	String description 	 = obj.getString("description");
+		    	String price		 = obj.getString("price");
+		    	String date			 = obj.getString("date");
+		    	String author		 = obj.getString("author");
+		    	String genre		 = obj.getString("genre");
+		    	String location		 = obj.getString("location");
+		    	String photos		 = obj.getString("photos");
+		    	String fkey			 = obj.getString("fkey");
+		    	String objectID		 = objID.get(0).toString();
+		    	
+		        
+		    	org.json.JSONArray c = obj.getJSONArray("tracks");
+		    	
+		    	row = new Row(title,description,price,location,date,objectID,photos,genre,author,fkey,c);
+		    		
+		    	   
+		          
+		    	rows.add(row);
+	   }
+	    	
+	    	
+
+    	//must be clear
+    	ObjectId = "";
+      
+		return rows; /*recursion(data)*/
+	
 	}
+	
+	public static void recursion(AggregateIterable<Document> data) {
+		
+		
+		doc =   data.cursor();
+		
+	
+//		if(doc.hasNext()) {
+//			var d = doc.next();
+//			JSONObject obj = new JSONObject(d);
+//			System.out.println(obj.getString("title"));
+//			recursion(data);
+//		}
+		//System.out.println(doc.hasNext());
+//		while(doc.hasNext()) {
+//			var d = doc.next();
+//			JSONObject obj = new JSONObject(d);
+//			System.out.println(obj.getString("title"));
+//			//recursion(data);
+//		}
+//		System.out.println(doc.hasNext());
+		
+//		if(doc.hasNext() == true) 
+//		{
+//			var d = doc.next();
+//			JSONObject obj = new JSONObject(d);
+//			System.out.println(obj.getString("title"));
+//		    recursion(data);
+//		    
+//		}
+			
+	
+	}
+	
+	
 	
 	public void insertTracks(String title, String artist, String duration,String foreignkey) 
 	{
@@ -214,23 +254,15 @@ public class Crud extends MongoConnection{
 		
 	}
 	
-	public void getID(String __id__) {
-		
-		this.__id =  __id__;
-	}
-	
-	public void Show(Boolean s) {
-		
-		ShowAll = s;
-	}
+
 
 	public void putObjectID(String id) {
 		// TODO Auto-generated method stub
-		ObjectId =  id;
+		//ObjectId =  id;
 	}
 	
 	public void putForeignKey(String Fkey) {
-		ForeignKey = Fkey;
+		//ForeignKey = Fkey;
 	}
 	
 	

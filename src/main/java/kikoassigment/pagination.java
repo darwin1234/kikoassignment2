@@ -24,7 +24,6 @@ public class pagination  implements EventHandler<Event>{
 		//System.out.println(page);
 		Crud s = new Crud();
 		s.SetPage(page);
-		s.Show(true);
 		s.display();
 		 Stage main = new Stage();
 		 LoadGui ldGui = new LoadGui();

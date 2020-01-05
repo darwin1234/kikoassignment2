@@ -9,6 +9,7 @@ module kikoassigment {
 	requires mongo.java.driver;
 	requires java.base;
 	requires org.json;
+	requires json.simple;
 	
 	
 }

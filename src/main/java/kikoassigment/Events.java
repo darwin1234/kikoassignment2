@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import MongoDBConnection.Crud;
 import assignmentgui.LoadGui;
+import assignmentgui.Session;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +18,10 @@ public class Events implements EventHandler<Event>{
 	private final String id; 
 	private final String foreignkey;
 	
-	public Events(String string,String fkey){
-		this.id = string;
-		this.foreignkey = fkey;
+	public Events(String _id,String _fkey) {
+		this.id = _id;
+		this.foreignkey = _fkey;
+
 	}
 
 	
@@ -29,11 +31,16 @@ public class Events implements EventHandler<Event>{
 		LoadGui ldGui = new LoadGui();
 	    try {
 	    	Crud d = new Crud();
-			d.putObjectID(id);
-			d.putForeignKey(foreignkey);
-	    	Stage single = new Stage();
+			//d.putObjectID(id);
+			//d.putForeignKey(foreignkey);
+			
+	    	Session s = new Session();
+			s.writeToRandomAccessFile(100, id);
+			//s.writeToRandomAccessFile(200, foreignkey);
+	    	
+			Stage single = new Stage();
 			ldGui.loadTemplateFXML("SinglePage.fxml",true,single);
-			System.out.println(id);
+			//System.out.println(id);
 			  ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -42,10 +49,7 @@ public class Events implements EventHandler<Event>{
 	  
 		
 	}
-	public String getID() {
-		 return id;
-	}
-	
+
 	
   
 

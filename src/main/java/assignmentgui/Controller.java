@@ -99,7 +99,7 @@ public class Controller extends BaseController {
 				TableViewDataList();
 				SingleContent();
 				Graphics();
-				break;
+				break; 
 		
 			case "__createticket__":
 				popup.setText("");

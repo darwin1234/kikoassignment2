@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
+
+import org.json.JSONObject;
+
 import MongoDBConnection.Row;
 import MongoDBConnection.trackRow;
 import MongoDBConnection.Crud;
@@ -37,8 +40,7 @@ import kikoassigment.pagination;
 import javafx.scene.paint.*;
 import javafx.scene.Node;
 import javafx.scene.canvas.*;
-//import streamplayer.*;
-//import visualizer.Visualizer;
+
 
 public class BaseController  implements Initializable  {
 	public AnchorPane anchorPane;
@@ -49,7 +51,7 @@ public class BaseController  implements Initializable  {
 	public Text title_row4,content_4,price_4,location_4,date_4, createdby4,genre4,popup,singleDate;
 	public Text greetings;
 	public ImageView photo1,photo2,photo3,photo4;
-	public Button logoutbtn,searchbtn,createTicketBtn;
+	public Button logoutbtn,searchbtn,createTicketBtn,yourfeed,feeds,reset;
 	
 	public Button view_1,view_2,view_3,view_4,page1,page2,page3,page4,page5,page6, Next, Previous;
 	public ComboBox searchbytype;
@@ -123,7 +125,6 @@ public class BaseController  implements Initializable  {
 
 		int i = 0;
 		//display all artist!
-		db.Show(true);
 		ArrayList<Row> ticket = db.display();
 		
 	
@@ -135,7 +136,7 @@ public class BaseController  implements Initializable  {
 			if(i == 1)
 			{	
 			   //uncomment to see the output
-			   System.out.println(printRow.getImage());
+			  // System.out.println(printRow.getImage());
 			   Image img1 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
 			   photo1.setImage(img1);
 			   title_row1.setText(printRow.getTitle());
@@ -148,7 +149,7 @@ public class BaseController  implements Initializable  {
 		   }else if(i == 2) 
 		   {
 
-			   System.out.println(printRow.getImage());
+			   //System.out.println(printRow.getImage());
 			   Image img2 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
 			   photo2.setImage(img2);
 			   title_row2.setText(printRow.getTitle());
@@ -190,37 +191,35 @@ public class BaseController  implements Initializable  {
 	
 	public void SingleContent() {
 		
-		db.Show(false);
+	
 		ArrayList<Row> ticket = db.display();
 	
 		
-		for (Row printRow : ticket)
+		for (Row doc : ticket)
         {
 			
-			Image img1 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
+			Image img1 = new Image("file:/kikoassignment/src/" + doc.getImage(),true);
 			photo1.setImage(img1);
-			title_row1.setText(printRow.getTitle());	
-			content_1.setText(printRow.getDescription().substring(0, 550));
-			title_row2.setText(printRow.getTitle());
-			location_1.setText(printRow.getLocation());
-			price_1.setText(printRow.getPrice());
-			singleDate.setText(printRow.getDate());
+			title_row1.setText(doc.getTitle());	
+			content_1.setText(doc.getDescription().substring(0, 550));
+			title_row2.setText(doc.getTitle());
+			location_1.setText(doc.getLocation());
+			price_1.setText(doc.getPrice());
+			singleDate.setText(doc.getDate());
+			System.out.println(doc.getTracks().length());
+			
+			for(int i = 0; i<doc.getTracks().length();  i++) {
+				 JSONObject obj1 = doc.getTracks().getJSONObject(i);
+				 //System.out.println(obj1.getString("artist"));
+				 String Artist = obj1.getString("artist");
+				 String Title = obj1.getString("title");
+				 String time = obj1.getString("duration");
+				 String TrackID = obj1.getString("foreignkey");
+				 Track track = new Track(Title,Artist,time);
+				datalist.getItems().add(track);
+			}
 			
         }
-		
-		
-		
-		ArrayList<trackRow> trackrow = db.tracklist();
-		
-		for (trackRow printRow : trackrow) {
-			String Artist = printRow.getArtist();
-			String Title = printRow.getTitle();
-			String time = printRow.getTime();
-			String TrackID = printRow.getTrackID();
-			Track track = new Track(Title,Artist,time);
-			datalist.getItems().add(track);
-			System.out.println(Title);
-		}
 		
 	}
 	
@@ -291,7 +290,9 @@ public class BaseController  implements Initializable  {
 		Next.setVisible(true);
 		searchbtn.setVisible(true);
 		createTicketBtn.setVisible(true);
-		
+		yourfeed.setVisible(true);
+		feeds.setVisible(true);
+		reset.setVisible(true);	
 	}
 
 	
@@ -543,6 +544,11 @@ public class BaseController  implements Initializable  {
 	public void musicraw() {
 		
 		//https://www.daniweb.com/programming/software-development/threads/412346/insert-data-into-file-without-reading-entire-file-into-ram
+	}
+	
+	public void Search() {
+		
+		System.out.println("Search BUTTON!");
 	}
 }
 

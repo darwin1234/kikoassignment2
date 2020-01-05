@@ -9,8 +9,8 @@ public class Session {
 	
 	private String username;
 	private int SessionLength;
-	private String path = "src/session/session.txt";
-	private File file = new File(path);
+	private static String path = "src/session/session.txt";
+	private static File file = new File(path);
 	private RandomAccessFile raFile = new RandomAccessFile(file, "rw");
 	
 	public Session() throws IOException {
@@ -32,17 +32,6 @@ public class Session {
 			//}
 		}
 		
-		
-		//uses
-		/*
-		 * 
-		 *     String data = "asdasdasdasdsd";
-       writeToRandomAccessFile(path,50, data);
-       System.out.println("String written into RandomAccessFile from Java Program : " + data);
-
-        String fromFile = readFromRandomAccessFile(path, 50);
-        System.out.println("String read from RandomAccessFile in Java : " + fromFile);
-		 */
 		    
 	}
 	
@@ -51,7 +40,9 @@ public class Session {
 	 /*
      * Utility method to read from RandomAccessFile in Java
      */
-    public static String readFromRandomAccessFile(String file, int position) {
+	
+	//Inserting data into an ordered sequential file without reading the entire file into RAM
+    public static String readFromRandomAccessFile(int position) {
         String record = null;
         try {
             RandomAccessFile fileStore = new RandomAccessFile(file, "rw");
@@ -74,8 +65,9 @@ public class Session {
    /*
     * Utility method for writing into RandomAccessFile in Java
     */  
-    public static void writeToRandomAccessFile(String file, int position, String record) {
-        try {
+    public static void writeToRandomAccessFile(int position, String record) {
+        
+    	try {
             RandomAccessFile fileStore = new RandomAccessFile(file, "rw");
 
             // moves file pointer to position specified
@@ -83,18 +75,18 @@ public class Session {
 
             // writing String to RandomAccessFile
             fileStore.writeUTF(record);
+           
 
             fileStore.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    
     }
     
     
-	public void WriteSession(String username) throws IOException {
-		raFile.writeBytes("1" + "," + username+ "," + "asdasdasd"+ "," + "asdasdasd");
-	}
+	
 	
 	public void clearUserInfoTxt() throws IOException {
 		//Deleting data from an instance of the RandomAccessFile 

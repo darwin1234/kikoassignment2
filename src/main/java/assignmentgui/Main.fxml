@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -25,7 +27,7 @@
          </font>
       </Text>
       <Text fx:id="content_1" fill="WHITE" layoutX="415.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget" wrappingWidth="921.9793090820312" />
-      <TextField layoutX="643.0" layoutY="14.0" prefHeight="33.0" prefWidth="440.0" promptText="Search" />
+      <TextField layoutX="632.0" layoutY="15.0" prefHeight="33.0" prefWidth="347.0" promptText="Search" />
       <Button fx:id="createTicketBtn" layoutX="1228.0" layoutY="14.0" mnemonicParsing="false" onAction="#createTicket" prefHeight="33.0" prefWidth="113.0" style="-fx-background-color: #4285F4;" text="Create Ticket" textFill="WHITE" />
       <Text fx:id="createdby1" fill="WHITE" layoutX="415.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created By: Dsese" />
       <Button fx:id="page1" layoutX="1050.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" style="-fx-background-color: #4285F4;" text="1" textFill="WHITE" visible="false" />
@@ -34,7 +36,7 @@
       <Button fx:id="page4" layoutX="1203.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="4" visible="false" />
       <Button fx:id="page5" layoutX="1252.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="5" visible="false" />
       <Button fx:id="page6" layoutX="1300.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="6" visible="false" />
-      <Button fx:id="searchbtn" layoutX="1100.0" layoutY="14.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="113.0" style="-fx-background-color: #FBBC05;" text="SEARCH" textFill="#fffcfc" />
+      <Button fx:id="searchbtn" layoutX="997.0" layoutY="14.0" mnemonicParsing="false" onAction="#Search" prefHeight="33.0" prefWidth="113.0" style="-fx-background-color: #FBBC05;" text="SEARCH" textFill="#fffcfc" />
       <Button fx:id="view_1" layoutX="1253.0" layoutY="195.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #34A853;" text="View" />
       <Text fx:id="date_1" fill="WHITE" layoutX="606.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date: December 21,2019" />
       <Text fx:id="price_1" fill="WHITE" layoutX="606.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price: 300USD" />
@@ -102,8 +104,18 @@
             <Font size="29.0" />
          </font>
       </Text>
-      <Button fx:id="logoutbtn" layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: #4285F4;" text="Logout" textFill="WHITE" />
-      <Button layoutX="168.0" layoutY="65.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: #4285F4;" text="Your Feed" textFill="WHITE" />
+      <Button fx:id="logoutbtn" layoutX="29.0" layoutY="222.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #4285F4;" text="Logout" textFill="WHITE" />
+      <Button fx:id="yourfeed" layoutX="28.0" layoutY="155.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #4285F4;" text="Your Feeds" textFill="WHITE" />
+   	  <Button fx:id="feeds" layoutX="28.0" layoutY="188.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #4285F4;" text="Feeds" textFill="WHITE" />
+      <TableView layoutX="29.0" layoutY="257.0" prefHeight="392.0" prefWidth="158.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <Button fx:id="reset" layoutX="1115.0" layoutY="14.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="107.0" text="RESET" />
+  	
+   
    </children>
 	
 </AnchorPane>
