@@ -51,7 +51,8 @@ public class BaseController  implements Initializable  {
 	public Text title_row4,content_4,price_4,location_4,date_4, createdby4,genre4,popup,singleDate;
 	public Text greetings;
 	public ImageView photo1,photo2,photo3,photo4;
-	public Button logoutbtn,searchbtn,createTicketBtn,yourfeed,feeds,reset;
+	public Button logoutbtn,searchbtn,createTicketBtn,yourfeed,feeds,reset,Remove1,Remove2,Remove3,Remove4,Update1,Update2,Update3,Update4;
+	public TextField SearchTxt;
 	
 	public Button view_1,view_2,view_3,view_4,page1,page2,page3,page4,page5,page6, Next, Previous;
 	public ComboBox searchbytype;
@@ -100,11 +101,13 @@ public class BaseController  implements Initializable  {
 				  17 , 30 , 46 , 64 , 84 , 105 ,
 				  127
 	};
+	
 	public void initialize(URL url, ResourceBundle rb) 
 	{
 	
 		String PAGE =  Page.getText(); //this is found fxml files. visibility is equal to false
 	}
+	
 	
 	public void TableViewDataList() {
 		TableColumn __title = new TableColumn("Title");
@@ -145,8 +148,13 @@ public class BaseController  implements Initializable  {
 			   createdby1.setText("Published By: " +  printRow.getAuthor());
 			   location_1.setText("Location: " + printRow.getLocation());
 			   view_1.setVisible(true);
-			   view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
-		   }else if(i == 2) 
+			   view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("View",printRow.getID(),printRow.getforeignkey()));
+			   Remove1.setVisible(true);
+			   Remove1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Delete", printRow.getID(),printRow.getforeignkey()));
+			   Update1.setVisible(true);
+			   Update1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Update", printRow.getID(),printRow.getforeignkey()));
+		   
+			}else if(i == 2) 
 		   {
 
 			   //System.out.println(printRow.getImage());
@@ -158,8 +166,12 @@ public class BaseController  implements Initializable  {
 			   createdby2.setText("Published By: " +  printRow.getAuthor());
 			   location_2.setText("Location: " + printRow.getLocation());
 			   view_2.setVisible(true);
-			   view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
-		   }else if(i == 3)
+			   view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("View", printRow.getID(),printRow.getforeignkey()));
+			   Remove2.setVisible(true);
+			   Remove2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Delete", printRow.getID(),printRow.getforeignkey()));
+			   Update2.setVisible(true);
+			   Update2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Update", printRow.getID(),printRow.getforeignkey()));
+		      }else if(i == 3)
 		   {
 			   Image img3 =  new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
 			   photo3.setImage(img3);
@@ -169,8 +181,11 @@ public class BaseController  implements Initializable  {
 			   createdby3.setText("Published By: " +  printRow.getAuthor());
 			   location_3.setText("Location: " + printRow.getLocation());
 			   view_3.setVisible(true);
-			   view_3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
-			   
+			   view_3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("View",printRow.getID(),printRow.getforeignkey()));
+			   Remove3.setVisible(true);
+			   Remove3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Delete", printRow.getID(),printRow.getforeignkey()));
+			   Update3.setVisible(true);
+			   Update3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Update", printRow.getID(),printRow.getforeignkey()));
 		   }else if(i == 4) 
 		   {
 			   Image img4 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
@@ -181,8 +196,13 @@ public class BaseController  implements Initializable  {
 			   createdby4.setText("Published By: " +  printRow.getAuthor());
 			   location_4.setText("Location: " + printRow.getLocation());
 			   view_4.setVisible(true);
-			   view_4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events(printRow.getID(),printRow.getforeignkey()));
-		   }else 
+			   view_4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("View",printRow.getID(),printRow.getforeignkey()));
+			   Remove4.setVisible(true);
+			   Remove4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Delete", printRow.getID(),printRow.getforeignkey()));
+			   Update4.setVisible(true);
+			   Update4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Update", printRow.getID(),printRow.getforeignkey()));
+		   	   
+		  }else 
 		   {
 			   i = 0; //When reach to 4 it will reset to 0
 		   }
@@ -204,7 +224,7 @@ public class BaseController  implements Initializable  {
 			content_1.setText(doc.getDescription().substring(0, 550));
 			title_row2.setText(doc.getTitle());
 			location_1.setText(doc.getLocation());
-			price_1.setText(doc.getPrice());
+			price_1.setText(""+ doc.getPrice());
 			singleDate.setText(doc.getDate());
 			System.out.println(doc.getTracks().length());
 			
@@ -214,7 +234,7 @@ public class BaseController  implements Initializable  {
 				 String Artist = obj1.getString("artist");
 				 String Title = obj1.getString("title");
 				 String time = obj1.getString("duration");
-				 String TrackID = obj1.getString("foreignkey");
+				 String TrackID = obj1.getString("fkey");
 				 Track track = new Track(Title,Artist,time);
 				datalist.getItems().add(track);
 			}
@@ -293,6 +313,7 @@ public class BaseController  implements Initializable  {
 		yourfeed.setVisible(true);
 		feeds.setVisible(true);
 		reset.setVisible(true);	
+		
 	}
 
 	
@@ -352,47 +373,53 @@ public class BaseController  implements Initializable  {
 		int rand_int1 = rand.nextInt(100000000); 
 	    int rand_int2 = rand.nextInt(100000000); 
 	    foreignkey = author + "-" + rand_int1 + rand_int2;
+	    LocalDate __date	= date.getValue();
+	    System.out.println("DATE: " + __date);
+	    
 	    
 		//these are the fields from createTicket.fxml file
-	    String __title = title.getText();
-		String __description = description.getText();
-		String __address = location.getText();
-		LocalDate __date	= date.getValue();
-		String __category = (String) category.getValue().toString();
-		String __price =   price.getText(); 
-		String __timesong = timesong.getText();
-		String __musictitle =  musictitle.getText();
-		String __artistname = artistname.getText();
-		String __photoName  = albumcoverphoto.getText();
+//	    String __title = title.getText();
+//		String __description = description.getText();
+//		String __address = location.getText();
+//		LocalDate __date	= date.getValue();
+//		String __category = (String) category.getValue().toString();
+//		String __price =   price.getText(); 
+//		String __timesong = timesong.getText();
+//		String __musictitle =  musictitle.getText();
+//		String __artistname = artistname.getText();
+//		String __photoName  = albumcoverphoto.getText();
 		
+	    db.createticket("Try try try", "Try try try", "asdasdasd", "2020-01-10", "asdasdasd", 200, "asdasdasd","123123213","asdasdasdasd");
+	    
+		//System.out.println(__category.toString());
 		//check if empty
-		if(__title.isEmpty() && __description.isEmpty() 
-				&& __address.isEmpty() && __category.isEmpty()
-				&& __price.isEmpty() && __timesong.isEmpty() &&  __musictitle.isEmpty() && __artistname.isEmpty()) {
-				popup.setText("Failed Please Fill up all fields!");
-		}else if(__photoName.isEmpty()) {
-			//if you for got to add photo	
-			popup.setText("You forgot to add cover photo!");
-		}else {
+//		if(__title.isEmpty() && __description.isEmpty() 
+//				&& __address.isEmpty() && __category.isEmpty()
+//				&& __price.isEmpty() && __timesong.isEmpty() &&  __musictitle.isEmpty() && __artistname.isEmpty()) {
+//				popup.setText("Failed Please Fill up all fields!");
+//		}else if(__photoName.isEmpty()) {
+//			//if you for got to add photo	
+//			popup.setText("You forgot to add cover photo!");
+//		}else {
+//			
+//			db.createticket(__title, __description, __address, __date, __category, __price, __photoName,foreignkey,author);
+//			
+//			//insert tracks depending the length
+//			//values to be inserted
+//			//arrays of two dimension
+//			//Loops 
+//		
+//			tracks[0][0] = __musictitle;
+//			tracks[0][1] = __artistname;
+//			tracks[0][2] = __timesong;
+//			for(int i = 0; i< tracks.length; i++) {
+//				if(!(tracks[i][0] == null) && !(tracks[i][1] == null) && !(tracks[i][2] == null))
+//					db.insertTracks(tracks[i][0],tracks[i][1],tracks[i][2], foreignkey);
+//			}
+//			
+//			popup.setText("Added Successfully!");		
 			
-			db.createticket(__title, __description, __address, __date, __category, __price, __photoName,foreignkey,author);
-			
-			//insert tracks depending the length
-			//values to be inserted
-			//arrays of two dimension
-			//Loops 
-		
-			tracks[0][0] = __musictitle;
-			tracks[0][1] = __artistname;
-			tracks[0][2] = __timesong;
-			for(int i = 0; i< tracks.length; i++) {
-				if(!(tracks[i][0] == null) && !(tracks[i][1] == null) && !(tracks[i][2] == null))
-					db.insertTracks(tracks[i][0],tracks[i][1],tracks[i][2], foreignkey);
-			}
-			
-			popup.setText("Added Successfully!");		
-			
-		}
+//		}
 			
 		
 	}
@@ -443,6 +470,10 @@ public class BaseController  implements Initializable  {
 	
 	
 	public void backtohome(ActionEvent event) throws IOException {
+		 Session s = new Session();
+		 s.delete(103);
+	
+		 System.out.println("back to home clicked!");
 		 Stage main = new Stage();
 		 LoadGui ldGui = new LoadGui();
 		 //load main window
@@ -493,7 +524,18 @@ public class BaseController  implements Initializable  {
 		}
 	
 	}
-	
+	public void Reset() {
+		Session s;
+		try {
+			s = new Session();
+			s.delete(100);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("RESET!");
+	}
 	@FXML
 	public void ProceedRegister(ActionEvent event) throws IOException {
 		String __usernamefield 	= usernamefield.getText();
@@ -547,8 +589,18 @@ public class BaseController  implements Initializable  {
 	}
 	
 	public void Search() {
+		Crud d = new Crud();
+		try {
+			Session s = new Session();
+			String searchType = searchbytype.getValue().toString();
+			String search =  SearchTxt.getText();
+			s.writeToRandomAccessFile(100, "\n\n\n\n" + searchType +"@"+search );
+			d.MemoryLocation(106, "title");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		System.out.println("Search BUTTON!");
 	}
 }
 

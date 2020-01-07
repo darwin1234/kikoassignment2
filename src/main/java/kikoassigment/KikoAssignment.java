@@ -20,6 +20,7 @@ public class KikoAssignment extends Application {
 
 	public static void main(String[] args) throws IOException {
 		Application.launch(args);
+		
 	}
 
 	@Override

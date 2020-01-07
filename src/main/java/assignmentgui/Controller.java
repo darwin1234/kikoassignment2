@@ -50,6 +50,8 @@ public class Controller extends BaseController {
 			WelcomeStr =  s.getUsername();
 			author = WelcomeStr;
 		}
+		//106 memory location for search
+		
 		
 	}
 	

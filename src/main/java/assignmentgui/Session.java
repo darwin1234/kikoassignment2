@@ -17,19 +17,19 @@ public class Session {
 		
 		String[] userData = null;
 		StringBuffer buffer = new StringBuffer();
-		
+		//raFile.setLength(0);
 		while(raFile.getFilePointer() < raFile.length()) {
 			buffer.append(raFile.readLine());
 		}
 		String contents = buffer.toString();
-	
+		
 		if(contents.length() > 0) {
 			userData = contents.split(",");
 			SessionLength =  contents.length();
 			username = userData[1];
 			//for(int i = 0; i<userData.length; i++) {
 				//System.out.println(userData[i]);
-			//}
+			//} 
 		}
 		
 		    
@@ -75,7 +75,7 @@ public class Session {
 
             // writing String to RandomAccessFile
             fileStore.writeUTF(record);
-           
+            
 
             fileStore.close();
 
@@ -85,6 +85,26 @@ public class Session {
     
     }
     
+    public static void delete(int position) {
+      
+        try {
+            RandomAccessFile fileStore = new RandomAccessFile(file, "rw");
+
+            // moves file pointer to position specified
+            fileStore.seek(position);
+        
+            fileStore.writeUTF("                         ");
+
+            fileStore.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+       
+    }
+    
+   
     
 	
 	

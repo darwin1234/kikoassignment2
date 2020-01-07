@@ -11,7 +11,6 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.JSONObject;
 import com.mongodb.BasicDBObject;
-import com.mongodb.Block;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -31,15 +30,27 @@ public class Crud extends MongoConnection{
 	private static int counter = 0;
 	private static MongoCollection<Document> lists;
 	private static MongoCursor<Document> doc;
+	private static String memLocation = "";
+	private static String column;
 
-
-	
 	public void SetPage(int page) {
-		if(page == 1) {
-			this.setPage += 4;
-		}else {
-			this.setPage -= 4;
+		String page1 = null;
+		Session s;
+		try {
+			s = new Session();
+			String p = s.readFromRandomAccessFile(50);
+			p = p.replaceAll("[^a-zA-Z0-9]", "");
+			//System.out.println(p);
+			if(page1 == p) {
+				this.setPage += 4;
+			}else {
+				this.setPage -= 4;
+			}
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 	
 	}
 	
@@ -85,7 +96,7 @@ public class Crud extends MongoConnection{
 		
 	}
 	
-	public void createticket(String title, String Description, String location, LocalDate dte, String Genre, String price, String photoname, String foreignkey, String author) {
+	public void createticket(String title, String Description, String location, String date, String Genre, double price, String photoname, String foreignkey, String author) {
 		
 		MongoCollection<Document> ticket = db.getCollection("artist");
 		List<Document> ticketlists = new ArrayList<>();
@@ -97,7 +108,7 @@ public class Crud extends MongoConnection{
 		json.put("description", Description);
 		json.put("location", location);
 		json.put("photos", "photos/" + photoname);
-		json.put("date", dte);
+		json.put("date", date);
 		json.put("genre", Genre);
 		json.put("price", price);
 		json.put("author",author);
@@ -117,82 +128,75 @@ public class Crud extends MongoConnection{
 		
         lists = db.getCollection("artist");
         rows.clear(); //clear the ArrayList first
-       
+        
 
         Document lookupFields = new Document("from", "tracks");
         lookupFields.put("localField", "fkey");
         lookupFields.put("foreignField", "foreignkey");
         lookupFields.put("as", "tracks");
+        AggregateIterable<Document> data = null; 
+        
+        if(memLocation.isEmpty()) {
+        	data = lists.aggregate(Arrays.asList( 
+    				new Document("$lookup", lookupFields),
+        			new Document("$skip", 0),
+        			new Document("$limit", 4)
+        	));
+        }else 
+        {
+        	BasicDBObject OBJ = new BasicDBObject();
+        	System.out.println("ELSE! " + column);
+        	ObjectId = memLocation.replaceAll("[^a-zA-Z0-9]", "");
+    		OBJ.put(column, ObjectId.isEmpty() || ObjectId == null ?  "" :  new ObjectId(ObjectId));	
+        	data = lists.aggregate(Arrays.asList( 
+        			new Document("$lookup", lookupFields),
+        			new Document("$match", OBJ)
+        	)); 
+        	memLocation = "";
+        }
        
-    	try {
-			Session s = new Session();
-			String ooo = s.readFromRandomAccessFile(100);
-			if(ooo != null) {
-				ObjectId = ooo.replaceAll("[^a-zA-Z0-9]", "");
-			}else {
-				
-			}
-			
-			System.out.println("OBJECT ID: " + ObjectId);
-    	} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-    	BasicDBObject OBJ = new BasicDBObject();
-		OBJ.put("_id", ObjectId.isEmpty() || ObjectId == null ?  "" :  new ObjectId(ObjectId));	
-		
-	    AggregateIterable<Document> data;
+      
+    	
+    	
+    	//OBJ.put("title", "asdasd123123ase");	
+		for (Document document : data)
+ 	    {
+ 	    		
+ 	    	
+ 	    		Row row;
+ 	    		var objID = new ArrayList<>(document.values());
+ 		   
+ 		    	JSONObject obj = new JSONObject(document);
+ 		    	
+ 		    	
+ 		    	String title		 = obj.getString("title");
+ 		    	String description 	 = obj.getString("description");
+ 		    	double price		 = obj.getDouble("price");
+ 		    	String date			 = obj.getString("date");
+ 		    	String author		 = obj.getString("author");
+ 		    	String genre		 = obj.getString("genre");
+ 		    	String location		 = obj.getString("location");
+ 		    	String photos		 = obj.getString("photos");
+ 		    	String fkey			 = obj.getString("foreignkey");
+ 		    	String objectID		 = objID.get(0).toString();
+ 		    	
+ 		        
+ 		    	org.json.JSONArray c = obj.getJSONArray("tracks");
+ 		    	
+ 		    	row = new Row(title,description,price,location,date,objectID,photos,genre,author,fkey,c);
+ 		    	
+ 		    	rows.add(row);
+ 	   }
+  	
 	   
-	    if(!OBJ.get("_id").equals("")){
-	    	data = lists.aggregate(Arrays.asList( 
-	        			new Document("$lookup", lookupFields),
-	        			new Document("$match", OBJ)
-	     	));
-	    	
-	    }else {
-	    	data = lists.aggregate(Arrays.asList( 
-	        			new Document("$lookup", lookupFields)
-	        			
-	     	));
-	    	
-	    	
-	    }
+	   
+
 	    
 	  
 	    //recursion(data);
 	   
 	    
-	    for (Document document : data)
-	    {
-	    		
-	    	
-	    		Row row;
-	    		var objID = new ArrayList<>(document.values());
-		   
-		    	JSONObject obj = new JSONObject(document);
-		    	
-		    	
-		    	String title		 = obj.getString("title");
-		    	String description 	 = obj.getString("description");
-		    	String price		 = obj.getString("price");
-		    	String date			 = obj.getString("date");
-		    	String author		 = obj.getString("author");
-		    	String genre		 = obj.getString("genre");
-		    	String location		 = obj.getString("location");
-		    	String photos		 = obj.getString("photos");
-		    	String fkey			 = obj.getString("fkey");
-		    	String objectID		 = objID.get(0).toString();
-		    	
-		        
-		    	org.json.JSONArray c = obj.getJSONArray("tracks");
-		    	
-		    	row = new Row(title,description,price,location,date,objectID,photos,genre,author,fkey,c);
-		    		
-		    	   
-		          
-		    	rows.add(row);
-	   }
+	 
 	    	
 	    	
 
@@ -237,7 +241,6 @@ public class Crud extends MongoConnection{
 	}
 	
 	
-	
 	public void insertTracks(String title, String artist, String duration,String foreignkey) 
 	{
 		MongoCollection<Document> tracks = db.getCollection("tracks");
@@ -254,16 +257,14 @@ public class Crud extends MongoConnection{
 		
 	}
 	
-
-
-	public void putObjectID(String id) {
-		// TODO Auto-generated method stub
-		//ObjectId =  id;
-	}
 	
-	public void putForeignKey(String Fkey) {
-		//ForeignKey = Fkey;
+	public static String MemoryLocation(int location, String __column) throws IOException {
+		Session s = new Session();
+		String Data = s.readFromRandomAccessFile(location);
+		memLocation = Data;
+		column = __column;
+		System.out.println("DATA: " + Data);
+		return Data; 
 	}
-	
 	
 }

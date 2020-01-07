@@ -6,7 +6,7 @@ public class Row {
     //
     private final String title;
     private final String description;
-    private final String price;
+    private final double price;
     private final String location;
     private final String date;
     private final String id;
@@ -16,7 +16,7 @@ public class Row {
     private final String foreignkey;
     private final org.json.JSONArray c;
     
-    public Row(String title, String description, String price, String location,String date, String id, String imagepath,String __genre,String __author,String Fkey, org.json.JSONArray _c)
+    public Row(String title, String description, double price, String location,String date, String id, String imagepath,String __genre,String __author,String Fkey, org.json.JSONArray _c)
     {
         this.title = title;
         this.description = description;
@@ -44,7 +44,7 @@ public class Row {
     public String getDate() {
     	return date;
     }
-    public String getPrice()
+    public double getPrice()
     {
         return price;
     }

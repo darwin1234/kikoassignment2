@@ -27,7 +27,7 @@
          </font>
       </Text>
       <Text fx:id="content_1" fill="WHITE" layoutX="415.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget" wrappingWidth="921.9793090820312" />
-      <TextField layoutX="632.0" layoutY="15.0" prefHeight="33.0" prefWidth="347.0" promptText="Search" />
+      <TextField fx:id="SearchTxt" layoutX="632.0" layoutY="15.0" prefHeight="33.0" prefWidth="347.0" promptText="Search" />
       <Button fx:id="createTicketBtn" layoutX="1228.0" layoutY="14.0" mnemonicParsing="false" onAction="#createTicket" prefHeight="33.0" prefWidth="113.0" style="-fx-background-color: #4285F4;" text="Create Ticket" textFill="WHITE" />
       <Text fx:id="createdby1" fill="WHITE" layoutX="415.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created By: Dsese" />
       <Button fx:id="page1" layoutX="1050.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" style="-fx-background-color: #4285F4;" text="1" textFill="WHITE" visible="false" />
@@ -113,7 +113,15 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Button fx:id="reset" layoutX="1115.0" layoutY="14.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="107.0" text="RESET" />
+      <Button fx:id="reset" layoutX="1115.0" layoutY="14.0" mnemonicParsing="false" onAction="#Reset" prefHeight="32.0" prefWidth="107.0" text="RESET" />
+      <Button fx:id="Remove1" layoutX="1165.0" layoutY="195.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #EA4335;" text="Remove" />
+      <Button fx:id="Remove2" layoutX="1165.0" layoutY="357.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #EA4335;" text="Remove" />
+      <Button fx:id="Remove3" layoutX="1165.0" layoutY="480.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #EA4335;" text="Remove" />
+      <Button fx:id="Remove4" layoutX="1165.0" layoutY="611.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #EA4335;" text="Remove" />
+      <Button fx:id="Update1" layoutX="1077.0" layoutY="194.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #FBBC05;" text="Update" />
+      <Button fx:id="Update2" layoutX="1075.0" layoutY="357.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #FBBC05;" text="Update" />
+      <Button fx:id="Update3" layoutX="1077.0" layoutY="480.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #FBBC05;" text="Update" />
+      <Button fx:id="Update4" layoutX="1077.0" layoutY="611.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #FBBC05;" text="Update" />
   	
    
    </children>

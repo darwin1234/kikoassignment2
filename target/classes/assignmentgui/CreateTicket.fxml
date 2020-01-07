@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -31,7 +30,7 @@
       <Button layoutX="379.0" layoutY="79.0" mnemonicParsing="false" onAction="#updateTrack" prefHeight="44.0" prefWidth="100.0" style="-fx-background-color: #FBBC05;" text="Update Track" textFill="WHITE" />
       <Button layoutX="270.0" layoutY="79.0" mnemonicParsing="false" onAction="#addTrack" prefHeight="44.0" prefWidth="100.0" style="-fx-background-color: #4285F4;" text="Add Track" textFill="WHITE" />
       <Button layoutX="444.0" layoutY="536.0" mnemonicParsing="false" onAction="#addCover" prefHeight="37.0" prefWidth="141.0" text="Add Cover Image" />
-      <DatePicker fx:id="date" layoutX="627.0" layoutY="128.0" prefHeight="37.0" prefWidth="211.0" promptText="Choose Date" />
+      <DatePicker fx:id="date" layoutX="627.0" layoutY="128.0" prefHeight="37.0" prefWidth="211.0" promptText="Choose Date" showWeekNumbers="true" />
       <ComboBox fx:id="category" layoutX="871.0" layoutY="128.0" prefHeight="37.0" prefWidth="211.0" promptText="Choose Genre" />
       <TextField fx:id="location" layoutX="871.0" layoutY="186.0" prefHeight="37.0" prefWidth="211.0" promptText="Location" styleClass="location" />
       <TextField fx:id="Page" layoutX="32.0" layoutY="419.0" text="__createticket__" visible="false" />

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import MongoDBConnection.Crud;
 import assignmentgui.LoadGui;
+import assignmentgui.Session;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -22,7 +23,19 @@ public class pagination  implements EventHandler<Event>{
 	public void handle(Event event) {
 		// TODO Auto-generated method stub
 		//System.out.println(page);
-		Crud s = new Crud();
+		Session ss;
+		try {
+			ss = new Session();
+			ss.writeToRandomAccessFile(100, "\n\n\n\n\n"+ page);
+			
+		}catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+		Crud s = new Crud(); 
 		s.SetPage(page);
 		s.display();
 		 Stage main = new Stage();
