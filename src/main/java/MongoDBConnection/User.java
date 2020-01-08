@@ -1,35 +1,45 @@
 package MongoDBConnection;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bson.Document;
+import org.json.JSONObject;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
+
 public class User {
 
-	private int id;
-	private String name;
-	private String role;
-	private boolean isEmployee;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	public boolean isEmployee() {
-		return isEmployee;
-	}
-	public void setEmployee(boolean isEmployee) {
-		this.isEmployee = isEmployee;
-	}
+	/*public boolean AddRecord(String firstname, String lastname, String email, String username, String password)
+	{
+		 MongoCollection<Document> userInfo = db.getCollection("users");
+			try (MongoCursor<Document> cur =  userInfo.find(Filters.eq("username",username)).iterator()){
+				
+				//check if username exist
+				if(cur.hasNext()) {
+					return false;
+				}else {
+					
+					List<Document> Registers = new ArrayList<>();
+					JSONObject json = new JSONObject();
+					//BasicDBObject obj = new BasicDBObject();
+					json.put("firstname", firstname);
+					json.put("lastname", lastname);
+					json.put("email", email);
+					json.put("username", username);
+					json.put("password", password);
+			
+					//System.out.println(json.toString());
+					Registers.add(Document.parse(json.toString()));
+					userInfo.insertMany(Registers);
+					return true;
+				}
+			}
+		
+		
+		
+	}*/
 
 }

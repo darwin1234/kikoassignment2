@@ -2,21 +2,21 @@ package kikoassigment;
 
 import java.io.IOException;
 
-import MongoDBConnection.Crud;
-import MongoDBConnection.Login;
-import MongoDBConnection.MongoConnection;
+
 import assignmentgui.LoadGui;
 import assignmentgui.Session;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.fxml.FXMLLoader;
+
 
 public class KikoAssignment extends Application {
-	
+	/*
+	 * MemoryAccessFile
+	 * location: 0   = User Information like username, firstname, lastname
+	 * location: 103 = ObjectId for view,update,delete
+	 * 
+	 * 
+	 */
 
 	public static void main(String[] args) throws IOException {
 		Application.launch(args);

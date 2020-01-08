@@ -12,9 +12,9 @@ import javafx.stage.Stage;
 
 public class pagination  implements EventHandler<Event>{
 	private int page;
-	
+	private int setPage;
 	public pagination(int __page) {
-		// TODO Auto-generated constructor stub
+		
 		this.page  = __page;
 		
 	}
@@ -23,10 +23,20 @@ public class pagination  implements EventHandler<Event>{
 	public void handle(Event event) {
 		// TODO Auto-generated method stub
 		//System.out.println(page);
+	
 		Session ss;
 		try {
+			if(page == 1) {
+				setPage++;
+			}else 
+			{
+				setPage--;
+				
+			}
+			
 			ss = new Session();
-			ss.writeToRandomAccessFile(100, "\n\n\n\n\n"+ page);
+			ss.writeToRandomAccessFile(100, "\n\n\n\n\n"+ setPage);
+			
 			
 		}catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -36,8 +46,7 @@ public class pagination  implements EventHandler<Event>{
 		
 		
 		Crud s = new Crud(); 
-		s.SetPage(page);
-		s.display();
+		s.read();
 		 Stage main = new Stage();
 		 LoadGui ldGui = new LoadGui();
 	     try {

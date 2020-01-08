@@ -109,7 +109,11 @@ public class Controller extends BaseController {
 				Categories();
 				
 				break;
-				
+			case "__update__":	
+				popup.setText("");
+				UpdateContent();
+				Categories();
+				break;
 			default:
 				System.out.println("No Page found!");
 				break;

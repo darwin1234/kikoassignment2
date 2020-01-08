@@ -36,7 +36,7 @@
       <Button fx:id="page4" layoutX="1203.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="4" visible="false" />
       <Button fx:id="page5" layoutX="1252.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="5" visible="false" />
       <Button fx:id="page6" layoutX="1300.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="6" visible="false" />
-      <Button fx:id="searchbtn" layoutX="997.0" layoutY="14.0" mnemonicParsing="false" onAction="#Search" prefHeight="33.0" prefWidth="113.0" style="-fx-background-color: #FBBC05;" text="SEARCH" textFill="#fffcfc" />
+      <Button fx:id="searchbtn" layoutX="997.0" layoutY="14.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="113.0" style="-fx-background-color: #FBBC05;" text="SEARCH" textFill="#fffcfc" />
       <Button fx:id="view_1" layoutX="1253.0" layoutY="195.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #34A853;" text="View" />
       <Text fx:id="date_1" fill="WHITE" layoutX="606.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date: December 21,2019" />
       <Text fx:id="price_1" fill="WHITE" layoutX="606.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price: 300USD" />
