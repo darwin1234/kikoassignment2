@@ -236,7 +236,7 @@ public class BaseController  implements Initializable  {
 				 String time = obj1.getString("duration");
 				 String TrackID = obj1.getString("fkey");
 				 Track track = new Track(Title,Artist,time);
-				datalist.getItems().add(track);
+				 datalist.getItems().add(track);
 			}
 			
         }
@@ -273,26 +273,22 @@ public class BaseController  implements Initializable  {
 			description.setText(doc.getDescription());
 			price.setText(""+ doc.getPrice());
 			location.setText(""+ doc.getLocation());
-//			Image img1 = new Image("file:/kikoassignment/src/" + doc.getImage(),true);
-//			photo1.setImage(img1);
-//			title_row1.setText(doc.getTitle());	
-//			content_1.setText(doc.getDescription().substring(0, 550));
-//			title_row2.setText(doc.getTitle());
-//			location_1.setText(doc.getLocation());
-//			price_1.setText(""+ doc.getPrice());
-//			singleDate.setText(doc.getDate());
-//			System.out.println(doc.getTracks().length());
-//			
-//			for(int i = 0; i<doc.getTracks().length();  i++) {
-//				 JSONObject obj1 = doc.getTracks().getJSONObject(i);
-//				 //System.out.println(obj1.getString("artist"));
-//				 String Artist = obj1.getString("artist");
-//				 String Title = obj1.getString("title");
-//				 String time = obj1.getString("duration");
-//				 String TrackID = obj1.getString("fkey");
-//				 Track track = new Track(Title,Artist,time);
-//				datalist.getItems().add(track);
-//			}
+			category.setValue(doc.getGenre());
+			String dateStr = doc.getDate().toString();
+			String[] dateStrV = dateStr.split("-");
+			date.setValue(LocalDate.of(Integer.parseInt(dateStrV[0]), Integer.parseInt(dateStrV[1]),Integer.parseInt(dateStrV[2]))); 
+			//System.out.println(doc.getTracks().length());
+			
+			for(int i = 0; i<doc.getTracks().length();  i++) {
+				 JSONObject obj1 = doc.getTracks().getJSONObject(i);
+				 //System.out.println(obj1.getString("artist"));
+				 String Artist = obj1.getString("artist");
+				 String Title = obj1.getString("title");
+				 String time = obj1.getString("duration");
+				 String TrackID = obj1.getString("fkey");
+				 Track track = new Track(Title,Artist,time);
+				 datalist.getItems().add(track);
+			}
 			
         }
 		
@@ -305,9 +301,11 @@ public class BaseController  implements Initializable  {
 		category.getItems().addAll("Rock","Fusion","RNB","JAZZ");
 	}
 	public void SearchByType() {
-		searchbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Search", ""));
 		searchbytype.setValue("Search Type");
 		searchbytype.getItems().addAll("Title","Author","Genre");
+		String searchType = searchbytype.getValue().toString();
+		String search =  SearchTxt.getText();
+		searchbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Search", searchType + "@" + search));
 	}
 	
 	public void clearAll() {

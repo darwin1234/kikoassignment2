@@ -69,9 +69,9 @@ public class Crud extends MongoConnection{
         {
         	BasicDBObject keywordAndField = new BasicDBObject();
         	SearchKeyword = memLocation.replaceAll("[^a-zA-Z0-9]", "");
-        	
+        	System.out.println(SearchKeyword);
         	if(loc == 103) {keywordAndField.put("_id", new ObjectId(SearchKeyword));}
-        	if(loc == 106) {}
+        	if(loc == 106) {keywordAndField.put("title", SearchKeyword);}
         	
         	data = lists.aggregate(Arrays.asList( 
         			new Document("$lookup", lookupFields),
@@ -142,8 +142,8 @@ public class Crud extends MongoConnection{
 		memLocation = Data;
 		column = __column;
 		loc =  location;
-		
-		System.out.println("DATA: " + memLocation);
+		//System.out.println("Location: " + location);
+		//System.out.println("DATA: " + memLocation);
 		return Data; 
 	}
 	

@@ -12,11 +12,11 @@ import javafx.stage.Stage;
 
 public class Events implements EventHandler<Event>{
 	 
-	private final String id; 
+	private final String genericString; 
 	private final String action;
 	
-	public Events(String action, String _id) {
-		this.id = _id;
+	public Events(String action, String genericstr) {
+		this.genericString = genericstr;
 		this.action = action;
 	}
 
@@ -27,36 +27,34 @@ public class Events implements EventHandler<Event>{
 		LoadGui ldGui = new LoadGui();
 	    try {
 	    	Crud d = new Crud();
-	    	Session s = new Session();
+	    	Session session = new Session();
 	    	Stage single = new Stage();
 			switch(this.action) {
-				case "View": //Single BackSlash "\n" means View
-					s.writeToRandomAccessFile(100, "\n" + id);
-					d.MemoryLocation(103,"_id");
+				case "View": 
+					session.writeToRandomAccessFile(100, "\n" + genericString);
+					d.MemoryLocation(103,"genericString");
 					ldGui.loadTemplateFXML("SinglePage.fxml",true,single);
 					((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-					
 					break;
 				case "Delete":
-					//Double BackSlash "\n\n" means delete 
-					s.writeToRandomAccessFile(100, "\n\n"+id);
+				
+					session.writeToRandomAccessFile(100, "\n" + genericString);
 					d.MemoryLocation(103,"_id");
 					System.out.println("Delete!");
 					break;
 				case "Update":
-					s.writeToRandomAccessFile(100, "\n\n\n"+id);
+					session.writeToRandomAccessFile(100, "\n" + genericString);
 					d.MemoryLocation(103,"_id");
 					ldGui.loadTemplateFXML("Update.fxml",true,single);
 					((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 					break;
 				case "Search":
-					/*Session s = new Session();
-					String searchType = searchbytype.getValue().toString();
-					String search =  SearchTxt.getText();
-					s.writeToRandomAccessFile(100, "\n\n\n\n" + searchType +"///"+search );
+					session.writeToRandomAccessFile(100, "\n\n\n\n" + genericString );
 					d.MemoryLocation(106, "search");
-					d.read();*/
+					((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+					ldGui.loadTemplateFXML("Main.fxml",true,single);
 					System.out.println("Search!!!");
+					d.read();
 					break;
 				default:
 					break;

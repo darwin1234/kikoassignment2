@@ -111,8 +111,9 @@ public class Controller extends BaseController {
 				break;
 			case "__update__":	
 				popup.setText("");
-				UpdateContent();
+				TableViewDataList();
 				Categories();
+				UpdateContent();
 				break;
 			default:
 				System.out.println("No Page found!");
