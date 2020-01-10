@@ -93,6 +93,9 @@ public class Session {
             // moves file pointer to position specified
             fileStore.seek(position);
         
+            //String countString =  fileStore.readLine();
+            //int count = Integer.parseInt(countString);
+            //System.out.println("Count: " +  count);
             fileStore.writeUTF("                         ");
 
             fileStore.close();

@@ -25,6 +25,7 @@ public class Events implements EventHandler<Event>{
 	public void handle(Event event) {
 		// TODO Auto-generated method stub
 		LoadGui ldGui = new LoadGui();
+		System.out.println("Event Class: " + genericString);
 	    try {
 	    	Crud d = new Crud();
 	    	Session session = new Session();
@@ -50,11 +51,32 @@ public class Events implements EventHandler<Event>{
 					break;
 				case "Search":
 					session.writeToRandomAccessFile(100, "\n\n\n\n" + genericString );
+					System.out.println("Event Class: " + genericString);
 					d.MemoryLocation(106, "search");
 					((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 					ldGui.loadTemplateFXML("Main.fxml",true,single);
-					System.out.println("Search!!!");
 					d.read();
+					break;
+				case "reset": 
+					System.out.println("Feeds!");
+					Session s;
+					try {
+						s = new Session();
+						Stage main = new Stage();
+						s.delete(100);
+						s.delete(103);
+						s.delete(106);
+						  ldGui.loadTemplateFXML("Main.fxml",true,main);
+						     //close current window which is login window
+						     ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				case "yourfeed":
+					System.out.println("your feeds:  " + genericString);
+					
 					break;
 				default:
 					break;

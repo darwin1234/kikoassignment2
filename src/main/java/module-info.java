@@ -10,6 +10,7 @@ module kikoassigment {
 	requires java.base;
 	requires org.json;
 	requires json.simple;
+	requires javafx.base;
 	
 	
 }

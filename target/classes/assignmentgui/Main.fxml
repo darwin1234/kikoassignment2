@@ -113,7 +113,7 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Button fx:id="reset" layoutX="1115.0" layoutY="14.0" mnemonicParsing="false" onAction="#Reset" prefHeight="32.0" prefWidth="107.0" text="RESET" />
+      <Button fx:id="reset" layoutX="1115.0" layoutY="14.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="107.0" text="RESET" />
       <Button fx:id="Remove1" layoutX="1165.0" layoutY="195.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #EA4335;" text="Remove" />
       <Button fx:id="Remove2" layoutX="1165.0" layoutY="357.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #EA4335;" text="Remove" />
       <Button fx:id="Remove3" layoutX="1165.0" layoutY="480.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #EA4335;" text="Remove" />

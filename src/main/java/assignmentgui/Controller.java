@@ -7,8 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
-
-
 import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
 import MongoDBConnection.Row;
@@ -33,7 +31,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kikoassigment.Events;
-import kikoassigment.pagination;
+
 
 
 public class Controller extends BaseController {
@@ -94,6 +92,8 @@ public class Controller extends BaseController {
 					SearchByType();
 					//need to display
 					needtodisplay();
+					
+					leftSide();
 				}	
 				
 				break;

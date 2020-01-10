@@ -67,16 +67,33 @@ public class Crud extends MongoConnection{
             ));
         }else 
         {
-        	BasicDBObject keywordAndField = new BasicDBObject();
-        	SearchKeyword = memLocation.replaceAll("[^a-zA-Z0-9]", "");
-        	System.out.println(SearchKeyword);
-        	if(loc == 103) {keywordAndField.put("_id", new ObjectId(SearchKeyword));}
-        	if(loc == 106) {keywordAndField.put("title", SearchKeyword);}
         	
-        	data = lists.aggregate(Arrays.asList( 
-        			new Document("$lookup", lookupFields),
-        			new Document("$match", keywordAndField)
-        	)); 
+        	BasicDBObject keywordAndField = new BasicDBObject();
+        	Session d;
+			try {
+				d = new Session();
+				if(loc == 103) {
+	        		SearchKeyword = memLocation.replaceAll("[^a-zA-Z0-9]", "");
+	            	System.out.println(SearchKeyword);	
+	        		keywordAndField.put("_id", new ObjectId(SearchKeyword));
+	        	}
+	        	if(loc == 106) {
+	        			d.delete(106);
+	        			System.out.println("LOCATION:  " + loc + "keyword: " + memLocation);
+	        		    SearchKeyword = memLocation.trim();
+	        			keywordAndField.put("title", SearchKeyword);
+	        			
+	        	}
+	        	
+	        	data = lists.aggregate(Arrays.asList( 
+	        			new Document("$lookup", lookupFields),
+	        			new Document("$match", keywordAndField)
+	        	)); 
+	        	
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	
         	memLocation = "";
         }	

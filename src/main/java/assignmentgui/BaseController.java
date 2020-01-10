@@ -16,6 +16,7 @@ import MongoDBConnection.trackRow;
 import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -36,7 +37,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kikoassigment.Events;
-import kikoassigment.pagination;
 import javafx.scene.paint.*;
 import javafx.scene.Node;
 import javafx.scene.canvas.*;
@@ -91,6 +91,10 @@ public class BaseController  implements Initializable  {
 	
 	//Canvas for graphics
 	public Canvas Graphics;
+	
+	
+	//
+	private int setPage;
 	
 	private int sineA[] =
 	{ 128 , 150 , 171 , 191 , 209 , 225 ,
@@ -303,9 +307,37 @@ public class BaseController  implements Initializable  {
 	public void SearchByType() {
 		searchbytype.setValue("Search Type");
 		searchbytype.getItems().addAll("Title","Author","Genre");
-		String searchType = searchbytype.getValue().toString();
-		String search =  SearchTxt.getText();
-		searchbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Search", searchType + "@" + search));
+		
+		
+		//searchbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Search", searchType + "@" + search));
+		searchbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+	        @Override public void handle(MouseEvent event) 
+	        {
+	        	Stage single = new Stage();
+	        	LoadGui ldGui = new LoadGui();
+	        	Crud d = new Crud();
+	        	String searchType = searchbytype.getValue().toString();
+	    		String search =  SearchTxt.getText();
+	    		
+	        	Session session;
+				try {
+					session = new Session();
+					session.writeToRandomAccessFile(100, "\n\n\n\n" +  search );
+		    		d.MemoryLocation(106, "Search");
+		    		((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+		    		ldGui.loadTemplateFXML("Main.fxml",true,single);
+		    		d.read();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	
+	        }
+	        });
+		
+		reset.addEventFilter(MouseEvent.MOUSE_CLICKED, new Events("reset", ""));
+		
+		
 	}
 	
 	public void clearAll() {
@@ -326,6 +358,10 @@ public class BaseController  implements Initializable  {
 		}
 	}
 
+	public void leftSide() {
+		feeds.addEventFilter(MouseEvent.MOUSE_CLICKED, new Events("reset", ""));
+		yourfeed.addEventFilter(MouseEvent.MOUSE_CLICKED, new Events("yourfeed", author));
+	}
 	
 	public void needtodisplay() {
 		logoutbtn.setVisible(true);
@@ -341,8 +377,63 @@ public class BaseController  implements Initializable  {
 
 	
 	public void pageBtn() {
-		Next.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(1));
-		Previous.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(2));
+		//Next.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(1));
+		//Previous.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(2));
+		Next.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			
+	        @Override public void handle(MouseEvent event) 
+	        {
+	        	Stage single = new Stage();
+	        	LoadGui ldGui = new LoadGui();
+	        	Crud d = new Crud();
+	        	String searchType = searchbytype.getValue().toString();
+	    		String search =  SearchTxt.getText();
+	    		
+				
+	        	Session session;
+				try {
+					session = new Session();
+					session.writeToRandomAccessFile(100, "\n\n\n\n" +  search );
+					session.writeToRandomAccessFile(100, "\n\n\n\n\n"+ setPage++);
+					d.MemoryLocation(106, "Search");
+		    		((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+		    		ldGui.loadTemplateFXML("Main.fxml",true,single);
+		    		d.read();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	
+	        }
+	        });
+		
+		Previous.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+		
+	        @Override public void handle(MouseEvent event) 
+	        {
+	        	Stage single = new Stage();
+	        	LoadGui ldGui = new LoadGui();
+	        	Crud d = new Crud();
+	        	String searchType = searchbytype.getValue().toString();
+	    		String search =  SearchTxt.getText();
+	    		
+				
+	        	Session session;
+				try {
+					session = new Session();
+					session.writeToRandomAccessFile(100, "\n\n\n\n" +  search );
+					session.writeToRandomAccessFile(100, "\n\n\n\n\n"+ setPage--);
+					d.MemoryLocation(106, "Search");
+		    		((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+		    		ldGui.loadTemplateFXML("Main.fxml",true,single);
+		    		d.read();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	
+	        }
+	        });
 	}
 	
 	
@@ -558,18 +649,7 @@ public class BaseController  implements Initializable  {
 		}
 	
 	}
-	public void Reset() {
-		Session s;
-		try {
-			s = new Session();
-			s.delete(100);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		System.out.println("RESET!");
-	}
+
 	@FXML
 	public void ProceedRegister(ActionEvent event) throws IOException {
 		/*String __usernamefield 	= usernamefield.getText();
