@@ -27,19 +27,10 @@ public class Session {
 			userData = contents.split(",");
 			SessionLength =  contents.length();
 			username = userData[1];
-			//for(int i = 0; i<userData.length; i++) {
-				//System.out.println(userData[i]);
-			//} 
 		}
 		
 		    
 	}
-	
-	
-	
-	 /*
-     * Utility method to read from RandomAccessFile in Java
-     */
 	
 	//Inserting data into an ordered sequential file without reading the entire file into RAM
     public static String readFromRandomAccessFile(int position) {
@@ -93,9 +84,7 @@ public class Session {
             // moves file pointer to position specified
             fileStore.seek(position);
         
-            //String countString =  fileStore.readLine();
-            //int count = Integer.parseInt(countString);
-            //System.out.println("Count: " +  count);
+
             fileStore.writeUTF("                         ");
 
             fileStore.close();
@@ -126,7 +115,5 @@ public class Session {
 		return SessionLength;
 	}
 	
-	public void readoffset() {
-		
-	}
+
 }

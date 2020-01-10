@@ -75,8 +75,12 @@ public class Events implements EventHandler<Event>{
 					}
 					break;
 				case "yourfeed":
-					System.out.println("your feeds:  " + genericString);
-					
+					session.writeToRandomAccessFile(100, "\n\n\n\n\n" + genericString );
+					System.out.println("You Feed: " + genericString);
+					d.MemoryLocation(107, "search");
+					((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+					ldGui.loadTemplateFXML("Main.fxml",true,single);
+					d.read();
 					break;
 				default:
 					break;

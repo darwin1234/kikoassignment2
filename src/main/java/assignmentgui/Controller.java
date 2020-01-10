@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
 import MongoDBConnection.Row;
-import MongoDBConnection.trackRow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -100,7 +99,6 @@ public class Controller extends BaseController {
 			case "__singlepage__": 
 				TableViewDataList();
 				SingleContent();
-				Graphics();
 				break; 
 		
 			case "__createticket__":

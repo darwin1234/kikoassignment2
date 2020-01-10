@@ -81,10 +81,16 @@ public class Crud extends MongoConnection{
 	        			d.delete(106);
 	        			System.out.println("LOCATION:  " + loc + "keyword: " + memLocation);
 	        		    SearchKeyword = memLocation.trim();
-	        			keywordAndField.put("title", SearchKeyword);
+	        		    String[] SearcArray = SearchKeyword.split("@");
+	        		    String field = SearcArray[0].isEmpty() ? "title" : SearcArray[0];
+	        			keywordAndField.put(field.toLowerCase(), SearcArray[1]);
 	        			
 	        	}
 	        	
+	        	if(loc == 107) {
+	        		String author = memLocation.trim();
+	        		keywordAndField.put("author", author);
+	        	}
 	        	data = lists.aggregate(Arrays.asList( 
 	        			new Document("$lookup", lookupFields),
 	        			new Document("$match", keywordAndField)

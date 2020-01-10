@@ -5,14 +5,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
 
 import org.json.JSONObject;
 
 import MongoDBConnection.Row;
-import MongoDBConnection.trackRow;
 import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
 import javafx.event.ActionEvent;
@@ -96,15 +94,6 @@ public class BaseController  implements Initializable  {
 	//
 	private int setPage;
 	
-	private int sineA[] =
-	{ 128 , 150 , 171 , 191 , 209 , 225 ,
-				  238 , 247 , 253 , 255 , 253 , 247 ,
-				  238 , 225 , 209 , 191 , 171 , 150 ,
-				  128 , 105 , 84 , 64 , 46 , 30 ,
-				  17 , 8 , 2 , 0 , 2 , 8 ,
-				  17 , 30 , 46 , 64 , 84 , 105 ,
-				  127
-	};
 	
 	public void initialize(URL url, ResourceBundle rb) 
 	{
@@ -153,11 +142,12 @@ public class BaseController  implements Initializable  {
 			   location_1.setText("Location: " + printRow.getLocation());
 			   view_1.setVisible(true);
 			   view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("View",printRow.getID()));
-			   Remove1.setVisible(true);
-			   Remove1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Delete", printRow.getID()));
-			   Update1.setVisible(true);
-			   Update1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Update", printRow.getID()));
-		   
+			   if(author.equals(printRow.getAuthor())) {
+				   Remove1.setVisible(true);
+				   Remove1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Delete", printRow.getID()));
+				   Update1.setVisible(true);
+				   Update1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Update", printRow.getID()));
+			   }
 			}else if(i == 2) 
 		   {
 
@@ -171,11 +161,13 @@ public class BaseController  implements Initializable  {
 			   location_2.setText("Location: " + printRow.getLocation());
 			   view_2.setVisible(true);
 			   view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("View", printRow.getID()));
+			   if(author.equals(printRow.getAuthor())) {
 			   Remove2.setVisible(true);
 			   Remove2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Delete", printRow.getID()));
 			   Update2.setVisible(true);
 			   Update2.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Update", printRow.getID()));
-		      }else if(i == 3)
+			   }
+			   }else if(i == 3)
 		   {
 			   Image img3 =  new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
 			   photo3.setImage(img3);
@@ -186,11 +178,13 @@ public class BaseController  implements Initializable  {
 			   location_3.setText("Location: " + printRow.getLocation());
 			   view_3.setVisible(true);
 			   view_3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("View",printRow.getID()));
+			   if(author.equals(printRow.getAuthor())) {
 			   Remove3.setVisible(true);
 			   Remove3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Delete", printRow.getID()));
 			   Update3.setVisible(true);
 			   Update3.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Update", printRow.getID()));
-		   }else if(i == 4) 
+			   } 
+			  }else if(i == 4) 
 		   {
 			   Image img4 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
 			   photo4.setImage(img4);
@@ -201,11 +195,12 @@ public class BaseController  implements Initializable  {
 			   location_4.setText("Location: " + printRow.getLocation());
 			   view_4.setVisible(true);
 			   view_4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("View",printRow.getID()));
+			   if(author.equals(printRow.getAuthor())) {
 			   Remove4.setVisible(true);
 			   Remove4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Delete", printRow.getID()));
 			   Update4.setVisible(true);
 			   Update4.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("Update", printRow.getID()));
-		   	   
+			   }
 		  }else 
 		   {
 			   i = 0; //When reach to 4 it will reset to 0
@@ -322,7 +317,7 @@ public class BaseController  implements Initializable  {
 	        	Session session;
 				try {
 					session = new Session();
-					session.writeToRandomAccessFile(100, "\n\n\n\n" +  search );
+					session.writeToRandomAccessFile(100, "\n\n\n\n" +  searchType+"@"+search );
 		    		d.MemoryLocation(106, "Search");
 		    		((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 		    		ldGui.loadTemplateFXML("Main.fxml",true,single);
@@ -386,18 +381,17 @@ public class BaseController  implements Initializable  {
 	        	Stage single = new Stage();
 	        	LoadGui ldGui = new LoadGui();
 	        	Crud d = new Crud();
-	        	String searchType = searchbytype.getValue().toString();
 	    		String search =  SearchTxt.getText();
-	    		
+	    		System.out.println(setPage++);
 				
 	        	Session session;
 				try {
 					session = new Session();
-					session.writeToRandomAccessFile(100, "\n\n\n\n" +  search );
+					
 					session.writeToRandomAccessFile(100, "\n\n\n\n\n"+ setPage++);
 					d.MemoryLocation(106, "Search");
-		    		((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-		    		ldGui.loadTemplateFXML("Main.fxml",true,single);
+		    		//((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+		    		//ldGui.loadTemplateFXML("Main.fxml",true,single);
 		    		d.read();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -414,18 +408,17 @@ public class BaseController  implements Initializable  {
 	        	Stage single = new Stage();
 	        	LoadGui ldGui = new LoadGui();
 	        	Crud d = new Crud();
-	        	String searchType = searchbytype.getValue().toString();
-	    		String search =  SearchTxt.getText();
+	        	
 	    		
-				
+	    		System.out.println(setPage--);
 	        	Session session;
 				try {
 					session = new Session();
-					session.writeToRandomAccessFile(100, "\n\n\n\n" +  search );
+					
 					session.writeToRandomAccessFile(100, "\n\n\n\n\n"+ setPage--);
 					d.MemoryLocation(106, "Search");
-		    		((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-		    		ldGui.loadTemplateFXML("Main.fxml",true,single);
+		    		//((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+		    		//ldGui.loadTemplateFXML("Main.fxml",true,single);
 		    		d.read();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -673,36 +666,8 @@ public class BaseController  implements Initializable  {
 		
 	}
 	
-	public void Graphics() {
-		GraphicsContext gc = Graphics.getGraphicsContext2D();
-        //drawShapes(gc);
-		//gc.setFill(Color.BLACK);
-		//gc.fillRect(1, 1, 1, 1);
-	
-		waveForm(gc);
-	}
 
-	private void waveForm(GraphicsContext gc) {
-		
-		int barWidth = (int) ((Graphics.getWidth() / sineA.length) * 1.2);
-		int barHeight;
-		int x = 0;
-		 for(int i = 0; i < sineA.length; i++) {
-		        barHeight = sineA[i]/2;
-		        gc.setFill(Color.BLUE);
-				gc.fillRect(x,Graphics.getHeight()-barHeight/2,barWidth,barHeight);
-		        x += barWidth + 1;
-		    }
 
-		
-	}
-	
-	public void musicraw() {
-		
-		//https://www.daniweb.com/programming/software-development/threads/412346/insert-data-into-file-without-reading-entire-file-into-ram
-	}
-	
-	
 }
 
 
