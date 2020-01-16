@@ -29,7 +29,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import kikoassigment.Events;
 
 
 
@@ -81,6 +80,8 @@ public class Controller extends BaseController {
 				if(!WelcomeStr.isEmpty()) {
 					//Clear all fx:id's
 					clearAll();
+					
+					
 					//greetings when successfully login!
 					greetings.setText("Hi, " +  WelcomeStr);
 					//these function is next and previous
@@ -88,7 +89,12 @@ public class Controller extends BaseController {
 					//load content
 					MainContent();
 					//Search Type
-					SearchByType();
+					try {
+						SearchByType();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					//need to display
 					needtodisplay();
 					
@@ -112,12 +118,13 @@ public class Controller extends BaseController {
 				TableViewDataList();
 				Categories();
 				UpdateContent();
-				break;
+			break;
 			default:
 				System.out.println("No Page found!");
-				break;
+	 		break;
 		}		
-
+ 
+		
 	
 	}
 	

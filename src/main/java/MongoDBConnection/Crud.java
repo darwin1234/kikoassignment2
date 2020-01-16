@@ -40,7 +40,7 @@ public class Crud extends MongoConnection{
 		List<Document> document = new ArrayList<>();
 		document.add(Document.parse(json.toString()));
 		mgcollection.insertMany(document);
-		
+		 
 	}
 	
 	
@@ -65,6 +65,7 @@ public class Crud extends MongoConnection{
             		new Document("$skip", 0),
             		new Document("$limit", 4)
             ));
+        	
         }else 
         {
         	
@@ -91,6 +92,8 @@ public class Crud extends MongoConnection{
 	        		String author = memLocation.trim();
 	        		keywordAndField.put("author", author);
 	        	}
+	        	
+	        	
 	        	data = lists.aggregate(Arrays.asList( 
 	        			new Document("$lookup", lookupFields),
 	        			new Document("$match", keywordAndField)
@@ -100,15 +103,20 @@ public class Crud extends MongoConnection{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        	
-        	memLocation = "";
+			
         }	
         
+        Row row;
+
+        
+
 		for (Document document : data)
  	    {
- 	    		
+			
+				//System.out.println(document.size());
  	    	
- 	    		Row row;
+ 	    		
+ 	    		
  	    		var objID = new ArrayList<>(document.values());
  		   
  		    	JSONObject obj = new JSONObject(document);
@@ -125,17 +133,20 @@ public class Crud extends MongoConnection{
  		    	String fkey			 = obj.getString("foreignkey");
  		    	String objectID		 = objID.get(0).toString();
  		    	
+ 		    	System.out.println("TITLE TEST: " + title);
  		        
  		    	org.json.JSONArray c = obj.getJSONArray("tracks");
  		    	
  		    	row = new Row(title,description,price,location,date,objectID,photos,genre,author,fkey,c);
  		    	
  		    	rows.add(row);
+ 		    	
+ 		    	
  	   }
     
     	//must be clear
 		SearchKeyword = "";
-		memLocation = "";
+		//memLocation = "";
       
 		return rows;
 	
@@ -151,12 +162,17 @@ public class Crud extends MongoConnection{
 		mgcollection.updateOne(searchQuery,document);
 	}
 	
-	public static void delete(String ObjectId , String Collection ) {
+	public static void delete(String ObjectId , String Collection ) 
+	{
 		//reference: https://www.mkyong.com/mongodb/java-mongodb-delete-document/
 		MongoCollection<Document> mgcollection = db.getCollection(Collection);
 		BasicDBObject document = new BasicDBObject();
 		document.put("_id", new ObjectId(ObjectId));
 		mgcollection.findOneAndDelete(document);
+	}
+	
+	public static void clearMemoryVariable() {
+		memLocation = "";
 	}
 	
 	public static String MemoryLocation(int location, String __column) throws IOException {
@@ -169,5 +185,8 @@ public class Crud extends MongoConnection{
 		//System.out.println("DATA: " + memLocation);
 		return Data; 
 	}
+
+
+	
 	
 }

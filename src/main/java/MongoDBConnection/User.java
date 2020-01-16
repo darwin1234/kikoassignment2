@@ -1,5 +1,6 @@
 package MongoDBConnection;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,15 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
 
-public class User {
+import javafx.event.ActionEvent;
 
-	/*public boolean AddRecord(String firstname, String lastname, String email, String username, String password)
+public class User extends MongoConnection{
+	
+
+	public boolean Register(String firstname, String lastname, String email, String username, String password)
 	{
 		 MongoCollection<Document> userInfo = db.getCollection("users");
+		 
 			try (MongoCursor<Document> cur =  userInfo.find(Filters.eq("username",username)).iterator()){
 				
 				//check if username exist
@@ -40,6 +45,7 @@ public class User {
 		
 		
 		
-	}*/
+	}
+	
 
 }
