@@ -118,12 +118,14 @@ public class Controller extends BaseController {
 				popup.setText("");
 				TableViewDataList();
 				Categories();
-			try {
-				UpdateContent();
-			} catch (ParseException e) {
+				EditableTableView();
+				try {
+					UpdateContent();
+				} catch (ParseException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+					e.printStackTrace();
+				}
+			
 			break;
 			default:
 				System.out.println("No Page found!");

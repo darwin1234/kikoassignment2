@@ -10,17 +10,26 @@ public class Track {
 			this.artist = __artist;
 			this.time = __time;
 		}
-		public String getTitle() {
-	        return title;
-	    }
-
-	    public String getArtist() {
-	        return artist;
-	    }
 		
-	    public String getTime() {
-	    	return time;
-	    }
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+		}
+		public String getArtist() {
+			return artist;
+		}
+		public void setArtist(String artist) {
+			this.artist = artist;
+		}
+		public String getTime() {
+			return time;
+		}
+		public void setTime(String time) {
+			this.time = time;
+		}
+		
 }
 
 

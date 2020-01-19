@@ -21,15 +21,22 @@ import MongoDBConnection.Row;
 import MongoDBConnection.User;
 import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -81,8 +88,8 @@ public class BaseController  implements Initializable  {
 	public ComboBox category;
 			
 	//Found in CreateTicket and SinglePage
-	public TableView datalist,genre;
-		
+	public TableView<Track> datalist;
+	public TableView genre;	
 	public 	Crud db = new Crud();
 	
 	//background Image
@@ -113,17 +120,20 @@ public class BaseController  implements Initializable  {
 	}
 	
 	
-	public void TableViewDataList() {
-		TableColumn __title = new TableColumn("Title");
+	public void TableViewDataList()
+	{
+		TableColumn<Track, String> __title = new TableColumn("Title");
 		__title.setCellValueFactory(new PropertyValueFactory<>("title"));
 		
-		TableColumn __artist = new TableColumn("Artist");
+		TableColumn<Track, String> __artist = new TableColumn("Artist");
 		__artist.setCellValueFactory(new PropertyValueFactory<>("artist"));
 		
-		TableColumn __time = new TableColumn("Time");
+		TableColumn<Track, String> __time = new TableColumn("Time");
 		__time.setCellValueFactory(new PropertyValueFactory<>("time"));
 		//added all the colums
 		datalist.getColumns().addAll(__title, __artist,__time);
+		
+		
 		
 	}
 	
@@ -155,213 +165,109 @@ public class BaseController  implements Initializable  {
 			
 			if(i == 1)
 			{	
-			   //uncomment to see the output
-			  // System.out.println(printRow.getImage());
-			   Image img1 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
-			   photo1.setVisible(true);
-			   title_row1.setVisible(true);
-			   content_1.setVisible(true);
-			   price_1.setVisible(true);
-			   createdby1.setVisible(true);
-			   location_1.setVisible(true);
-			   photo1.setImage(img1);
-			   title_row1.setText(printRow.getTitle());
-			   content_1.setText(printRow.getDescription().substring(0, 350));
-			   price_1.setText("Price: " + printRow.getPrice() + " USD");
-			   createdby1.setText("Published By: " +  printRow.getAuthor());
-			   location_1.setText("Location: " + printRow.getLocation());
-			   view_1.setVisible(true);
-			   view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-			   		{
-						try {
-							FxEvents("View", printRow.getID());
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				);
-			   //view_1.addEventHandler(MouseEvent.MOUSE_CLICKED, new Events("View",printRow.getID()));
-			   
-			   if(author.equals(printRow.getAuthor())) {
-				   Remove1.setVisible(true); 
-				   Remove1.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-			   		{
-						try {
-							FxEvents("Delete", printRow.getID());
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-				   });
-				   Update1.setVisible(true); 
-				   Update1.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-			   		{
-						try {
-							FxEvents("UpdatePage", printRow.getID());
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-						   );
-			   }
-			}else if(i == 2) 
-		   {
 
-			   //System.out.println(printRow.getImage());
-			   Image img2 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
-			   photo2.setVisible(true);
-			   title_row2.setVisible(true);
-			   content_2.setVisible(true);
-			   price_2.setVisible(true);
-			   createdby2.setVisible(true);
-			   location_2.setVisible(true);
+				   Image img1 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
+				   photo1.setVisible(true);
+				   title_row1.setVisible(true);
+				   content_1.setVisible(true);
+				   price_1.setVisible(true);
+				   createdby1.setVisible(true);
+				   location_1.setVisible(true);
+				   photo1.setImage(img1);
+				   title_row1.setText(printRow.getTitle());
+				   content_1.setText(printRow.getDescription().substring(0, 350));
+				   price_1.setText("Price: " + printRow.getPrice() + " USD");
+				   createdby1.setText("Published By: " +  printRow.getAuthor());
+				   location_1.setText("Location: " + printRow.getLocation());
+				   view_1.setVisible(true);
+				   view_1.setOnAction(e -> FxEvents("View", printRow.getID()) );
+				   if(author.equals(printRow.getAuthor())) {
+					   Remove1.setVisible(true); 
+					   Remove1.setOnAction(e ->  FxEvents("Delete", printRow.getID()));
+					   Update1.setVisible(true); 
+					   Update1.setOnAction(e -> FxEvents("UpdatePage", printRow.getID()));
+				    }
+			  }else if(i == 2) 
+			   {
+
+				   //System.out.println(printRow.getImage());
+				   Image img2 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
+				   photo2.setVisible(true);
+				   title_row2.setVisible(true);
+				   content_2.setVisible(true);
+				   price_2.setVisible(true);
+				   createdby2.setVisible(true);
+				   location_2.setVisible(true);
+				   
+				   photo2.setImage(img2);
+				   title_row2.setText(printRow.getTitle());
+				   content_2.setText(printRow.getDescription().substring(0, 350));
+				   price_2.setText("Price: " + printRow.getPrice() + " USD");
+				   createdby2.setText("Published By: " +  printRow.getAuthor());
+				   location_2.setText("Location: " + printRow.getLocation());
+				   view_2.setVisible(true);
+				   view_2.setOnAction(e ->  FxEvents("View", printRow.getID()));
 			   
-			   photo2.setImage(img2);
-			   title_row2.setText(printRow.getTitle());
-			   content_2.setText(printRow.getDescription().substring(0, 350));
-			   price_2.setText("Price: " + printRow.getPrice() + " USD");
-			   createdby2.setText("Published By: " +  printRow.getAuthor());
-			   location_2.setText("Location: " + printRow.getLocation());
-			   view_2.setVisible(true);
-			   view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-		   		{
-		   			System.out.println("TEST 123");
-					try {
-						FxEvents("View", printRow.getID());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			);
-			   if(author.equals(printRow.getAuthor())) {
-				   Remove2.setVisible(true);
-				   Remove2.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-			   		{
-						try {
-							FxEvents("Delete", printRow.getID());
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-				   });
-				   Update2.setVisible(true);
-				   Update2.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-			   		{
-						try {
-							FxEvents("UpdatePage", printRow.getID());
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-			   		);
-			   }
+				   if(author.equals(printRow.getAuthor())) {
+					   Remove2.setVisible(true);
+					   Remove2.setOnAction(e ->  FxEvents("Delete", printRow.getID()));
+					   Update2.setVisible(true);
+					   Update2.setOnAction(e -> FxEvents("UpdatePage", printRow.getID()));
+				   }
+				   
 			   }else if(i == 3)
-		   {
-			   Image img3 =  new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
-			   photo3.setVisible(true);
-			   title_row3.setVisible(true);
-			   content_3.setVisible(true);
-			   price_3.setVisible(true);
-			   createdby3.setVisible(true);
-			   location_3.setVisible(true);
+			   {
+				   Image img3 =  new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
+				   photo3.setVisible(true);
+				   title_row3.setVisible(true);
+				   content_3.setVisible(true);
+				   price_3.setVisible(true);
+				   createdby3.setVisible(true);
+				   location_3.setVisible(true);
+				   
+				   photo3.setImage(img3);
+				   title_row3.setText(printRow.getTitle());
+				   content_3.setText(printRow.getDescription().substring(0, 350));
+				   price_3.setText("Price: " + printRow.getPrice() + " USD");
+				   createdby3.setText("Published By: " +  printRow.getAuthor());
+				   location_3.setText("Location: " + printRow.getLocation());
+				   view_3.setVisible(true);
+				   view_3.setOnAction(e  -> FxEvents("View", printRow.getID()));
 			   
-			   photo3.setImage(img3);
-			   title_row3.setText(printRow.getTitle());
-			   content_3.setText(printRow.getDescription().substring(0, 350));
-			   price_3.setText("Price: " + printRow.getPrice() + " USD");
-			   createdby3.setText("Published By: " +  printRow.getAuthor());
-			   location_3.setText("Location: " + printRow.getLocation());
-			   view_3.setVisible(true);
-			   view_3.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-		   		{
-					try {
-						FxEvents("View", printRow.getID());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			);
-			   if(author.equals(printRow.getAuthor())) {
-			   Remove3.setVisible(true);
-			   Remove3.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-		   		{
-					try {
-						FxEvents("Delete", printRow.getID());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			   });
-			   Update3.setVisible(true);
-			   Update3.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-		   		{
-					try {
-						FxEvents("UpdatePage", printRow.getID());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-		   		);
-			   } 
+				   if(author.equals(printRow.getAuthor())) {
+					   Remove3.setVisible(true);
+					   Remove3.setOnAction(e ->  FxEvents("Delete", printRow.getID()));
+					   Update3.setVisible(true);
+					   Update3.setOnAction(e ->  FxEvents("UpdatePage", printRow.getID()));
+				   } 
+				   
 			  }else if(i == 4) 
-		   {
-			   Image img4 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
-			   photo4.setVisible(true);
-			   title_row4.setVisible(true);
-			   content_4.setVisible(true);
-			   price_4.setVisible(true);
-			   createdby4.setVisible(true);
-			   location_4.setVisible(true);
-			   photo4.setImage(img4);
-			   title_row4.setText(printRow.getTitle());
-			   content_4.setText(printRow.getDescription().substring(0, 350));
-			   price_4.setText("Price: " + printRow.getPrice() + " USD");
-			   createdby4.setText("Published By: " +  printRow.getAuthor());
-			   location_4.setText("Location: " + printRow.getLocation());
-			   view_4.setVisible(true);
-			   view_4.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-		   		{
-					try {
-						FxEvents("View", printRow.getID());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			   );
-			   if(author.equals(printRow.getAuthor())) {
-			   Remove4.setVisible(true);
-			   Remove4.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-		   		{
-					try {
-						FxEvents("Delete", printRow.getID());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			   });
-			   Update4.setVisible(true);
-			   Update4.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-		   		{
-					try {
-						FxEvents("UpdatePage", printRow.getID());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-		   		);
-			   }
-		  }else 
-		   {
-			   i = 0; //When reach to 4 it will reset to 0
-		   }
+			  {
+				   Image img4 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
+				   photo4.setVisible(true);
+				   title_row4.setVisible(true);
+				   content_4.setVisible(true);
+				   price_4.setVisible(true);
+				   createdby4.setVisible(true);
+				   location_4.setVisible(true);
+				   photo4.setImage(img4);
+				   title_row4.setText(printRow.getTitle());
+				   content_4.setText(printRow.getDescription().substring(0, 350));
+				   price_4.setText("Price: " + printRow.getPrice() + " USD");
+				   createdby4.setText("Published By: " +  printRow.getAuthor());
+				   location_4.setText("Location: " + printRow.getLocation());
+				   view_4.setVisible(true);
+				   view_4.setOnAction(e ->  FxEvents("View", printRow.getID()));
+				   if(author.equals(printRow.getAuthor())) {
+						   Remove4.setVisible(true);
+						   Remove4.setOnAction(e -> FxEvents("Delete", printRow.getID()));
+						   Update4.setVisible(true);
+						   Update4.setOnAction(e-> FxEvents("UpdatePage", printRow.getID()));
+				   }
+		   	}else 
+		   	{
+		   		i = 0; //When reach to 4 it will reset to 0
+		   	}
         }
 		
 		
@@ -442,7 +348,8 @@ public class BaseController  implements Initializable  {
 	        System.out.println("DATE FORMATTED: " + formattedDate);
 	        date.setValue(LocalDate.parse(formattedDate));
 		   
-	        	
+	        datalist.setEditable(true);
+	     
 	
 			for(int i = 0; i<doc.getTracks().length();  i++) {
 				 JSONObject obj1 = doc.getTracks().getJSONObject(i);
@@ -452,6 +359,7 @@ public class BaseController  implements Initializable  {
 				 String time = obj1.getString("duration");
 				 String TrackID = obj1.getString("fkey");
 				 Track track = new Track(Title,Artist,time);
+				 
 				 datalist.getItems().add(track);
 			}
 			
@@ -459,6 +367,15 @@ public class BaseController  implements Initializable  {
 		
 	}
 	
+	public void EditableTableView() {
+		datalist.setEditable(true);
+		datalist.setOnMousePressed(e -> {
+			 artistname.setText(datalist.getSelectionModel().getSelectedItem().getArtist().toString());
+			 timesong.setText(datalist.getSelectionModel().getSelectedItem().getTime().toString());
+			 musictitle.setText(datalist.getSelectionModel().getSelectedItem().getTitle().toString());
+		});
+		
+	}
 	
 	public void Categories() { 
 		//categories added 
@@ -468,37 +385,15 @@ public class BaseController  implements Initializable  {
 	public void SearchByType() throws IOException {
 		searchbytype.setValue("Search Type");
 		searchbytype.getItems().addAll("Title","Author","Genre");
-	
-		searchbtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-			{
-				try {
-					FxEvents("Search", searchbytype.getValue().toString() +"@"+ SearchTxt.getText());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		 );
-
-		
-		reset.addEventFilter(MouseEvent.MOUSE_CLICKED, event ->  
-			{
-				try {
-					FxEvents("Reset","");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		);
-		
-		
+		searchbtn.setOnAction(e-> FxEvents("Search", searchbytype.getValue().toString() +"@"+ SearchTxt.getText()));
+		reset.setOnAction(e-> FxEvents("Reset",""));
 	}
 	
 	public void clearAll() {
 		
-		for (Node node : anchorPane.getChildren()) {
-		    //System.out.println("Id: " + node.getId());
+		for (Node node : anchorPane.getChildren()) 
+		{
+		   
 		    if (node instanceof Text) {
 		        // clear
 		    	((Text)node).setVisible(false);
@@ -522,24 +417,9 @@ public class BaseController  implements Initializable  {
 	public void leftSide() {
 		List<String> test  =  Arrays.asList("sup1", "sup2", "sup3");
 		//Reset
-		feeds.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-			try {
-				FxEvents("Reset", "");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
-		 yourfeed.addEventFilter(MouseEvent.MOUSE_CLICKED,   event-> {
-			try {
-				FxEvents("YourFeed", author);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
-		//System.out.println(test.get(1));
-		//genre.getItems().addAll(test);
+		feeds.setOnAction(e -> FxEvents("Reset", ""));
+		yourfeed.setOnAction(e -> FxEvents("YourFeed", author));
+	
 	}
 	
 	public void needtodisplay() {
@@ -558,29 +438,8 @@ public class BaseController  implements Initializable  {
 
 	
 	public void pageBtn() {
-		
-		Next.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-	   		{
-				try {
-					FxEvents("Next", "");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			});
-		
-			
-		
-		Previous.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-   		{
-			try {
-				FxEvents("Previous", "");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
-	
+		Next.setOnAction(e -> FxEvents("Next", ""));
+		Previous.setOnAction(e -> FxEvents("Previous", ""));
 	}
 	
 	
@@ -713,18 +572,13 @@ public class BaseController  implements Initializable  {
 	
 	public void addTrack() {
 		System.out.println("Add Track");
-		String __timesong = timesong.getText();
-		String __musictitle =  musictitle.getText();
-		String __artistname = artistname.getText();
-		
-
-		
-		if(__timesong.isEmpty() && __musictitle.isEmpty() && __artistname.isEmpty()) {
+		if(timesong.getText().isEmpty() && musictitle.getText().isEmpty() && artistname.getText().isEmpty()) {
 			//popup.setText("Failed Please Fill up all fields!");
 			System.out.println("Failed Please Fill up all fields!");
-		}else {
+		}else 
+		{
 			
-			Track track = new Track(__musictitle, __artistname,__timesong);
+			Track track = new Track(musictitle.getText(),artistname.getText(),timesong.getText());
 			datalist.getItems().add(track);
 			
 			System.out.println("Song Added!!");
@@ -735,23 +589,24 @@ public class BaseController  implements Initializable  {
 			
 		} 
 		
-		//System.out.println("Music Title: " + __musictitle);
-		//System.out.println("Artist Title: " + __artistname);
-		//System.out.println("Duration: " + __timesong);
 		//arrays of two dimension
-		tracks[counter][0] = __musictitle;
-		tracks[counter][1] = __artistname;
-		tracks[counter][2] = __timesong;
+		tracks[counter][0] = musictitle.getText();
+		tracks[counter][1] = artistname.getText();
+		tracks[counter][2] = timesong.getText();
 		counter++;
 
 	}
 	
-	public void updateTrack() {
-
+	public void updateTrack() 
+	{
+		 Track item = datalist.getSelectionModel().getSelectedItem();
+		 
+		 System.out.println("TIME:  " + item.getTime());
+		 
 	}
 	
-	public void removeTrack() {
-
+	public void removeTrack() 
+	{
 		datalist.getItems().removeAll(datalist.getSelectionModel().getSelectedItem());
 	}
 	
@@ -838,89 +693,99 @@ public class BaseController  implements Initializable  {
 	
 	}
 	
-	public void FxEvents(String action,String genericString) throws IOException
+	public void FxEvents(String action,String genericString) 
 	{
-		Session session = new Session();
+		Session session;
 		Crud crud = new Crud();
 		LoadGui ldGui = new LoadGui();
 		ActionEvent event = new ActionEvent();
 		Stage window = new Stage();
-		//System.out.println("Generic String: " + genericString);
+		
+		try {
+			session = new Session();
 
-		switch(action) 
-		{
-			case "View":
-				session.writeToRandomAccessFile(100, "\n" + genericString);
-				crud.MemoryLocation(103,"genericString");
-				ldGui.loadTemplateFXML("SinglePage.fxml",true,window);
-				((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-				break;
-			case "UpdatePage":
-				session.writeToRandomAccessFile(100, "\n" + genericString);
-				crud.MemoryLocation(103,"genericString");
-				//System.out.println("ID: " + genericString);
-				ldGui.loadTemplateFXML("Update.fxml",true,window);
-				//((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-				break;
-			case "Search":
-				String[] t =  genericString.split("@");
-				String searchType = t[0];
-				String search = t[1];
-				session.writeToRandomAccessFile(100, "\n\n\n\n" +  searchType+"@"+search );
-				crud.MemoryLocation(106, "Search");    		
-				crud.read(); 
-				clearAll();
-				needtodisplay();
-				content();
-				break;
-			case "Reset":
-				session.delete(100);
-				session.delete(103);
-				session.delete(106);
-				crud.clearMemoryVariable();
-				clearAll();
-				needtodisplay();
-				content();	
-				break;
-			case "YourFeed":
-				session.writeToRandomAccessFile(100, "\n\n\n\n\n" + genericString );
-				crud.MemoryLocation(107, "search");
-				crud.read();
-				clearAll();
-				needtodisplay();
-				content();	
-				break;
-			case "Delete":					 
-				session.writeToRandomAccessFile(100, "\n" + genericString);
-				crud.delete(genericString, "artist");
-				clearAll();
-				needtodisplay();
-				content();
-				System.out.println("Delete!");
-				break;
-			case "Update":
-				session.writeToRandomAccessFile(100, "\n" + genericString);
-				crud.MemoryLocation(103,"_id");		
-				break;
-			case "Previous":
-				session.writeToRandomAccessFile(100, "\n\n\n\n\n\n"+ setPage--);
-				crud.MemoryLocation(108, "Previous");
-				clearAll();
-				needtodisplay();
-	    		crud.read();
-	    		content();
-	    		break;
-			case "Next":
-				session.writeToRandomAccessFile(100, "\n\n\n\n\n\n"+ setPage++);
-				crud.MemoryLocation(108, "Next");
-				clearAll();
-				needtodisplay();
-	    		crud.read();
-	    		content();
-				break;
-			default:
-				break;
+			switch(action) 
+			{
+				case "View":
+					session.writeToRandomAccessFile(100, "\n" + genericString);
+					crud.MemoryLocation(103,"genericString");
+					ldGui.loadTemplateFXML("SinglePage.fxml",true,window);
+					((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+					break;
+				case "UpdatePage":
+					session.writeToRandomAccessFile(100, "\n" + genericString);
+					crud.MemoryLocation(103,"genericString");
+					//System.out.println("ID: " + genericString);
+					ldGui.loadTemplateFXML("Update.fxml",true,window);
+					//((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+					break;
+				case "Search":
+					String[] t =  genericString.split("@");
+					String searchType = t[0];
+					String search = t[1];
+					session.writeToRandomAccessFile(100, "\n\n\n\n" +  searchType+"@"+search );
+					crud.MemoryLocation(106, "Search");    		
+					crud.read(); 
+					clearAll();
+					needtodisplay();
+					content();
+					break;
+				case "Reset":
+					session.delete(100);
+					session.delete(103);
+					session.delete(106);
+					crud.clearMemoryVariable();
+					clearAll();
+					needtodisplay();
+					content();	
+					break;
+				case "YourFeed":
+					session.writeToRandomAccessFile(100, "\n\n\n\n\n" + genericString );
+					crud.MemoryLocation(107, "search");
+					crud.read();
+					clearAll();
+					needtodisplay();
+					content();	
+					break;
+				case "Delete":					 
+					session.writeToRandomAccessFile(100, "\n" + genericString);
+					crud.delete(genericString, "artist");
+					clearAll();
+					needtodisplay();
+					content();
+					System.out.println("Delete!");
+					break;
+				case "Update":
+					session.writeToRandomAccessFile(100, "\n" + genericString);
+					crud.MemoryLocation(103,"_id");		
+					break;
+				case "Previous":
+					session.writeToRandomAccessFile(100, "\n\n\n\n\n\n"+ setPage--);
+					crud.MemoryLocation(108, "Previous");
+					clearAll();
+					needtodisplay();
+		    		crud.read();
+		    		content();
+		    		break;
+				case "Next":
+					session.writeToRandomAccessFile(100, "\n\n\n\n\n\n"+ setPage++);
+					crud.MemoryLocation(108, "Next");
+					clearAll();
+					needtodisplay();
+		    		crud.read();
+		    		content();
+					break;
+				default:
+					break;
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	
+	
+
 		
 		
 	}
