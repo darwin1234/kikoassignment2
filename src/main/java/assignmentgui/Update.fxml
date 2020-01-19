@@ -20,7 +20,7 @@
         
       </ImageView>
       <TextField fx:id="title" layoutX="627.0" layoutY="79.0" prefHeight="44.0" prefWidth="457.0" promptText="Etc Title, Artist, Band Name" />
-      <Button layoutX="931.0" layoutY="533.0" mnemonicParsing="false" onAction="#publish" prefHeight="44.0" prefWidth="151.0" style="-fx-background-color: #58B747;" text="Publish" textFill="WHITE" />
+      <Button layoutX="931.0" layoutY="533.0" mnemonicParsing="false" onAction="#update" prefHeight="44.0" prefWidth="151.0" style="-fx-background-color: #58B747;" text="Update" textFill="WHITE" />
       <TextArea fx:id="description" layoutX="627.0" layoutY="240.0" prefHeight="274.0" prefWidth="457.0" />
       <TableView fx:id="datalist" layoutX="268.0" layoutY="240.0" prefHeight="274.0" prefWidth="317.0">
         <columns>

@@ -3,7 +3,12 @@ package assignmentgui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,8 +22,6 @@ import MongoDBConnection.User;
 import MongoDBConnection.Crud;
 import MongoDBConnection.Login;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -38,9 +41,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.paint.*;
+import java.util.Date;
 import javafx.scene.Node;
 import javafx.scene.canvas.*;
+import org.bson.conversions.Bson;
+import static com.mongodb.client.model.Updates.combine;
+
+import static com.mongodb.client.model.Updates.set;
 
 
 public class BaseController  implements Initializable  {
@@ -187,6 +194,7 @@ public class BaseController  implements Initializable  {
 							e.printStackTrace();
 						}
 				   });
+				   Update1.setVisible(true); 
 				   Update1.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
 			   		{
 						try {
@@ -219,6 +227,7 @@ public class BaseController  implements Initializable  {
 			   view_2.setVisible(true);
 			   view_2.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
 		   		{
+		   			System.out.println("TEST 123");
 					try {
 						FxEvents("View", printRow.getID());
 					} catch (IOException e) {
@@ -228,27 +237,27 @@ public class BaseController  implements Initializable  {
 				}
 			);
 			   if(author.equals(printRow.getAuthor())) {
-			   Remove2.setVisible(true);
-			   Remove2.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-		   		{
-					try {
-						FxEvents("Delete", printRow.getID());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				   Remove2.setVisible(true);
+				   Remove2.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
+			   		{
+						try {
+							FxEvents("Delete", printRow.getID());
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				   });
+				   Update2.setVisible(true);
+				   Update2.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
+			   		{
+						try {
+							FxEvents("UpdatePage", printRow.getID());
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
-			   });
-			   Update2.setVisible(true);
-			   Update2.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
-		   		{
-					try {
-						FxEvents("UpdatePage", printRow.getID());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-		   		);
+			   		);
 			   }
 			   }else if(i == 3)
 		   {
@@ -375,7 +384,7 @@ public class BaseController  implements Initializable  {
 			title_row2.setText(doc.getTitle());
 			location_1.setText(doc.getLocation());
 			price_1.setText(""+ doc.getPrice());
-			singleDate.setText(doc.getDate());
+			singleDate.setText(doc.getDate().toString());
 			System.out.println(doc.getTracks().length());
 			
 			for(int i = 0; i<doc.getTracks().length();  i++) {
@@ -423,11 +432,43 @@ public class BaseController  implements Initializable  {
 			price.setText(""+ doc.getPrice());
 			location.setText(""+ doc.getLocation());
 			category.setValue(doc.getGenre());
-			String dateStr = doc.getDate().toString();
-			String[] dateStrV = dateStr.split("-");
-			date.setValue(LocalDate.of(Integer.parseInt(dateStrV[0]), Integer.parseInt(dateStrV[1]),Integer.parseInt(dateStrV[2]))); 
-			//System.out.println(doc.getTracks().length());
+			String sDate = doc.getDate();
+
+
+			System.out.println("Mongo Date " + sDate );
+
+			String dateStr = "Fri Jan 31 00:00:00 SGT 2020";
+			DateFormat formatter = new SimpleDateFormat("E yyyy dd HH:mm:ss Z MMM");
+			Date date;
+			try {
+				date = (Date)formatter.parse(dateStr);
+				System.out.println("String Date: "+ date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			        
+						
+			//DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			//System.out.println("String Date: " + sDate);
+			//String testdate = dateFormat.format(sDate);
+			//dateFormat.format(sDate);
 			
+			//System.out.println("DATE: " + dateStest);
+			//DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			//String testdate = dateFormat.format(dateStr);
+			
+			//LocalDate d = LocalDate.parse(dateStr);
+			//System.out.println("Date:  " + d.toString());
+			//String[] dateStrV = dateStr.split("-");
+			//date.setValue(LocalDate.of(Integer.parseInt(dateStrV[0]), Integer.parseInt(dateStrV[1]),Integer.parseInt(dateStrV[2]))); 
+			//System.out.println(doc.getTracks().length());
+			// date.setValue(myFormatObj);
+			//LocalDate dd = LocalDate.parse(dateStr);
+			
+			// dd.format("yyyy-MM-dd");
+			// System.out.println("DATE: " + testdate);
+	
 			for(int i = 0; i<doc.getTracks().length();  i++) {
 				 JSONObject obj1 = doc.getTracks().getJSONObject(i);
 				 //System.out.println(obj1.getString("artist"));
@@ -444,7 +485,7 @@ public class BaseController  implements Initializable  {
 	}
 	
 	
-	public void Categories() {
+	public void Categories() { 
 		//categories added 
 		category.setValue("Category");
 		category.getItems().addAll("Rock","Fusion","RNB","JAZZ");
@@ -542,61 +583,29 @@ public class BaseController  implements Initializable  {
 
 	
 	public void pageBtn() {
-		//Next.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(1));
-		//Previous.addEventHandler(MouseEvent.MOUSE_CLICKED, new pagination(2));
-		Next.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+		
+		Next.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
+	   		{
+				try {
+					FxEvents("Next", "");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+		
 			
-	        @Override public void handle(MouseEvent event) 
-	        {
-	        	Stage single = new Stage();
-	        	LoadGui ldGui = new LoadGui();
-	        	Crud d = new Crud();
-	    		String search =  SearchTxt.getText();
-	    		System.out.println(setPage++);
-				
-	        	Session session;
-				try {
-					session = new Session();
-					
-					session.writeToRandomAccessFile(100, "\n\n\n\n\n"+ setPage++);
-					d.MemoryLocation(106, "Search");
-		    		//((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-		    		//ldGui.loadTemplateFXML("Main.fxml",true,single);
-		    		d.read();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	
-	        }
-	        });
 		
-		Previous.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-		
-	        @Override public void handle(MouseEvent event) 
-	        {
-	        	Stage single = new Stage();
-	        	LoadGui ldGui = new LoadGui();
-	        	Crud d = new Crud();
-	        	
-	    		
-	    		System.out.println(setPage--);
-	        	Session session;
-				try {
-					session = new Session();
-					
-					session.writeToRandomAccessFile(100, "\n\n\n\n\n"+ setPage--);
-					d.MemoryLocation(106, "Search");
-		    		//((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
-		    		//ldGui.loadTemplateFXML("Main.fxml",true,single);
-		    		d.read();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	
-	        }
-	        });
+		Previous.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->  
+   		{
+			try {
+				FxEvents("Previous", "");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+	
 	}
 	
 	
@@ -652,17 +661,14 @@ public class BaseController  implements Initializable  {
 	    int rand_int2 = rand.nextInt(100000000); 
 	    foreignkey = author + "-" + rand_int1 + rand_int2;
 	    
-	    
-	    String __title = title.getText();
-		String __description = description.getText();
-		String __category =  category.getValue().toString();
-		String __price =   price.getText(); 
-		String __photoName  = albumcoverphoto.getText();
+
 		LocalDate __date	= date.getValue();
 		
-		if(!__title.isEmpty() && !__description.isEmpty()  &&  !__category.isEmpty() && !__price.isEmpty()  ) {
+		if(!title.getText().toString().isEmpty() && !description.getText().toString().isEmpty() 
+					&&  !category.getValue().toString().isEmpty() && !price.getText().isEmpty() 
+					&& !date.getValue().toString().isEmpty() ) {
 			
-			if(__photoName.isEmpty()) {
+			if(albumcoverphoto.getText().isEmpty()) {
 				popup.setText("Please add Cover Photo!");
 			}else {
 				  	JSONObject content = new JSONObject();
@@ -689,18 +695,21 @@ public class BaseController  implements Initializable  {
 					
 					//JSONObject for tracks
 					JSONObject trackJson = new JSONObject();
-					for(int i = 0; i< tracks.length; i++) {
-						if(!(tracks[i][0] == null) && !(tracks[i][1] == null) && !(tracks[i][2] == null))
+					for(int i = 0; i<= tracks.length; i++) {
+						if(!(tracks[i][0] == null) && !(tracks[i][1] == null) && !(tracks[i][2] == null)) 
+						{
 							trackJson.put("title", tracks[i][0]);
 							trackJson.put("artist", tracks[i][1]);
 							trackJson.put("duration", tracks[i][2]);
 							trackJson.put("fkey", foreignkey);
 							//crud add record
 							db.create(trackJson,"tracks");
+						
+						}
 					}
 			
+					needtodisplay();
 					popup.setText("Added Successfully!");	
-				
 			}
 		  
 		}else {
@@ -709,6 +718,21 @@ public class BaseController  implements Initializable  {
 	    
 	}
 	   
+	
+	public void update(ActionEvent event) throws IOException {
+		Crud crud = new Crud();
+		Bson content = null;
+		if(albumcoverphoto.getText().isEmpty()) {
+			content = combine(set("title", title.getText()), set("description", description.getText()), set("date", date.getValue()),set("genre",category.getValue().toString()),set("price", price.getText()));
+			popup.setText("Saved!");
+		}else {
+			content = combine(set("title", title.getText()), set("description", description.getText()), set("photos","photos/" + albumcoverphoto.getText()), set("date", date.getValue()),set("genre",category.getValue().toString()),set("price", price.getText()));
+			popup.setText("Saved!");
+		}
+		crud.update(content, "artist");
+		
+		
+	}
 		
 
 	
@@ -736,9 +760,9 @@ public class BaseController  implements Initializable  {
 			
 		} 
 		
-		System.out.println("Music Title: " + __musictitle);
-		System.out.println("Artist Title: " + __artistname);
-		System.out.println("Duration: " + __timesong);
+		//System.out.println("Music Title: " + __musictitle);
+		//System.out.println("Artist Title: " + __artistname);
+		//System.out.println("Duration: " + __timesong);
 		//arrays of two dimension
 		tracks[counter][0] = __musictitle;
 		tracks[counter][1] = __artistname;
@@ -844,25 +868,24 @@ public class BaseController  implements Initializable  {
 		Session session = new Session();
 		Crud crud = new Crud();
 		LoadGui ldGui = new LoadGui();
-		Event event = null;
+		ActionEvent event = new ActionEvent();
 		Stage window = new Stage();
-		
-		//crud.MemoryLocation(103,"genericString");
+		//System.out.println("Generic String: " + genericString);
+
 		switch(action) 
 		{
 			case "View":
 				session.writeToRandomAccessFile(100, "\n" + genericString);
 				crud.MemoryLocation(103,"genericString");
-				System.out.println("ID: " + genericString);
 				ldGui.loadTemplateFXML("SinglePage.fxml",true,window);
 				((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 				break;
 			case "UpdatePage":
 				session.writeToRandomAccessFile(100, "\n" + genericString);
 				crud.MemoryLocation(103,"genericString");
-				System.out.println("ID: " + genericString);
+				//System.out.println("ID: " + genericString);
 				ldGui.loadTemplateFXML("Update.fxml",true,window);
-				((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+				//((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 				break;
 			case "Search":
 				String[] t =  genericString.split("@");
@@ -895,14 +918,31 @@ public class BaseController  implements Initializable  {
 			case "Delete":					 
 				session.writeToRandomAccessFile(100, "\n" + genericString);
 				crud.delete(genericString, "artist");
-				content();
 				clearAll();
 				needtodisplay();
+				content();
 				System.out.println("Delete!");
 				break;
 			case "Update":
 				session.writeToRandomAccessFile(100, "\n" + genericString);
-				crud.MemoryLocation(103,"_id");					
+				crud.MemoryLocation(103,"_id");		
+				break;
+			case "Previous":
+				session.writeToRandomAccessFile(100, "\n\n\n\n\n\n"+ setPage--);
+				crud.MemoryLocation(108, "Previous");
+				clearAll();
+				needtodisplay();
+	    		crud.read();
+	    		content();
+	    		break;
+			case "Next":
+				session.writeToRandomAccessFile(100, "\n\n\n\n\n\n"+ setPage++);
+				crud.MemoryLocation(108, "Next");
+				clearAll();
+				needtodisplay();
+	    		crud.read();
+	    		content();
+				break;
 			default:
 				break;
 		}
