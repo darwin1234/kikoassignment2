@@ -3,6 +3,7 @@ package assignmentgui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
@@ -117,7 +118,12 @@ public class Controller extends BaseController {
 				popup.setText("");
 				TableViewDataList();
 				Categories();
+			try {
 				UpdateContent();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 			default:
 				System.out.println("No Page found!");

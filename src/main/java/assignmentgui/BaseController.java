@@ -419,7 +419,7 @@ public class BaseController  implements Initializable  {
 
 	}
 	
-	public void UpdateContent() {
+	public void UpdateContent() throws ParseException {
 		
 		
 		ArrayList<Row> ticket = db.read();
@@ -433,41 +433,16 @@ public class BaseController  implements Initializable  {
 			location.setText(""+ doc.getLocation());
 			category.setValue(doc.getGenre());
 			String sDate = doc.getDate();
-
-
-			System.out.println("Mongo Date " + sDate );
-
-			String dateStr = "Fri Jan 31 00:00:00 SGT 2020";
-			DateFormat formatter = new SimpleDateFormat("E yyyy dd HH:mm:ss Z MMM");
-			Date date;
-			try {
-				date = (Date)formatter.parse(dateStr);
-				System.out.println("String Date: "+ date);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			        
-						
-			//DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			//System.out.println("String Date: " + sDate);
-			//String testdate = dateFormat.format(sDate);
-			//dateFormat.format(sDate);
 			
-			//System.out.println("DATE: " + dateStest);
-			//DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			//String testdate = dateFormat.format(dateStr);
-			
-			//LocalDate d = LocalDate.parse(dateStr);
-			//System.out.println("Date:  " + d.toString());
-			//String[] dateStrV = dateStr.split("-");
-			//date.setValue(LocalDate.of(Integer.parseInt(dateStrV[0]), Integer.parseInt(dateStrV[1]),Integer.parseInt(dateStrV[2]))); 
-			//System.out.println(doc.getTracks().length());
-			// date.setValue(myFormatObj);
-			//LocalDate dd = LocalDate.parse(dateStr);
-			
-			// dd.format("yyyy-MM-dd");
-			// System.out.println("DATE: " + testdate);
+			SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+		    Date sdate;
+			sdate = parser.parse(sDate);
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        String formattedDate = formatter.format(sdate);
+	        System.out.println("DATE FORMATTED: " + formattedDate);
+	        date.setValue(LocalDate.parse(formattedDate));
+		   
+	        	
 	
 			for(int i = 0; i<doc.getTracks().length();  i++) {
 				 JSONObject obj1 = doc.getTracks().getJSONObject(i);
