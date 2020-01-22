@@ -38,12 +38,13 @@ public class Crud extends MongoConnection{
 	private static int loc;
 
 	
-	public void create(JSONObject json, String Collection) 
+	public void create(Document content, String Collection) 
 	{
+		
 		MongoCollection<Document> mgcollection = db.getCollection(Collection);
-		List<Document> document = new ArrayList<>();
-		document.add(Document.parse(json.toString()));
-		mgcollection.insertMany(document);
+		//List<Document> document = new ArrayList<>();
+		//document.add(Document.parse(content.toString()));
+		mgcollection.insertOne(content);
 		 
 	}
 	
@@ -176,22 +177,20 @@ public class Crud extends MongoConnection{
 	
 	}
 	
-	public static void update(Bson json,String Collection, String extra) {
+	public static void update(Bson json,String Collection, String extra1, String extra2) {
 		//reference: https://www.mkyong.com/mongodb/java-mongodb-update-document/
 		String ObjectId = memLocation.replaceAll("[^a-zA-Z0-9]", "");
 		MongoCollection<Document> mgcollection = db.getCollection(Collection);
 		BasicDBObject searchQuery = new BasicDBObject();
-		System.out.println("Extra: " + extra);
+		System.out.println("Extra: " + extra1);
 		
-		if(extra.isEmpty()) {searchQuery.append("_id", new ObjectId(ObjectId));}
+		if(extra1.isEmpty() && extra2.isEmpty()) {searchQuery.append("_id", new ObjectId(ObjectId));}
 		else
 		{
-			searchQuery.append("_id", new ObjectId(ObjectId));
-			searchQuery.append("fkey", extra);
+			searchQuery.append("fkey", extra1);
+			searchQuery.append("id",extra2);
+			
 		}
-		
-		
-		
 		mgcollection.updateOne(searchQuery,json);
 	
 	}
@@ -217,8 +216,5 @@ public class Crud extends MongoConnection{
 		loc =  location;
 		return Data; 
 	}
-
-
-	
 	
 }

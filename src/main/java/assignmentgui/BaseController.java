@@ -55,6 +55,10 @@ import java.util.Iterator;
 
 import javafx.scene.Node;
 import javafx.scene.canvas.*;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -123,6 +127,9 @@ public class BaseController  implements Initializable  {
 	private String SingleID = null;
 	
 	private String idStr = null;
+	
+	@FXML
+	public BarChart<?, ?> visitors;
 	
 	public void initialize(URL url, ResourceBundle rb) 
 	{
@@ -287,11 +294,30 @@ public class BaseController  implements Initializable  {
 	}
 	
 	public void SingleContent() {
+	    //visitors;
+	      
+		XYChart.Series set1 = new XYChart.Series<>();
+		set1.getData().add(new XYChart.Data("January",1000));
+		set1.getData().add(new XYChart.Data("February",3000));
+		set1.getData().add(new XYChart.Data("March",2000));
+		set1.getData().add(new XYChart.Data("April",5000));
+		set1.getData().add(new XYChart.Data("May",5000));
+		set1.getData().add(new XYChart.Data("June",5000));
+		set1.getData().add(new XYChart.Data("July",5000));
+		set1.getData().add(new XYChart.Data("August",5000));
+		set1.getData().add(new XYChart.Data("September",5000));
+		set1.getData().add(new XYChart.Data("October",5000));
+		set1.getData().add(new XYChart.Data("November",5000));
+		set1.getData().add(new XYChart.Data("December",5000));
+		visitors.getData().addAll(set1);
 		
-	
+		
+		
 		ArrayList<Row> ticket = db.read();
 		
-		ticket.forEach(e -> {
+		
+	      
+	        ticket.forEach(e -> {
 			System.out.println("ID " + e.getID());
 			Image img1 = new Image("file:/kikoassignment/src/" + e.getImage(),true);
 			photo1.setImage(img1);
@@ -354,19 +380,33 @@ public class BaseController  implements Initializable  {
 			category.setValue(e.getGenre());
 			String sDate = e.getDate();
 	
-		
-	        for(int i = 0; i<e.getTracks().length();  i++) 
-	        {
-	        	
-				 JSONObject obj1 = e.getTracks().getJSONObject(i);
-				 String Artist = obj1.getString("artist");
-				 String Title = obj1.getString("title");
-				 String time = obj1.getString("duration");
-				 String TrackID = obj1.getString("fkey");
-				 idStr = obj1.getString("id");
-				 Track track = new Track(Title,Artist,time,idStr);
-				 datalist.getItems().add(track);
+			SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+		    Date sdate;
+			try {
+				sdate = parser.parse(sDate);
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		        String formattedDate = formatter.format(sdate);
+		        //System.out.println("DATE FORMATTED: " + formattedDate);
+		        date.setValue(LocalDate.parse(formattedDate));
+		        
+				for(int i = 0; i<e.getTracks().length();  i++) 
+		        {
+		        	
+					 JSONObject obj1 = e.getTracks().getJSONObject(i);
+					 String Artist = obj1.getString("artist");
+					 String Title = obj1.getString("title");
+					 String time = obj1.getString("duration");
+					 String TrackID = obj1.getString("fkey");
+					 idStr = obj1.getString("id");
+					 Track track = new Track(Title,Artist,time,idStr);
+					 datalist.getItems().add(track);
+				}
+				
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+	        
 			
 		});
 		
@@ -510,39 +550,35 @@ public class BaseController  implements Initializable  {
 			
 			if(albumcoverphoto.getText().isEmpty()) {
 				popup.setText("Please add Cover Photo!");
-			}else {
+			}else 
+			{
 				
-						
-			      
-				        JSONObject content = new JSONObject();
-					  	content.put("title", title.getText());
-					  	content.put("description", description.getText());
-					  	content.put("location", location.getText());
-					  	content.put("photos", "photos/" + albumcoverphoto.getText());
-					  	content.put("date", date.getValue());
-					  	content.put("genre", category.getValue().toString());
-					  	content.put("price", price.getText());
-					  	content.put("author",author);
-					  	content.put("foreignkey", foreignkey);
-					  	
+				Document content = new Document()
+						.append("title", title.getText())
+						.append("description", description.getText())
+						.append("location", location.getText())
+						.append("photos", "photos/" + albumcoverphoto.getText())
+						.append("date", date.getValue())
+						.append("genre", category.getValue().toString())
+						.append("price", price.getText())
+						.append("author",author)
+						.append("foreignkey", foreignkey);
 						db.create(content, "artist");
-						String GeneratedObjID = ObjectId.get().toString();
-						JSONObject trackJson = new JSONObject();
-						datalist.getItems().forEach(e -> {
-							trackJson.put("title", e.getTitle());
-							trackJson.put("artist", e.getArtist());
-							trackJson.put("duration", e.getTime());
-							trackJson.put("fkey", foreignkey);
-							trackJson.put("id", GeneratedObjID);
-							db.create(trackJson,"tracks");
-						});
-				
-						needtodisplay();
-						popup.setVisible(true);
-						popup.setText("Added Successfully!");	
 						
-					
-				   
+						
+						datalist.getItems().forEach(e -> {
+							String GeneratedObjID = ObjectId.get().toString();
+							Document track = new Document()
+							.append("title", e.getTitle())
+							.append("artist", e.getArtist())
+							.append("duration", e.getTime())
+							.append("fkey", foreignkey)
+							.append("id", GeneratedObjID);
+							db.create(track,"tracks");
+						});
+
+						popup.setText("Added Successfully!");
+
 				
 			}
 		  
@@ -550,7 +586,7 @@ public class BaseController  implements Initializable  {
 			popup.setText("Failed Please Fill up all fields!");
 		}
 	    
-	}
+	} 
 	   
 	
 	public void update(ActionEvent event) throws IOException {
@@ -564,11 +600,12 @@ public class BaseController  implements Initializable  {
 			content = combine(set("title", title.getText()), set("description", description.getText()), set("photos","photos/" + albumcoverphoto.getText()), set("date", date.getValue()),set("genre",category.getValue().toString()),set("price", price.getText()));
 			popup.setText("Saved!");
 		}
-		crud.update(content, "artist","");
-		System.out.println("SingleID: " + SingleID);
+		crud.update(content, "artist","","");
+		System.out.println("Fkey: " + SingleID);
 		datalist.getItems().forEach(e -> {
+			System.out.println("ID: " + e.getID());
 			Bson track = combine(set("title", e.getTitle()), set("duration", e.getTime()), set("artist", e.getArtist()));
-			crud.update(track, "tracks",SingleID);
+			crud.update(track, "tracks",SingleID,e.getID());
 		});
 		
 		
@@ -804,5 +841,4 @@ public class BaseController  implements Initializable  {
 
 
 }
-
 

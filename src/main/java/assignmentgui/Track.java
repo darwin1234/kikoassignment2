@@ -12,7 +12,7 @@ public class Track {
 			this.time = __time;
 			this.id =  id;
 		}
-		public String id() {
+		public String getID() {
 			return id;
 		}
 		public String getTitle() {
