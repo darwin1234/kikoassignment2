@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 
 import org.json.JSONObject;
 
+import com.mongodb.client.MongoCursor;
+
 import MongoDBConnection.Row;
 import MongoDBConnection.User;
 import MongoDBConnection.Crud;
@@ -49,9 +51,15 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.util.Date;
+import java.util.Iterator;
+
 import javafx.scene.Node;
 import javafx.scene.canvas.*;
+
+import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+
 import static com.mongodb.client.model.Updates.combine;
 
 import static com.mongodb.client.model.Updates.set;
@@ -112,6 +120,9 @@ public class BaseController  implements Initializable  {
 	//
 	private int setPage;
 	
+	private String SingleID = null;
+	
+	private String idStr = null;
 	
 	public void initialize(URL url, ResourceBundle rb) 
 	{
@@ -122,6 +133,7 @@ public class BaseController  implements Initializable  {
 	
 	public void TableViewDataList()
 	{
+		datalist.getItems().clear();
 		TableColumn<Track, String> __title = new TableColumn("Title");
 		__title.setCellValueFactory(new PropertyValueFactory<>("title"));
 		
@@ -132,6 +144,7 @@ public class BaseController  implements Initializable  {
 		__time.setCellValueFactory(new PropertyValueFactory<>("time"));
 		//added all the colums
 		datalist.getColumns().addAll(__title, __artist,__time);
+		
 		
 		
 		
@@ -156,8 +169,7 @@ public class BaseController  implements Initializable  {
 		//display all artist!
 		ArrayList<Row> ticket  = db.read();
 		
-		
-		
+	
 		for (Row printRow : ticket)
         {
 			
@@ -278,33 +290,36 @@ public class BaseController  implements Initializable  {
 		
 	
 		ArrayList<Row> ticket = db.read();
-	
 		
-		for (Row doc : ticket)
-        {
-			
-			Image img1 = new Image("file:/kikoassignment/src/" + doc.getImage(),true);
+		ticket.forEach(e -> {
+			System.out.println("ID " + e.getID());
+			Image img1 = new Image("file:/kikoassignment/src/" + e.getImage(),true);
 			photo1.setImage(img1);
-			title_row1.setText(doc.getTitle());	
-			content_1.setText(doc.getDescription().substring(0, 550));
-			title_row2.setText(doc.getTitle());
-			location_1.setText(doc.getLocation());
-			price_1.setText(""+ doc.getPrice());
-			singleDate.setText(doc.getDate().toString());
-			System.out.println(doc.getTracks().length());
+			title_row1.setText(e.getTitle());	
+			content_1.setText(e.getDescription().substring(0, 550));
+			title_row2.setText(e.getTitle());
+			location_1.setText(e.getLocation());
+			price_1.setText(""+ e.getPrice());
+			singleDate.setText(e.getDate().toString());
+			System.out.println(e.getTracks().toString());
 			
-			for(int i = 0; i<doc.getTracks().length();  i++) {
-				 JSONObject obj1 = doc.getTracks().getJSONObject(i);
-				 //System.out.println(obj1.getString("artist"));
-				 String Artist = obj1.getString("artist");
-				 String Title = obj1.getString("title");
-				 String time = obj1.getString("duration");
-				 String TrackID = obj1.getString("fkey");
-				 Track track = new Track(Title,Artist,time);
-				 datalist.getItems().add(track);
+			for(int i = 0; i<e.getTracks().length();  i++)
+				{
+					
+					JSONObject obj1 = e.getTracks().getJSONObject(i);
+					String Artist = obj1.getString("artist");
+					String Title = obj1.getString("title");
+					String time = obj1.getString("duration");
+					String TrackID = obj1.getString("fkey");	
+					String id = obj1.getString("id");
+					Track track = new Track(Title,Artist,time,id);
+					datalist.getItems().add(track);
 			}
 			
-        }
+
+		});
+		
+		
 		
 	}
 	
@@ -329,42 +344,33 @@ public class BaseController  implements Initializable  {
 		
 		
 		ArrayList<Row> ticket = db.read();
+		
+		ticket.forEach( e -> {
+			SingleID = e.getforeignkey();		
+			title.setText(e.getTitle());
+			description.setText(e.getDescription());
+			price.setText(""+ e.getPrice());
+			location.setText(""+ e.getLocation());
+			category.setValue(e.getGenre());
+			String sDate = e.getDate();
 	
 		
-		for (Row doc : ticket)
-        {
-			title.setText(doc.getTitle());
-			description.setText(doc.getDescription());
-			price.setText(""+ doc.getPrice());
-			location.setText(""+ doc.getLocation());
-			category.setValue(doc.getGenre());
-			String sDate = doc.getDate();
-			
-			SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
-		    Date sdate;
-			sdate = parser.parse(sDate);
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	        String formattedDate = formatter.format(sdate);
-	        System.out.println("DATE FORMATTED: " + formattedDate);
-	        date.setValue(LocalDate.parse(formattedDate));
-		   
-	        datalist.setEditable(true);
-	     
-	
-			for(int i = 0; i<doc.getTracks().length();  i++) {
-				 JSONObject obj1 = doc.getTracks().getJSONObject(i);
-				 //System.out.println(obj1.getString("artist"));
+	        for(int i = 0; i<e.getTracks().length();  i++) 
+	        {
+	        	
+				 JSONObject obj1 = e.getTracks().getJSONObject(i);
 				 String Artist = obj1.getString("artist");
 				 String Title = obj1.getString("title");
 				 String time = obj1.getString("duration");
 				 String TrackID = obj1.getString("fkey");
-				 Track track = new Track(Title,Artist,time);
-				 
+				 idStr = obj1.getString("id");
+				 Track track = new Track(Title,Artist,time,idStr);
 				 datalist.getItems().add(track);
 			}
 			
-        }
+		});
 		
+
 	}
 	
 	public void EditableTableView() {
@@ -487,7 +493,7 @@ public class BaseController  implements Initializable  {
 	}
 	
 	
-	public void publish(ActionEvent event) throws IOException {
+	public void publish(ActionEvent event) throws IOException, ParseException {
 		
 		//this will provide foreign key
 		Random rand = new Random();
@@ -505,45 +511,39 @@ public class BaseController  implements Initializable  {
 			if(albumcoverphoto.getText().isEmpty()) {
 				popup.setText("Please add Cover Photo!");
 			}else {
-				  	JSONObject content = new JSONObject();
-				  	content.put("title", title.getText());
-				  	content.put("description", description.getText());
-				  	content.put("location", location.getText());
-				  	content.put("photos", "photos/" + albumcoverphoto.getText());
-				  	content.put("date", date.getValue());
-				  	content.put("genre", category.getValue().toString());
-				  	content.put("price", price.getText());
-				  	content.put("author",author);
-				  	content.put("foreignkey", foreignkey);
-			    
-					db.create(content, "artist");
 				
-				    
-					String __duration  = timesong.getText();
-					String __musictitle =  musictitle.getText();
-					String __artistname = artistname.getText();
-				    
-				    tracks[0][0] = __musictitle;
-					tracks[0][1] = __artistname;
-					tracks[0][2] = __duration;
-					
-					//JSONObject for tracks
-					JSONObject trackJson = new JSONObject();
-					for(int i = 0; i<= tracks.length; i++) {
-						if(!(tracks[i][0] == null) && !(tracks[i][1] == null) && !(tracks[i][2] == null)) 
-						{
-							trackJson.put("title", tracks[i][0]);
-							trackJson.put("artist", tracks[i][1]);
-							trackJson.put("duration", tracks[i][2]);
-							trackJson.put("fkey", foreignkey);
-							//crud add record
-							db.create(trackJson,"tracks");
 						
-						}
-					}
-			
-					needtodisplay();
-					popup.setText("Added Successfully!");	
+			      
+				        JSONObject content = new JSONObject();
+					  	content.put("title", title.getText());
+					  	content.put("description", description.getText());
+					  	content.put("location", location.getText());
+					  	content.put("photos", "photos/" + albumcoverphoto.getText());
+					  	content.put("date", date.getValue());
+					  	content.put("genre", category.getValue().toString());
+					  	content.put("price", price.getText());
+					  	content.put("author",author);
+					  	content.put("foreignkey", foreignkey);
+					  	
+						db.create(content, "artist");
+						String GeneratedObjID = ObjectId.get().toString();
+						JSONObject trackJson = new JSONObject();
+						datalist.getItems().forEach(e -> {
+							trackJson.put("title", e.getTitle());
+							trackJson.put("artist", e.getArtist());
+							trackJson.put("duration", e.getTime());
+							trackJson.put("fkey", foreignkey);
+							trackJson.put("id", GeneratedObjID);
+							db.create(trackJson,"tracks");
+						});
+				
+						needtodisplay();
+						popup.setVisible(true);
+						popup.setText("Added Successfully!");	
+						
+					
+				   
+				
 			}
 		  
 		}else {
@@ -556,6 +556,7 @@ public class BaseController  implements Initializable  {
 	public void update(ActionEvent event) throws IOException {
 		Crud crud = new Crud();
 		Bson content = null;
+		 
 		if(albumcoverphoto.getText().isEmpty()) {
 			content = combine(set("title", title.getText()), set("description", description.getText()), set("date", date.getValue()),set("genre",category.getValue().toString()),set("price", price.getText()));
 			popup.setText("Saved!");
@@ -563,7 +564,12 @@ public class BaseController  implements Initializable  {
 			content = combine(set("title", title.getText()), set("description", description.getText()), set("photos","photos/" + albumcoverphoto.getText()), set("date", date.getValue()),set("genre",category.getValue().toString()),set("price", price.getText()));
 			popup.setText("Saved!");
 		}
-		crud.update(content, "artist");
+		crud.update(content, "artist","");
+		System.out.println("SingleID: " + SingleID);
+		datalist.getItems().forEach(e -> {
+			Bson track = combine(set("title", e.getTitle()), set("duration", e.getTime()), set("artist", e.getArtist()));
+			crud.update(track, "tracks",SingleID);
+		});
 		
 		
 	}
@@ -578,7 +584,7 @@ public class BaseController  implements Initializable  {
 		}else 
 		{
 			
-			Track track = new Track(musictitle.getText(),artistname.getText(),timesong.getText());
+			Track track = new Track(musictitle.getText(),artistname.getText(),timesong.getText(),idStr);
 			datalist.getItems().add(track);
 			
 			System.out.println("Song Added!!");
@@ -587,24 +593,29 @@ public class BaseController  implements Initializable  {
 			musictitle.clear();
 			artistname.clear();
 			
+			
 		} 
 		
 		//arrays of two dimension
-		tracks[counter][0] = musictitle.getText();
-		tracks[counter][1] = artistname.getText();
-		tracks[counter][2] = timesong.getText();
-		counter++;
+		//tracks[counter][0] = musictitle.getText();
+		//tracks[counter][1] = artistname.getText();
+		//tracks[counter][2] = timesong.getText();
+		//counter++;
 
 	}
 	
 	public void updateTrack() 
-	{
-		 Track item = datalist.getSelectionModel().getSelectedItem();
-		 
-		 System.out.println("TIME:  " + item.getTime());
-		 
-	}
+	{	
 	
+		EditableTableView();
+		Track item =  new Track(musictitle.getText(),artistname.getText(),timesong.getText(),idStr);
+		int index = datalist.getSelectionModel().getSelectedIndex();
+		datalist.getItems().set(index, item);
+		
+       
+        
+	}
+	 
 	public void removeTrack() 
 	{
 		datalist.getItems().removeAll(datalist.getSelectionModel().getSelectedItem());

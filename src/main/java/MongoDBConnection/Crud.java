@@ -19,6 +19,8 @@ import org.json.JSONObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+
 import assignmentgui.Session;
 
 
@@ -136,8 +138,8 @@ public class Crud extends MongoConnection{
         
         Row row;
 
+     
         
-
 		for (Document document : data)
  	    {
 			
@@ -149,21 +151,16 @@ public class Crud extends MongoConnection{
  		    	String title		 = obj.getString("title");
  		    	String description 	 = obj.getString("description");
  		    	double price		 = obj.getDouble("price");
- 		    	String date		 = 		obj.getString("date");
+ 		    	String date		 	 = obj.getString("date");
  		    	String author		 = obj.getString("author");
  		    	String genre		 = obj.getString("genre");
  		    	String location		 = obj.getString("location");
  		    	String photos		 = obj.getString("photos");
  		    	String fkey			 = obj.getString("foreignkey");
  		    	String objectID		 = objID.get(0).toString();
- 		   
- 		    	
- 		    	
- 		    	//LocalDate.parse(text, formatter)
- 		    	//System.out.println("TITLE TEST: " + title);
- 		        
+
  		    	org.json.JSONArray c = obj.getJSONArray("tracks");
- 		    	
+ 		    
  		    	row = new Row(title,description,price,location,date,objectID,photos,genre,author,fkey,c);
  		    	
  		    	rows.add(row);
@@ -179,15 +176,24 @@ public class Crud extends MongoConnection{
 	
 	}
 	
-	
-	public static void update(Bson json,String Collection) {
+	public static void update(Bson json,String Collection, String extra) {
 		//reference: https://www.mkyong.com/mongodb/java-mongodb-update-document/
 		String ObjectId = memLocation.replaceAll("[^a-zA-Z0-9]", "");
 		MongoCollection<Document> mgcollection = db.getCollection(Collection);
-		BasicDBObject searchQuery = new BasicDBObject().append("_id", new ObjectId(ObjectId));
-		mgcollection.updateOne(searchQuery,json);
+		BasicDBObject searchQuery = new BasicDBObject();
+		System.out.println("Extra: " + extra);
 		
-
+		if(extra.isEmpty()) {searchQuery.append("_id", new ObjectId(ObjectId));}
+		else
+		{
+			searchQuery.append("_id", new ObjectId(ObjectId));
+			searchQuery.append("fkey", extra);
+		}
+		
+		
+		
+		mgcollection.updateOne(searchQuery,json);
+	
 	}
 	
 	public static void delete(String ObjectId , String Collection ) 

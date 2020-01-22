@@ -56,7 +56,7 @@ public class Row {
     	return location;
     }
     public String getID() {
-    	System.out.println(id);
+    	//System.out.println(id);
     	return id;
     	
     }
@@ -78,7 +78,7 @@ public class Row {
     }
     
     public org.json.JSONArray getTracks(){
-    	
+    	System.out.println(c.toString());
     	return c;
     }
 
