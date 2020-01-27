@@ -77,12 +77,10 @@ public class Controller extends BaseController {
 				//clear popup
 				popup.setText("");
 				break;
-			case "__main__":
+			case "__main__": 
 				if(!WelcomeStr.isEmpty()) {
 					//Clear all fx:id's
-					clearAll();
-					
-					
+					clearAll(); 
 					//greetings when successfully login!
 					greetings.setText("Hi, " +  WelcomeStr);
 					//these function is next and previous

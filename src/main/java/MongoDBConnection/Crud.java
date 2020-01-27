@@ -3,12 +3,14 @@ package MongoDBConnection;
 
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream.Filter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -20,6 +22,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
 
 import assignmentgui.Session;
 
@@ -42,17 +45,15 @@ public class Crud extends MongoConnection{
 	{
 		
 		MongoCollection<Document> mgcollection = db.getCollection(Collection);
-		//List<Document> document = new ArrayList<>();
-		//document.add(Document.parse(content.toString()));
 		mgcollection.insertOne(content);
 		 
 	}
 	
 	
-	public static ArrayList<Row> read() {
+	public static AggregateIterable<Document> read(String collection) {
 		
 		
-        lists = db.getCollection("artist");
+        lists = db.getCollection(collection);
         rows.clear(); //clear the ArrayList first
         
 
@@ -61,22 +62,25 @@ public class Crud extends MongoConnection{
         lookupFields.put("foreignField", "fkey");
         lookupFields.put("as", "tracks");
         
+        
+     
+        
         AggregateIterable<Document> data = null;
         
         if(memLocation.length() == 0) 
         {
         	
-       
         	data = lists.aggregate(Arrays.asList(
         			new Document("$lookup", lookupFields),
-            		new Document("$skip", 0),
+        			new Document("$skip", 0),
             		new Document("$limit", 4)
+            		
             ));
         	
         }else 
         {
         	
-        	BasicDBObject keywordAndField = new BasicDBObject();
+        	Document keywordAndField = new Document();
         	Session session;
 			try {
 				session = new Session();
@@ -136,45 +140,14 @@ public class Crud extends MongoConnection{
 			}
 			
         }	
-        
-        Row row;
 
-     
-        
-		for (Document document : data)
- 	    {
-			
-	
- 	    		
- 	    		var objID = new ArrayList<>(document.values());
- 		    	JSONObject obj = new JSONObject(document);
- 		    	
- 		    	String title		 = obj.getString("title");
- 		    	String description 	 = obj.getString("description");
- 		    	double price		 = obj.getDouble("price");
- 		    	String date		 	 = obj.getString("date");
- 		    	String author		 = obj.getString("author");
- 		    	String genre		 = obj.getString("genre");
- 		    	String location		 = obj.getString("location");
- 		    	String photos		 = obj.getString("photos");
- 		    	String fkey			 = obj.getString("foreignkey");
- 		    	String objectID		 = objID.get(0).toString();
-
- 		    	org.json.JSONArray c = obj.getJSONArray("tracks");
- 		    
- 		    	row = new Row(title,description,price,location,date,objectID,photos,genre,author,fkey,c);
- 		    	
- 		    	rows.add(row);
- 		    	
- 		    	
- 	   }
     
     	//must be clear
 		SearchKeyword = "";
 		//memLocation = "";
       
-		return rows;
-	
+		//return rows;
+		return data;
 	}
 	
 	public static void update(Bson json,String Collection, String extra1, String extra2) {
@@ -215,6 +188,24 @@ public class Crud extends MongoConnection{
 		column = __column;
 		loc =  location;
 		return Data; 
+	}
+	
+	public int size(String collection, String date) {
+		MongoCollection<Document> mgcollection = db.getCollection(collection);
+		///Document doc = new Document();
+		///Date d = new Date();
+		//oc.put("$gte", d.parse(date));
+		 AggregateIterable<Document> data = null;
+		 data = lists.aggregate(Arrays.asList(
+     			new Document("$count", "total")
+         ));
+		 
+		 System.out.println("" + data.first().toString());
+		 return 1;
+		// db.visitors.aggregate([   {$project: {month: {$month: '$date'}}},{$match: {month: 1}},{ $count: "total"}]);
+		//return (int) mgcollection.count(Filters.eq("date", doc));
+		 //db.visitors.aggregate([{$project: {name: 1, month: {$month: '$date'}}},{$match: {month: 1}},{ $count: "passing_scores"}]);  
+		//db.visitors.aggregate([{$project: {name: 1, month: {$month: '$date'}}},   {$match: {month: 1}} ]); 
 	}
 	
 }

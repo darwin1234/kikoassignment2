@@ -11,12 +11,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 
 import org.json.JSONObject;
 
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCursor;
 
 import MongoDBConnection.Row;
@@ -134,12 +136,13 @@ public class BaseController  implements Initializable  {
 	public void initialize(URL url, ResourceBundle rb) 
 	{
 	
-		String PAGE =  Page.getText(); //this is found fxml files. visibility is equal to false
+		String PAGE =  Page.getText(); //this is found every fxml files. visibility is equal to false
 	}
 	
 	
 	public void TableViewDataList()
 	{
+		
 		datalist.getItems().clear();
 		TableColumn<Track, String> __title = new TableColumn("Title");
 		__title.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -174,179 +177,197 @@ public class BaseController  implements Initializable  {
 		int i = 0;
 		
 		//display all artist!
-		ArrayList<Row> ticket  = db.read();
+		AggregateIterable<Document> ticket  = db.read("artist");
 		
-	
-		for (Row printRow : ticket)
-        {
+		 
+		for (Document document : ticket)
+ 	    {
 			
-			i++; //increment i by 4 only
-			
-			if(i == 1)
-			{	
+				i++; //increment i by 4 only
+ 	    		
+ 	    		var objID = new ArrayList<>(document.values());
+ 		    	JSONObject obj = new JSONObject(document);
 
-				   Image img1 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
-				   photo1.setVisible(true);
-				   title_row1.setVisible(true);
-				   content_1.setVisible(true);
-				   price_1.setVisible(true);
-				   createdby1.setVisible(true);
-				   location_1.setVisible(true);
-				   photo1.setImage(img1);
-				   title_row1.setText(printRow.getTitle());
-				   content_1.setText(printRow.getDescription().substring(0, 350));
-				   price_1.setText("Price: " + printRow.getPrice() + " USD");
-				   createdby1.setText("Published By: " +  printRow.getAuthor());
-				   location_1.setText("Location: " + printRow.getLocation());
-				   view_1.setVisible(true);
-				   view_1.setOnAction(e -> FxEvents("View", printRow.getID()) );
-				   if(author.equals(printRow.getAuthor())) {
-					   Remove1.setVisible(true); 
-					   Remove1.setOnAction(e ->  FxEvents("Delete", printRow.getID()));
-					   Update1.setVisible(true); 
-					   Update1.setOnAction(e -> FxEvents("UpdatePage", printRow.getID()));
-				    }
-			  }else if(i == 2) 
-			   {
-
-				   //System.out.println(printRow.getImage());
-				   Image img2 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
-				   photo2.setVisible(true);
-				   title_row2.setVisible(true);
-				   content_2.setVisible(true);
-				   price_2.setVisible(true);
-				   createdby2.setVisible(true);
-				   location_2.setVisible(true);
-				   
-				   photo2.setImage(img2);
-				   title_row2.setText(printRow.getTitle());
-				   content_2.setText(printRow.getDescription().substring(0, 350));
-				   price_2.setText("Price: " + printRow.getPrice() + " USD");
-				   createdby2.setText("Published By: " +  printRow.getAuthor());
-				   location_2.setText("Location: " + printRow.getLocation());
-				   view_2.setVisible(true);
-				   view_2.setOnAction(e ->  FxEvents("View", printRow.getID()));
-			   
-				   if(author.equals(printRow.getAuthor())) {
-					   Remove2.setVisible(true);
-					   Remove2.setOnAction(e ->  FxEvents("Delete", printRow.getID()));
-					   Update2.setVisible(true);
-					   Update2.setOnAction(e -> FxEvents("UpdatePage", printRow.getID()));
-				   }
-				   
-			   }else if(i == 3)
-			   {
-				   Image img3 =  new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
-				   photo3.setVisible(true);
-				   title_row3.setVisible(true);
-				   content_3.setVisible(true);
-				   price_3.setVisible(true);
-				   createdby3.setVisible(true);
-				   location_3.setVisible(true);
-				   
-				   photo3.setImage(img3);
-				   title_row3.setText(printRow.getTitle());
-				   content_3.setText(printRow.getDescription().substring(0, 350));
-				   price_3.setText("Price: " + printRow.getPrice() + " USD");
-				   createdby3.setText("Published By: " +  printRow.getAuthor());
-				   location_3.setText("Location: " + printRow.getLocation());
-				   view_3.setVisible(true);
-				   view_3.setOnAction(e  -> FxEvents("View", printRow.getID()));
-			   
-				   if(author.equals(printRow.getAuthor())) {
-					   Remove3.setVisible(true);
-					   Remove3.setOnAction(e ->  FxEvents("Delete", printRow.getID()));
-					   Update3.setVisible(true);
-					   Update3.setOnAction(e ->  FxEvents("UpdatePage", printRow.getID()));
-				   } 
-				   
-			  }else if(i == 4) 
-			  {
-				   Image img4 = new Image("file:/kikoassignment/src/" + printRow.getImage(),true);
-				   photo4.setVisible(true);
-				   title_row4.setVisible(true);
-				   content_4.setVisible(true);
-				   price_4.setVisible(true);
-				   createdby4.setVisible(true);
-				   location_4.setVisible(true);
-				   photo4.setImage(img4);
-				   title_row4.setText(printRow.getTitle());
-				   content_4.setText(printRow.getDescription().substring(0, 350));
-				   price_4.setText("Price: " + printRow.getPrice() + " USD");
-				   createdby4.setText("Published By: " +  printRow.getAuthor());
-				   location_4.setText("Location: " + printRow.getLocation());
-				   view_4.setVisible(true);
-				   view_4.setOnAction(e ->  FxEvents("View", printRow.getID()));
-				   if(author.equals(printRow.getAuthor())) {
-						   Remove4.setVisible(true);
-						   Remove4.setOnAction(e -> FxEvents("Delete", printRow.getID()));
-						   Update4.setVisible(true);
-						   Update4.setOnAction(e-> FxEvents("UpdatePage", printRow.getID()));
-				   }
-		   	}else 
-		   	{
-		   		i = 0; //When reach to 4 it will reset to 0
-		   	}
-        }
+		    	//org.json.JSONArray c = obj.getJSONArray("tracks");
+ 		    
+ 		    	if(i == 1)
+				{	
+ 		    		Image img1 = new Image("file:/kikoassignment/src/" + obj.getString("photos"),true);
+ 		    		photo1.setVisible(true);
+ 					title_row1.setVisible(true);
+ 					content_1.setVisible(true);
+ 					price_1.setVisible(true);
+ 					createdby1.setVisible(true);
+ 					location_1.setVisible(true);
+ 					photo1.setImage(img1);
+ 					title_row1.setText(obj.getString("title"));
+ 					content_1.setText(obj.getString("description").substring(0, 350));
+ 					price_1.setText("Price: " + obj.getDouble("price") + " USD");
+ 					createdby1.setText("Published By: " +  obj.getString("author"));
+ 					location_1.setText("Location: " + obj.getString("location"));
+ 					view_1.setVisible(true);
+ 					view_1.setOnAction(e -> FxEvents("View", objID.get(0).toString()) );
+ 					if(author.equals(obj.getString("author"))) {
+ 						Remove1.setVisible(true); 
+ 						Remove1.setOnAction(e ->  FxEvents("Delete", objID.get(0).toString()));
+ 						Update1.setVisible(true); 
+ 						Update1.setOnAction(e -> FxEvents("UpdatePage", objID.get(0).toString()));
+ 					}
+				}else if(i == 2) 
+ 				{
+					Image img2 = new Image("file:/kikoassignment/src/" + obj.getString("photos"),true);
+					photo2.setVisible(true);
+					title_row2.setVisible(true);
+					content_2.setVisible(true);
+					price_2.setVisible(true);
+					createdby2.setVisible(true);
+					location_2.setVisible(true);
+					photo2.setImage(img2);
+					title_row2.setText(obj.getString("title"));
+					content_2.setText(obj.getString("description").substring(0, 350));
+					price_2.setText("Price: " + obj.getDouble("price") + " USD");
+					createdby2.setText("Published By: " +  obj.getString("author"));
+					location_2.setText("Location: " + obj.getString("location"));
+					view_2.setVisible(true);
+					view_2.setOnAction(e -> FxEvents("View", objID.get(0).toString()) );
+					if(author.equals(obj.getString("author"))) {
+						Remove2.setVisible(true); 
+						Remove2.setOnAction(e ->  FxEvents("Delete", objID.get(0).toString()));
+						Update2.setVisible(true); 
+						Update2.setOnAction(e -> FxEvents("UpdatePage", objID.get(0).toString()));
+					}
+ 						   
+ 				}else if(i == 3)
+ 				{
+ 					Image img3 = new Image("file:/kikoassignment/src/" + obj.getString("photos"),true);
+					photo3.setVisible(true);
+					title_row3.setVisible(true);
+					content_3.setVisible(true);
+					price_3.setVisible(true);
+					createdby3.setVisible(true);
+					location_3.setVisible(true);
+					photo3.setImage(img3);
+					title_row3.setText(obj.getString("title"));
+					content_3.setText(obj.getString("description").substring(0, 350));
+					price_3.setText("Price: " + obj.getDouble("price") + " USD");
+					createdby3.setText("Published By: " +  obj.getString("author"));
+					location_3.setText("Location: " + obj.getString("location"));
+					view_3.setVisible(true);
+					view_3.setOnAction(e -> FxEvents("View", objID.get(0).toString()) );
+					if(author.equals(obj.getString("author"))) {
+						Remove3.setVisible(true); 
+						Remove3.setOnAction(e ->  FxEvents("Delete", objID.get(0).toString()));
+						Update3.setVisible(true); 
+						Update3.setOnAction(e -> FxEvents("UpdatePage", objID.get(0).toString()));
+					}
+ 						   
+ 				}else if(i == 4) 
+ 				{
+ 						  
+ 					Image img4 = new Image("file:/kikoassignment/src/" + obj.getString("photos"),true);
+					photo4.setVisible(true);
+					title_row4.setVisible(true);
+					content_4.setVisible(true);
+					price_4.setVisible(true);
+					createdby4.setVisible(true);
+					location_4.setVisible(true);
+					photo4.setImage(img4);
+					title_row4.setText(obj.getString("title"));
+					content_4.setText(obj.getString("description").substring(0, 350));
+					price_4.setText("Price: " + obj.getDouble("price") + " USD");
+					createdby4.setText("Published By: " +  obj.getString("author"));
+					location_4.setText("Location: " + obj.getString("location"));
+					view_4.setVisible(true);
+					view_4.setOnAction(e -> FxEvents("View", objID.get(0).toString()) );
+					if(author.equals(obj.getString("author"))) {
+						Remove4.setVisible(true); 
+						Remove4.setOnAction(e ->  FxEvents("Delete", objID.get(0).toString()));
+						Update4.setVisible(true); 
+						Update4.setOnAction(e -> FxEvents("UpdatePage", objID.get(0).toString()));
+					}
+ 						  
+ 				   	  
+ 				}
+ 				else{ i = 0; /*When reach to 4 it will reset to 0*/ }
+ 		    		
+ 
+ 		    	
+ 	   }
 		
+
 		
 		
 	}
 	
 	public void SingleContent() {
-	    //visitors;
-	      
-		XYChart.Series set1 = new XYChart.Series<>();
-		set1.getData().add(new XYChart.Data("January",1000));
-		set1.getData().add(new XYChart.Data("February",3000));
-		set1.getData().add(new XYChart.Data("March",2000));
-		set1.getData().add(new XYChart.Data("April",5000));
-		set1.getData().add(new XYChart.Data("May",5000));
-		set1.getData().add(new XYChart.Data("June",5000));
-		set1.getData().add(new XYChart.Data("July",5000));
-		set1.getData().add(new XYChart.Data("August",5000));
-		set1.getData().add(new XYChart.Data("September",5000));
-		set1.getData().add(new XYChart.Data("October",5000));
-		set1.getData().add(new XYChart.Data("November",5000));
-		set1.getData().add(new XYChart.Data("December",5000));
-		visitors.getData().addAll(set1);
+	
+		vistors();
 		
-		
-		
-		ArrayList<Row> ticket = db.read();
-		
-		
-	      
-	        ticket.forEach(e -> {
-			System.out.println("ID " + e.getID());
-			Image img1 = new Image("file:/kikoassignment/src/" + e.getImage(),true);
+		AggregateIterable<Document> ticket  = db.read("artist");
+		 
+		for (Document document : ticket)
+	    {
+			var objID = new ArrayList<>(document.values());
+		    JSONObject obj = new JSONObject(document);
+			Image img1 = new Image("file:/kikoassignment/src/" + obj.getString("photos"),true);
 			photo1.setImage(img1);
-			title_row1.setText(e.getTitle());	
-			content_1.setText(e.getDescription().substring(0, 550));
-			title_row2.setText(e.getTitle());
-			location_1.setText(e.getLocation());
-			price_1.setText(""+ e.getPrice());
-			singleDate.setText(e.getDate().toString());
-			System.out.println(e.getTracks().toString());
+			title_row1.setText(obj.getString("title"));	
+			content_1.setText(obj.getString("description").substring(0, 550));
+			title_row2.setText(obj.getString("title"));
+			location_1.setText(obj.getString("location"));
+			price_1.setText(obj.getString("price").toString());
+			singleDate.setText(obj.getString("date"));
+			org.json.JSONArray tracks = obj.getJSONArray("tracks");
 			
-			for(int i = 0; i<e.getTracks().length();  i++)
-				{
-					
-					JSONObject obj1 = e.getTracks().getJSONObject(i);
-					String Artist = obj1.getString("artist");
-					String Title = obj1.getString("title");
-					String time = obj1.getString("duration");
-					String TrackID = obj1.getString("fkey");	
-					String id = obj1.getString("id");
-					Track track = new Track(Title,Artist,time,id);
-					datalist.getItems().add(track);
+			for(int i = 0; i<tracks.length();  i++) {
+				JSONObject track = obj.getJSONArray("tracks").getJSONObject(i);
+				String Artist = track.getString("artist");
+				String Title = track.getString("title");
+				String time = track.getString("duration");
+				String TrackID = track.getString("fkey");	
+				String id = track.getString("id");
+				Track music = new Track(Title,Artist,time,id);
+				datalist.getItems().add(music);
 			}
 			
+	
+	    }
+		
 
-		});
 		
+	}
+	
+	public void insertVistors(String objectid) {
+		//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		//LocalDateTime now = LocalDateTime.now();  
+		Date d = new Date();
+		Crud crud = new Crud();
+		Document content = new Document()
+				.append("userID", author)
+				.append("date", d)
+				.append("id", objectid);
 		
-		
+		crud.create(content, "visitors");
+	}
+	
+	
+	public void vistors() 
+	{
+		Crud visistors = new Crud();
+		XYChart.Series set1 = new XYChart.Series<>();
+		set1.getData().add(new XYChart.Data("January", visistors.size("visitors","2020-01")));
+		set1.getData().add(new XYChart.Data("February",visistors.size("visitors","2020-02")));
+		set1.getData().add(new XYChart.Data("March",visistors.size("visitors","2020-03")));
+		set1.getData().add(new XYChart.Data("April",visistors.size("visitors","2020-04")));
+		set1.getData().add(new XYChart.Data("May",visistors.size("visitors","2020-05")));
+		set1.getData().add(new XYChart.Data("June",visistors.size("visitors","2020-06")));
+		set1.getData().add(new XYChart.Data("July",visistors.size("visitors","2020-07")));
+		set1.getData().add(new XYChart.Data("August",visistors.size("visitors","2020-08")));
+		set1.getData().add(new XYChart.Data("September",visistors.size("visitors","2020-09")));
+		set1.getData().add(new XYChart.Data("October",visistors.size("visitors","2020-10")));
+		set1.getData().add(new XYChart.Data("November",visistors.size("visitors","2020-11")));
+		set1.getData().add(new XYChart.Data("December",visistors.size("visitors","2020-12")));
+		visitors.getData().addAll(set1);
 	}
 	
 	
@@ -369,47 +390,50 @@ public class BaseController  implements Initializable  {
 	public void UpdateContent() throws ParseException {
 		
 		
-		ArrayList<Row> ticket = db.read();
+		AggregateIterable<Document> ticket  = db.read("artist");
 		
-		ticket.forEach( e -> {
-			SingleID = e.getforeignkey();		
-			title.setText(e.getTitle());
-			description.setText(e.getDescription());
-			price.setText(""+ e.getPrice());
-			location.setText(""+ e.getLocation());
-			category.setValue(e.getGenre());
-			String sDate = e.getDate();
-	
-			SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
-		    Date sdate;
+		for (Document document : ticket)
+	    {
+			var objID = new ArrayList<>(document.values());
+		    JSONObject obj = new JSONObject(document);
+			SingleID = obj.getString("foreignkey");		
+			title.setText(obj.getString("title"));
+			description.setText(obj.getString("description"));
+			price.setText(""+ obj.getString("price"));
+			location.setText(""+ obj.getString("location"));
+			category.setValue( obj.getString("genre"));
+			String sDate = obj.getString("date");
+			org.json.JSONArray tracks = obj.getJSONArray("tracks");
+			
 			try {
+				SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+			    Date sdate;
 				sdate = parser.parse(sDate);
+				
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		        String formattedDate = formatter.format(sdate);
 		        //System.out.println("DATE FORMATTED: " + formattedDate);
 		        date.setValue(LocalDate.parse(formattedDate));
-		        
-				for(int i = 0; i<e.getTracks().length();  i++) 
-		        {
-		        	
-					 JSONObject obj1 = e.getTracks().getJSONObject(i);
-					 String Artist = obj1.getString("artist");
-					 String Title = obj1.getString("title");
-					 String time = obj1.getString("duration");
-					 String TrackID = obj1.getString("fkey");
-					 idStr = obj1.getString("id");
-					 Track track = new Track(Title,Artist,time,idStr);
-					 datalist.getItems().add(track);
-				}
+			
 				
-			} catch (ParseException e1) {
+			    
+				for(int i = 0; i<tracks.length();  i++) {
+					JSONObject track = obj.getJSONArray("tracks").getJSONObject(i);
+					String Artist = track.getString("artist");
+					String Title = track.getString("title");
+					String time = track.getString("duration");
+					String TrackID = track.getString("fkey");	
+					String id = track.getString("id");
+					Track music = new Track(Title,Artist,time,id);
+					datalist.getItems().add(music);
+					
+				}
+			
+			}catch (ParseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-	        
-			
-		});
-		
+	    }
 
 	}
 	
@@ -461,11 +485,19 @@ public class BaseController  implements Initializable  {
 	}
 
 	public void leftSide() {
-		List<String> test  =  Arrays.asList("sup1", "sup2", "sup3");
+	
+
+		genre.getItems().add(new Categories("Rock"));
+		genre.getItems().add(new Categories("Rock"));
+		genre.getItems().add(new Categories("Rock"));
+		genre.getItems().add(new Categories("Rock"));
+		genre.getItems().add(new Categories("Rock"));
 		//Reset
 		feeds.setOnAction(e -> FxEvents("Reset", ""));
 		yourfeed.setOnAction(e -> FxEvents("YourFeed", author));
-	
+		
+		
+		
 	}
 	
 	public void needtodisplay() {
@@ -633,12 +665,6 @@ public class BaseController  implements Initializable  {
 			
 		} 
 		
-		//arrays of two dimension
-		//tracks[counter][0] = musictitle.getText();
-		//tracks[counter][1] = artistname.getText();
-		//tracks[counter][2] = timesong.getText();
-		//counter++;
-
 	}
 	
 	public void updateTrack() 
@@ -758,6 +784,7 @@ public class BaseController  implements Initializable  {
 					session.writeToRandomAccessFile(100, "\n" + genericString);
 					crud.MemoryLocation(103,"genericString");
 					ldGui.loadTemplateFXML("SinglePage.fxml",true,window);
+					insertVistors(genericString);
 					((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
 					break;
 				case "UpdatePage":
@@ -773,7 +800,7 @@ public class BaseController  implements Initializable  {
 					String search = t[1];
 					session.writeToRandomAccessFile(100, "\n\n\n\n" +  searchType+"@"+search );
 					crud.MemoryLocation(106, "Search");    		
-					crud.read(); 
+					crud.read("artist"); 
 					clearAll();
 					needtodisplay();
 					content();
@@ -790,7 +817,7 @@ public class BaseController  implements Initializable  {
 				case "YourFeed":
 					session.writeToRandomAccessFile(100, "\n\n\n\n\n" + genericString );
 					crud.MemoryLocation(107, "search");
-					crud.read();
+					crud.read("artist");
 					clearAll();
 					needtodisplay();
 					content();	
@@ -812,7 +839,7 @@ public class BaseController  implements Initializable  {
 					crud.MemoryLocation(108, "Previous");
 					clearAll();
 					needtodisplay();
-		    		crud.read();
+		    		crud.read("artist");
 		    		content();
 		    		break;
 				case "Next":
@@ -820,7 +847,7 @@ public class BaseController  implements Initializable  {
 					crud.MemoryLocation(108, "Next");
 					clearAll();
 					needtodisplay();
-		    		crud.read();
+		    		crud.read("artist");
 		    		content();
 					break;
 				default:
@@ -833,8 +860,6 @@ public class BaseController  implements Initializable  {
 		}
 	
 	
-
-		
 		
 	}
 	
